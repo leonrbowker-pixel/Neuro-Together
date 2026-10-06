@@ -15,6 +15,11 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="dlaData.js"></script>
     <script src="supportData.js"></script>
+    
+    <!-- Supabase Library & Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -110,12 +115,29 @@
                 </div>
             </div>
 
-            <!-- Star Points Live Counter -->
-            <button @click="activeTab = 'rewardGame'" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 px-3.5 py-1.5 rounded-full shadow-xs btn-bounce">
-                <span class="text-base animate-bounce">✨</span>
-                <span class="text-xs font-black text-amber-900" x-text="starPoints + ' Star Tokens'"></span>
-                <span class="text-[10px] bg-amber-400 text-amber-950 font-black px-1.5 py-0.5 rounded-full">Spend</span>
-            </button>
+            <!-- Header Action Controls -->
+            <div class="flex items-center gap-2">
+                <!-- Star Points Live Counter -->
+                <button @click="activeTab = 'rewardGame'" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 px-3 py-1.5 rounded-full shadow-xs btn-bounce">
+                    <span class="text-base animate-bounce">✨</span>
+                    <span class="text-xs font-black text-amber-900" x-text="starPoints + ' Stars'"></span>
+                    <span class="text-[10px] bg-amber-400 text-amber-950 font-black px-1.5 py-0.5 rounded-full">Spend</span>
+                </button>
+
+                <!-- Supabase User Account / Sign In Button -->
+                <template x-if="!currentUser">
+                    <button @click="showAuthModal = true" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm transition-all btn-bounce flex items-center gap-1.5">
+                        <span>🔒</span>
+                        <span>Sign In</span>
+                    </button>
+                </template>
+                <template x-if="currentUser">
+                    <div class="flex items-center gap-1.5 bg-slate-100 border border-slate-200 py-1 px-2.5 rounded-full">
+                        <span class="text-xs font-bold text-slate-700 max-w-[100px] sm:max-w-none truncate" x-text="currentUser.email"></span>
+                        <button @click="handleSignOut()" class="text-[10px] text-red-600 hover:text-red-700 font-black ml-1 uppercase">Exit</button>
+                    </div>
+                </template>
+            </div>
 
             <!-- Desktop Categorized Navigation -->
             <div class="hidden lg:flex items-center space-x-2 text-xs font-bold">
@@ -286,7 +308,6 @@
 
         <!-- Mobile Drawer Navigation -->
         <div x-show="mobileMenuOpen" x-cloak class="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-3 max-h-[85vh] overflow-y-auto pb-8">
-            <!-- Home -->
             <button @click="activeTab = 'home'; mobileMenuOpen = false" 
                     :class="activeTab === 'home' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
                     class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
@@ -294,7 +315,6 @@
                 <span>Home Dashboard</span>
             </button>
 
-            <!-- Routine -->
             <button @click="activeTab = 'nowNext'; mobileMenuOpen = false" 
                     :class="activeTab === 'nowNext' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
                     class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
@@ -830,9 +850,6 @@
                                     <span>▶ Watch Video on YouTube</span>
                                     <span>↗</span>
                                 </a>
-                                <button @click="openNotesModal(video)" class="w-full bg-slate-200/80 hover:bg-slate-300 text-slate-800 font-bold py-2 rounded-xl text-xs transition-all btn-bounce">
-                                    Personal Reflection Notes
-                                </button>
                             </div>
                         </div>
                     </template>
@@ -904,8 +921,8 @@
                                             <button @click="toggleBubbleState(heartBubbles[1])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[1].popped ? 'bubble-dome-popped-3d ' + heartBubbles[1].color : 'bubble-dome-3d ' + heartBubbles[1].color"></button>
                                         </div>
                                         <div class="flex gap-2">
-                                            <button @click="toggleBubbleState(heartBubbles[2])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[2].popped ? 'bubble-dome-popped-3d ' + heartBubbles[2].color : 'bubble-dome-3d ' + heartBubbles[2].color"></button>
-                                            <button @click="toggleBubbleState(heartBubbles[3])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[3].popped ? 'bubble-dome-popped-3d ' + heartBubbles[2].color : 'bubble-dome-3d ' + heartBubbles[3].color"></button>
+                                            <button @click="toggleBubbleState(heartBubbles[2])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[2].popped ? 'bubble-dome-popped-3d ' + heartBubbles[2].color : 'bubble-dome-3d ' + heartBubbles[3].color"></button>
+                                            <button @click="toggleBubbleState(heartBubbles[3])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[3].popped ? 'bubble-dome-popped-3d ' + heartBubbles[3].color : 'bubble-dome-3d ' + heartBubbles[3].color"></button>
                                         </div>
                                     </div>
                                     <div class="flex justify-center gap-2 w-full">
@@ -1052,7 +1069,7 @@
                                 <div class="absolute -top-1 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-6xl drop-shadow-md">
                                     <template x-if="equippedHat === 'cap'"><span class="block transform -rotate-6">🧢</span></template>
                                     <template x-if="equippedHat === 'crown'"><span class="block">👑</span></template>
-                                    <template x-if="equippedHat === 'wizard'"><span class="block -translate-y-2">🧙‍♂️️</span></template>
+                                    <template x-if="equippedHat === 'wizard'"><span class="block -translate-y-2">🧙‍♂️</span></template>
                                     <template x-if="equippedHat === 'pirate'"><span class="block -translate-y-1">🏴‍☠️</span></template>
                                     <template x-if="equippedHat === 'dino'"><span class="block">🦖</span></template>
                                     <template x-if="equippedHat === 'flower'"><span class="block text-5xl">🌸</span></template>
@@ -1324,19 +1341,19 @@
                     <p class="text-slate-600 text-sm mt-1">Structured medical evidence compiler to prepare for your NHS neurodevelopmental / GP referral pathway.</p>
                 </div>
 
-                <!-- Mandatory Clinical & Medical Device Consent Gate -->
+                <!-- Mandatory Clinical Consent Gate -->
                 <div class="bg-amber-50 border-2 border-amber-300 p-6 rounded-3xl space-y-4 no-print" x-show="!medicalConsentAgreed">
                     <div class="flex items-center gap-3">
                         <span class="text-3xl">🩺</span>
                         <div>
                             <h3 class="font-extrabold text-slate-900 text-base">Important Medical Device & Clinical Care Notice</h3>
-                            <p class="text-xs text-slate-700">Please review and confirm to proceed (Apple Guideline 1.4.1 & Google Play Health Policy):</p>
+                            <p class="text-xs text-slate-700">Please review and confirm to proceed:</p>
                         </div>
                     </div>
                     <div class="text-xs text-slate-700 leading-relaxed bg-white p-4 rounded-2xl border border-amber-200 space-y-2">
                         <p><strong>1. Not a Medical Device:</strong> This questionnaire is strictly an informal self-reflection and educational guide. It is <strong>NOT a diagnostic medical device or clinical assessment</strong>.</p>
                         <p><strong>2. No Medical Advice:</strong> Results calculated do not constitute medical diagnosis, treatment, or clinical prognosis for Attention Deficit Hyperactivity Disorder (ADHD) or Autism Spectrum Disorder (ASD).</p>
-                        <p><strong>3. Consult Qualified Healthcare Professionals:</strong> Always seek the direct clinical advice of a registered General Practitioner (GP), paediatrician, or clinical psychologist regarding any medical or psychological condition.</p>
+                        <p><strong>3. Consult Qualified Healthcare Professionals:</strong> Always seek the direct clinical advice of a registered General Practitioner (GP), paediatrician, or clinical psychologist regarding any medical condition.</p>
                     </div>
                     <label class="flex items-center space-x-3 cursor-pointer bg-white p-3.5 rounded-2xl border border-amber-300">
                         <input type="checkbox" x-model="medicalConsentAgreed" class="w-5 h-5 text-deepBlue rounded focus:ring-deepBlue">
@@ -1346,7 +1363,6 @@
 
                 <!-- Active Screener Container -->
                 <div class="space-y-6 pt-4" x-show="medicalConsentAgreed">
-                    <!-- Child Info Header Form -->
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">Child / Young Person Name (Optional):</label>
@@ -1358,7 +1374,6 @@
                         </div>
                     </div>
 
-                    <!-- Question List Loop -->
                     <div class="space-y-4 no-print">
                         <template x-for="(q, idx) in screenerQuestions" :key="q.id">
                             <div class="p-4 rounded-2xl border border-slate-200/80 bg-white hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -1383,7 +1398,6 @@
                         </template>
                     </div>
 
-                    <!-- Summary & GP Pack Export Block -->
                     <div class="mt-8 p-6 bg-slate-900 text-white rounded-3xl border border-slate-800 space-y-6">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div>
@@ -1398,7 +1412,6 @@
                             </div>
                         </div>
 
-                        <!-- Category Breakdown Pills -->
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                             <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
                                 <span class="block text-[10px] uppercase font-bold text-slate-400">Sensory (21 max)</span>
@@ -1418,10 +1431,9 @@
                             </div>
                         </div>
 
-                        <!-- Export Action Button -->
                         <div class="flex justify-end pt-2 no-print">
                             <button @click="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs flex items-center gap-2 shadow-sm btn-bounce">
-                                <span>🖨️</span>
+                                <span>🖨️️</span>
                                 <span>Print / Save Evidence Report</span>
                             </button>
                         </div>
@@ -1440,29 +1452,19 @@
                 </div>
 
                 <div class="space-y-6 text-xs text-slate-700 leading-relaxed">
-                    <!-- Privacy Policy -->
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
-                        <h3 class="text-base font-bold text-slate-900">1. Privacy Policy (Zero Remote Data Collection)</h3>
-                        <p><strong>Local Processing Only:</strong> NeuroTogether does not operate remote user databases, tracking pixels, advertising networks, or third-party behavioral analytics. All responses to questionnaires, personalized visual routines, drafted school letters, and reflection notes are processed and stored exclusively inside your personal browser or device storage.</p>
-                        <p><strong>Children's Privacy (COPPA & Age-Appropriate Design Code):</strong> Because our tools assist families and children, we do not request or collect personally identifiable information from minors. When generating visual schedules or DLA forms, all entered details remain strictly in the device's volatile memory.</p>
+                        <h3 class="text-base font-bold text-slate-900">1. Privacy Policy & User Isolation</h3>
+                        <p><strong>Cloud Authentication & Data Isolation:</strong> With user accounts enabled, all personalized schedules, star token balances, and avatar wardrobes are encrypted and stored with Row-Level Security (RLS) under Supabase. Only authenticated account holders can access or modify their family's data.</p>
                     </div>
 
-                    <!-- Medical Disclaimer -->
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
                         <h3 class="text-base font-bold text-slate-900">2. Statutory Medical Disclaimer</h3>
-                        <p>NeuroTogether is NOT a licensed healthcare provider, diagnostic laboratory, or registered Medical Device under MHRA, FDA, or EU MDR regulations. All content, interactive question screeners, and sensory tools are provided for peer-support and informational self-reflection purposes only. They are not intended to substitute for clinical medical evaluation, diagnosis, or treatment by a qualified doctor or clinical psychologist.</p>
+                        <p>NeuroTogether is NOT a licensed healthcare provider, diagnostic laboratory, or registered Medical Device under MHRA, FDA, or EU MDR regulations. All content, interactive question screeners, and sensory tools are provided for peer-support and informational self-reflection purposes only.</p>
                     </div>
 
-                    <!-- Public Sector & Government Disclaimers -->
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
                         <h3 class="text-base font-bold text-slate-900">3. Non-Affiliation with Government Bodies</h3>
-                        <p>NeuroTogether is an independent educational initiative. We have no affiliation, endorsement, or operating relationship with the UK Department for Work and Pensions (DWP), National Health Service (NHS), or Department for Education. Official guidance references are reproduced under Crown Copyright Open Government Licence terms.</p>
-                    </div>
-
-                    <!-- Open Source Licenses -->
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
-                        <h3 class="text-base font-bold text-slate-900">4. Third-Party Code & Intellectual Property</h3>
-                        <p>This software utilizes the Tailwind CSS framework (MIT License), Alpine.js (MIT License), Canvas Confetti (ISC License), and Google Fonts (SIL Open Font License). External links to YouTube videos remain the copyright and intellectual property of their respective creators and channels.</p>
+                        <p>NeuroTogether is an independent educational initiative. We have no affiliation, endorsement, or operating relationship with the UK Department for Work and Pensions (DWP), National Health Service (NHS), or Department for Education.</p>
                     </div>
                 </div>
             </div>
@@ -1470,21 +1472,45 @@
 
     </main>
 
-    <!-- VIDEO REFLECTION NOTES MODAL -->
-    <div x-show="showNotesModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" x-cloak>
-        <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-4" @click.outside="showNotesModal = false">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-bold text-slate-900" x-text="selectedVideo.title"></h3>
-                <button @click="showNotesModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
+    <!-- AUTHENTICATION (LOGIN / SIGN-UP) MODAL -->
+    <div x-show="showAuthModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" x-cloak>
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative" @click.outside="showAuthModal = false">
+            <button @click="showAuthModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
+            
+            <div class="text-center space-y-1">
+                <span class="text-3xl">🛡️</span>
+                <h3 class="text-lg font-black text-slate-900" x-text="authMode === 'login' ? 'Sign In to NeuroTogether' : 'Create Parent Account'"></h3>
+                <p class="text-xs text-slate-500">Safely backup & isolate your child's visual routines, avatar gear, and progress.</p>
             </div>
-            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-xs text-slate-700">
-                <strong>Core Guidance:</strong> <span x-text="selectedVideo.takeaway"></span>
+
+            <form @submit.prevent="handleAuthSubmit()" class="space-y-3 pt-2">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Email Address</label>
+                    <input type="email" x-model="authEmail" required placeholder="parent@example.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Password</label>
+                    <input type="password" x-model="authPassword" required minlength="6" placeholder="At least 6 characters" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                </div>
+
+                <div x-show="authError" class="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs" x-text="authError"></div>
+                <div x-show="authSuccess" class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs" x-text="authSuccess"></div>
+
+                <button type="submit" :disabled="authLoading" class="w-full bg-deepBlue hover:bg-sky-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm btn-bounce flex items-center justify-center gap-2">
+                    <span x-show="authLoading" class="animate-spin text-sm">⌛</span>
+                    <span x-text="authMode === 'login' ? 'Sign In' : 'Create Account'"></span>
+                </button>
+            </form>
+
+            <div class="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+                <template x-if="authMode === 'login'">
+                    <p>Don't have an account? <button @click="authMode = 'signup'; authError = ''; authSuccess = '';" class="font-bold text-deepBlue hover:underline">Sign up free</button></p>
+                </template>
+                <template x-if="authMode === 'signup'">
+                    <p>Already have an account? <button @click="authMode = 'login'; authError = ''; authSuccess = '';" class="font-bold text-deepBlue hover:underline">Log in</button></p>
+                </template>
             </div>
-            <div class="space-y-1">
-                <label class="text-xs font-bold text-slate-700 uppercase">Your Personal Reflections & Action Steps</label>
-                <textarea x-model="selectedVideo.notes" placeholder="Type personal notes, reflections or things you want to try with your child..." class="w-full p-3 rounded-2xl border border-slate-200 text-xs h-28 focus:ring-2 focus:ring-deepBlue"></textarea>
-            </div>
-            <button @click="showNotesModal = false" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-sm btn-bounce">Save Notes & Close</button>
         </div>
     </div>
 
@@ -1514,10 +1540,17 @@
             return {
                 activeTab: 'home',
                 mobileMenuOpen: false,
-                showNotesModal: false,
-                selectedVideo: {},
-                videoFilter: 'all',
                 medicalConsentAgreed: false,
+
+                // AUTHENTICATION STATE
+                currentUser: null,
+                showAuthModal: false,
+                authMode: 'login',
+                authEmail: '',
+                authPassword: '',
+                authLoading: false,
+                authError: '',
+                authSuccess: '',
 
                 // 30-Question Screener State
                 screenerResponses: {},
@@ -1555,9 +1588,6 @@
                     { id: 29, cat: 'Emotional', text: 'Highly sensitive to perceived criticism, rejection, or unfairness (Rejection Sensitive Dysphoria).' },
                     { id: 30, cat: 'Emotional', text: 'Relies heavily on rigid daily routines or rituals to manage baseline internal anxiety.' }
                 ],
-                get ScreenerScore() {
-                    return Object.values(this.screenerResponses).reduce((sum, val) => sum + (Number(val) || 0), 0);
-                },
                 getCategoryScore(catName) {
                     return this.screenerQuestions
                         .filter(q => q.cat === catName)
@@ -1590,7 +1620,7 @@
                     { id: 1, type: 'hat', key: 'cap', name: 'Cool Cap', icon: '🧢', cost: 0 },
                     { id: 2, type: 'hat', key: 'crown', name: 'Party Crown', icon: '👑', cost: 20 },
                     { id: 3, type: 'hat', key: 'wizard', name: 'Wizard Hat', icon: '🧙‍♂️', cost: 30 },
-                    { id: 4, type: 'hat', key: 'pirate', name: 'Pirate Hat', icon: '🏴‍‍☠️', cost: 25 },
+                    { id: 4, type: 'hat', key: 'pirate', name: 'Pirate Hat', icon: '🏴‍☠️', cost: 25 },
                     { id: 5, type: 'hat', key: 'dino', name: 'Dino Beanie', icon: '🦖', cost: 35 },
                     { id: 6, type: 'hat', key: 'space_helmet', name: 'Space Helmet', icon: '🚀', cost: 45 },
                     { id: 7, type: 'companion', key: '⭐', name: 'Star Pet', icon: '⭐', cost: 0 },
@@ -1610,6 +1640,7 @@
                 selectAnimal(animal) {
                     this.avatarBase = animal;
                     this.playAcousticPop();
+                    this.saveCloudProfile();
                 },
                 hasPurchased(item) {
                     return this.purchasedItemIds.includes(item.id);
@@ -1632,12 +1663,14 @@
                             if (item.type === 'companion') this.equippedCompanion = item.key;
                         }
                         this.playRewardSound(659.25);
+                        this.saveCloudProfile();
                     } else {
                         if (this.starPoints >= item.cost) {
                             this.starPoints -= item.cost;
                             this.purchasedItemIds.push(item.id);
                             this.buyOrEquip(item);
                             this.triggerConfetti();
+                            this.saveCloudProfile();
                         } else {
                             alert("Not enough Star Tokens yet! Complete tasks on your Schedule to earn more ✨");
                         }
@@ -1670,6 +1703,23 @@
                 ],
 
                 init() {
+                    // Check Supabase session
+                    if (window.supabaseClient) {
+                        supabaseClient.auth.getSession().then(({ data: { session } }) => {
+                            if (session) {
+                                this.currentUser = session.user;
+                                this.loadCloudProfile();
+                            }
+                        });
+
+                        supabaseClient.auth.onAuthStateChange((_event, session) => {
+                            this.currentUser = session ? session.user : null;
+                            if (session) {
+                                this.loadCloudProfile();
+                            }
+                        });
+                    }
+
                     this.initAllTrays();
                     window.addEventListener('keydown', (e) => {
                         if (this.activeTab === 'fidgetGame' && this.fidgetMode === 'keyboard') {
@@ -1681,6 +1731,98 @@
                         }
                     });
                 },
+
+                // SUPABASE AUTHENTICATION METHODS
+                async handleAuthSubmit() {
+                    if (!window.supabaseClient) {
+                        this.authError = 'Supabase client not loaded.';
+                        return;
+                    }
+                    this.authLoading = true;
+                    this.authError = '';
+                    this.authSuccess = '';
+                    try {
+                        if (this.authMode === 'signup') {
+                            const { data, error } = await supabaseClient.auth.signUp({
+                                email: this.authEmail,
+                                password: this.authPassword,
+                            });
+                            if (error) throw error;
+                            this.authSuccess = 'Account created successfully!';
+                            setTimeout(() => { this.showAuthModal = false; }, 1000);
+                        } else {
+                            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                                email: this.authEmail,
+                                password: this.authPassword,
+                            });
+                            if (error) throw error;
+                            this.showAuthModal = false;
+                        }
+                    } catch (err) {
+                        this.authError = err.message || 'Authentication error';
+                    } finally {
+                        this.authLoading = false;
+                    }
+                },
+
+                async handleSignOut() {
+                    if (window.supabaseClient) {
+                        await supabaseClient.auth.signOut();
+                        this.currentUser = null;
+                    }
+                },
+
+                async loadCloudProfile() {
+                    if (!this.currentUser || !window.supabaseClient) return;
+                    try {
+                        const { data, error } = await supabaseClient
+                            .from('profiles')
+                            .select('*')
+                            .eq('id', this.currentUser.id)
+                            .single();
+
+                        if (error && error.code !== 'PGRST116') {
+                            console.error('Error fetching profile:', error);
+                            return;
+                        }
+
+                        if (data) {
+                            this.childName = data.child_name || this.childName;
+                            this.childAge = data.child_age || this.childAge;
+                            this.starPoints = data.star_points ?? this.starPoints;
+                            if (data.avatar_base) this.avatarBase = data.avatar_base;
+                            this.equippedHat = data.equipped_hat ?? '';
+                            this.equippedAccessory = data.equipped_accessory ?? '';
+                            this.equippedCompanion = data.equipped_companion ?? '⭐';
+                            if (data.purchased_item_ids) this.purchasedItemIds = data.purchased_item_ids;
+                            if (data.saved_schedule && data.saved_schedule.length > 0) this.schedule = data.saved_schedule;
+                        }
+                    } catch (err) {
+                        console.error('Error loading cloud profile:', err);
+                    }
+                },
+
+                async saveCloudProfile() {
+                    if (!this.currentUser || !window.supabaseClient) return;
+                    try {
+                        await supabaseClient.from('profiles').upsert({
+                            id: this.currentUser.id,
+                            child_name: this.childName,
+                            child_age: this.childAge,
+                            star_points: this.starPoints,
+                            avatar_base: this.avatarBase,
+                            equipped_hat: this.equippedHat,
+                            equipped_accessory: this.equippedAccessory,
+                            equipped_companion: this.equippedCompanion,
+                            purchased_item_ids: this.purchasedItemIds,
+                            saved_schedule: this.schedule,
+                            updated_at: new Date().toISOString()
+                        });
+                    } catch (err) {
+                        console.error('Error saving cloud profile:', err);
+                    }
+                },
+
                 initAllTrays() {
                     const pal = this.colorPalettes[this.activeColorTheme];
                     this.squareBubbles = Array(25).fill(null).map((_, i) => ({ id: 'sq_' + i, popped: false, color: pal[i % pal.length] }));
@@ -1866,7 +2008,7 @@
                             { icon: '🚪', title: 'Sensory Exit Script', desc: 'Use rehearsed phrase: "Need to step out to get air."', how: 'Provides autonomous boundary to escape before losing composure.' },
                             { icon: '💍', title: 'Discreet Fidget Stimming', desc: 'Use sensory ring, textured coin, or phone case.', how: 'Subtle motor regulation without feeling scrutinized by peers.' },
                             { icon: '👁️', title: '5-4-3-2-1 Sensory Grounding', desc: 'Name 5 things seen, 4 felt, 3 heard, 2 smelled, 1 tasted.', how: 'Forces prefrontal cortex to regain control from panicked limbic brain.' },
-                            { icon: '🚶‍♂️', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
+                            { icon: '🚶‍♂️️', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
                         ],
                         red: [
                             { icon: '📵', title: 'Total Digital Blackout', desc: 'Turn phone on Do Not Disturb and dim screen.', how: 'Stops notification dopamine spikes and social overload.' },
@@ -1889,8 +2031,7 @@
                         duration: "5:20",
                         tag: "understanding",
                         url: "https://www.youtube.com/watch?v=WLx9jyxJaRw",
-                        takeaway: "Autism is a neurological variation affecting sensory processing and communication. Understanding and environment make all the difference.",
-                        notes: ""
+                        takeaway: "Autism is a neurological variation affecting sensory processing and communication."
                     },
                     {
                         id: 2,
@@ -1899,8 +2040,7 @@
                         duration: "6:15",
                         tag: "understanding",
                         url: "https://www.youtube.com/results?search_query=how+to+adhd+what+is+adhd",
-                        takeaway: "ADHD is an executive function difference. Children are not lazy; they need scaffolding with task initiation and working memory.",
-                        notes: ""
+                        takeaway: "ADHD is an executive function difference. Scaffolding is key."
                     },
                     {
                         id: 3,
@@ -1909,8 +2049,7 @@
                         duration: "14:10",
                         tag: "adults",
                         url: "https://www.youtube.com/watch?v=HUPBVIlrj1k",
-                        takeaway: "Being diagnosed as an adult brings validation and relief. Recognizing your traits helps you be the parent your child needs.",
-                        notes: ""
+                        takeaway: "Being diagnosed as an adult brings validation and relief."
                     },
                     {
                         id: 4,
@@ -1919,8 +2058,7 @@
                         duration: "11:45",
                         tag: "reassurance",
                         url: "https://www.youtube.com/results?search_query=russell+barkley+parenting+adhd+compassion",
-                        takeaway: "Parenting neurodiversity means engineering the environment and scaffolding with compassion, not harsh neurotypical benchmarks.",
-                        notes: ""
+                        takeaway: "Parenting neurodiversity means engineering the environment with compassion."
                     },
                     {
                         id: 5,
@@ -1929,18 +2067,13 @@
                         duration: "8:50",
                         tag: "reassurance",
                         url: "https://www.youtube.com/results?search_query=message+of+hope+parents+autistic+children+reassurance",
-                        takeaway: "The early diagnosis stages feel terrifying. With patience, acceptance, and love, your child can thrive and be happy.",
-                        notes: ""
+                        takeaway: "With patience, acceptance, and love, your child can thrive."
                     }
                 ],
 
                 get filteredVideos() {
                     if (this.videoFilter === 'all') return this.videos;
                     return this.videos.filter(v => v.tag === this.videoFilter);
-                },
-                openNotesModal(video) {
-                    this.selectedVideo = video;
-                    this.showNotesModal = true;
                 },
 
                 // 7. FULL 18-ITEM AAC VISUAL COMMUNICATION DECK
@@ -1972,7 +2105,7 @@
                     { category: 'comfort', icon: '🫂', label: 'Hug' },
                     { category: 'comfort', icon: '🎧', label: 'Headphones' },
                     { category: 'comfort', icon: '🧸', label: 'Comfort Toy' },
-                    { category: 'comfort', icon: '💆‍♂️', label: 'Deep Pressure' },
+                    { category: 'comfort', icon: '💆‍♂️️', label: 'Deep Pressure' },
                     { category: 'comfort', icon: '🏃‍♂️', label: 'Need a Break' },
                     { category: 'answers', icon: '👍', label: 'Yes' },
                     { category: 'answers', icon: '👎', label: 'No' },
@@ -2028,17 +2161,25 @@
                 addStepToSchedule(item) {
                     this.schedule.push({ id: Date.now() + Math.random(), icon: item.icon, name: item.name, done: false });
                     this.playRewardSound(440);
+                    this.saveCloudProfile();
                 },
-                removeStep(idx) { this.schedule.splice(idx, 1); },
+                removeStep(idx) { 
+                    this.schedule.splice(idx, 1); 
+                    this.saveCloudProfile();
+                },
                 moveStep(idx, dir) {
                     const target = idx + dir;
                     if (target >= 0 && target < this.schedule.length) {
                         const temp = this.schedule[idx];
                         this.schedule[idx] = this.schedule[target];
                         this.schedule[target] = temp;
+                        this.saveCloudProfile();
                     }
                 },
-                clearSchedule() { this.schedule = []; },
+                clearSchedule() { 
+                    this.schedule = []; 
+                    this.saveCloudProfile();
+                },
                 toggleStepDone(step) {
                     step.done = !step.done;
                     if (step.done) {
@@ -2046,11 +2187,12 @@
                         this.triggerConfetti();
                         this.playRewardSound(783.99);
                     }
+                    this.saveCloudProfile();
                 },
                 loadPreset(type) {
                     if (type === 'morning') {
                         this.schedule = [
-                            { id: 1, icon: '☀️', name: 'Wake Up', done: false },
+                            { id: 1, icon: '☀️️', name: 'Wake Up', done: false },
                             { id: 2, icon: '👕', name: 'Get Dressed', done: false },
                             { id: 3, icon: '🍳', name: 'Breakfast', done: false },
                             { id: 4, icon: '🦷', name: 'Brush Teeth', done: false }
@@ -2069,6 +2211,7 @@
                             { id: 3, icon: '🎧', name: 'Sensory Break', done: false }
                         ];
                     }
+                    this.saveCloudProfile();
                 },
 
                 // AUDIO SYNTHESIZERS
