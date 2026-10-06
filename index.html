@@ -397,15 +397,16 @@
             🎮 Calming Games & Buddy
         </div>
         <div class="space-y-1 mt-1 pl-2">
-            <button @click="activeTab = 'games'; mobileMenuOpen = false" 
-                    :class="activeTab === 'games' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+            <!-- Sensory Pop-It Toys -->
+            <button @click="activeTab = 'DESKTOP_POPIT_TAB_NAME'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                 <span>🫧</span>
                 <span>Sensory Pop-It Toys</span>
             </button>
-            <button @click="activeTab = 'heroRoom'; mobileMenuOpen = false" 
-                    :class="activeTab === 'heroRoom' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+
+            <!-- Hero Buddy Room -->
+            <button @click="activeTab = 'DESKTOP_HERO_TAB_NAME'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                 <span>🦸</span>
                 <span>Hero Buddy Room</span>
             </button>
