@@ -117,6 +117,14 @@
 
             <!-- Header Action Controls -->
             <div class="flex items-center gap-2">
+                <!-- Profile Customize Button -->
+                <template x-if="currentUser">
+                    <button @click="openProfileEditor()" title="Edit Profile Details" class="p-2 rounded-xl text-slate-600 hover:text-deepBlue hover:bg-sky-50 transition-colors btn-bounce text-xs font-bold flex items-center gap-1 border border-slate-200 bg-white">
+                        <span>⚙️</span>
+                        <span class="hidden md:inline" x-text="childName ? childName : 'Profile'"></span>
+                    </button>
+                </template>
+
                 <!-- Star Points Live Counter -->
                 <button @click="activeTab = 'rewardGame'" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 px-3 py-1.5 rounded-full shadow-xs btn-bounce">
                     <span class="text-base animate-bounce">✨</span>
@@ -328,7 +336,7 @@
             <div class="space-y-1 mt-1 pl-2">
                 <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <span>🛡️️</span>
+                    <span>🛡️</span>
                     <div>
                         <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
                         <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
@@ -470,20 +478,26 @@
 
         <!-- 1. HOME TAB -->
         <div x-show="activeTab === 'home'" class="space-y-10">
+            <!-- Dynamic Personal Greeting Banner -->
             <div class="bg-gradient-to-r from-friendlyBlue via-warmPink to-sunshine rounded-3xl p-8 md:p-12 shadow-sm border-2 border-white/60 text-slate-800 relative overflow-hidden">
                 <div class="max-w-2xl relative z-10 space-y-4">
-                    <span class="bg-white/90 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">Built With Lived Experience</span>
-                    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">Practical tools built for neurodivergent reality.</h2>
-                    <p class="text-base md:text-lg font-medium text-slate-700 leading-relaxed">
-                        Features the full chronological UK DLA Guide (Q1–84), complete EHCP statutory blueprint, expanded transition aids, support videos, sensory fidget toys, and customizable animal buddies.
-                    </p>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-white/90 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">Built With Lived Experience</span>
+                        <template x-if="childName">
+                            <span class="bg-deepBlue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm" x-text="userType === 'child' ? 'Tailored for ' + childName : 'Family Dashboard: ' + childName"></span>
+                        </template>
+                    </div>
+
+                    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight" x-text="greetingHeader"></h2>
+                    <p class="text-base md:text-lg font-medium text-slate-700 leading-relaxed" x-text="greetingSubtext"></p>
+                    
                     <div class="flex flex-wrap gap-3 pt-2">
-                        <button @click="activeTab = 'dlaGuide'" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all text-sm flex items-center gap-2 btn-bounce">
-                            <span>Open DLA Master Guide</span>
+                        <button @click="activeTab = 'nowNext'" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all text-sm flex items-center gap-2 btn-bounce">
+                            <span>Open Today's Visual Board</span>
                             <span>&rarr;</span>
                         </button>
-                        <button @click="activeTab = 'nowNext'" class="bg-white/90 text-slate-900 font-bold px-6 py-3 rounded-2xl shadow-sm hover:bg-white transition-all text-sm border border-slate-200 btn-bounce">
-                            Now & Next Board
+                        <button @click="activeTab = 'dlaGuide'" class="bg-white/90 text-slate-900 font-bold px-6 py-3 rounded-2xl shadow-sm hover:bg-white transition-all text-sm border border-slate-200 btn-bounce">
+                            DLA Master Guide
                         </button>
                     </div>
                 </div>
@@ -588,7 +602,7 @@
                         <!-- Parent Configuration Drawer Toggle -->
                         <div class="flex items-center gap-2">
                             <button @click="timerConfigOpen = !timerConfigOpen" class="bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 btn-bounce flex items-center gap-1">
-                                <span>⚙️</span>
+                                <span>⚙️️</span>
                                 <span x-text="timerConfigOpen ? 'Close Settings' : 'Customize Duration'"></span>
                             </button>
                         </div>
@@ -1168,7 +1182,7 @@
                                     <template x-if="equippedHat === 'cap'"><span class="block transform -rotate-6">🧢</span></template>
                                     <template x-if="equippedHat === 'crown'"><span class="block">👑</span></template>
                                     <template x-if="equippedHat === 'wizard'"><span class="block -translate-y-2">🧙‍♂️</span></template>
-                                    <template x-if="equippedHat === 'pirate'"><span class="block -translate-y-1">🏴‍☠️</span></template>
+                                    <template x-if="equippedHat === 'pirate'"><span class="block -translate-y-1">🏴‍‍☠️</span></template>
                                     <template x-if="equippedHat === 'dino'"><span class="block">🦖</span></template>
                                     <template x-if="equippedHat === 'flower'"><span class="block text-5xl">🌸</span></template>
                                 </div>
@@ -1282,7 +1296,7 @@
                 <div class="print-container border-2 border-dashed border-slate-300 rounded-3xl p-6 bg-slate-50/50 min-h-64">
                     <div class="flex justify-between items-center border-b border-slate-200 pb-3 mb-6">
                         <div>
-                            <h3 class="text-xl font-black text-slate-900">Today's Visual Schedule</h3>
+                            <h3 class="text-xl font-black text-slate-900" x-text="childName ? childName + '\'s Visual Schedule' : 'Today\'s Visual Schedule'"></h3>
                             <p class="text-xs text-slate-500">Tap to complete an item, earn 10 Star Tokens, and launch confetti!</p>
                         </div>
                         <span class="text-xs font-bold bg-white border border-slate-200 px-3 py-1 rounded-full text-slate-600">NeuroTogether Visual Schedule</span>
@@ -1570,6 +1584,104 @@
 
     </main>
 
+    <!-- NEW: FIRST-TIME PERSONALIZED ONBOARDING & PROFILE SETUP MODAL -->
+    <div x-show="currentUser && showOnboardingModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-6 relative border border-slate-100">
+            <!-- Progress Dots -->
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <span class="text-xs font-black uppercase text-deepBlue" x-text="'Personalizing Step ' + onboardingStep + ' of 3'"></span>
+                <div class="flex gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full" :class="onboardingStep >= 1 ? 'bg-deepBlue' : 'bg-slate-200'"></span>
+                    <span class="w-2.5 h-2.5 rounded-full" :class="onboardingStep >= 2 ? 'bg-deepBlue' : 'bg-slate-200'"></span>
+                    <span class="w-2.5 h-2.5 rounded-full" :class="onboardingStep >= 3 ? 'bg-deepBlue' : 'bg-slate-200'"></span>
+                </div>
+            </div>
+
+            <!-- STEP 1: WHO IS THIS APP FOR? -->
+            <div x-show="onboardingStep === 1" class="space-y-4">
+                <div class="text-center space-y-1">
+                    <span class="text-4xl">👋</span>
+                    <h3 class="text-xl font-black text-slate-900">Welcome to NeuroTogether</h3>
+                    <p class="text-xs text-slate-600">To tailor your experience, who are you setting this up for?</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <button type="button" @click="userType = 'child'; onboardingStep = 2" 
+                            class="p-4 rounded-2xl border-2 text-center transition-all btn-bounce flex flex-col items-center"
+                            :class="userType === 'child' ? 'border-deepBlue bg-sky-50 shadow-sm' : 'border-slate-200 hover:border-slate-300'">
+                        <span class="text-3xl mb-1">🧸</span>
+                        <strong class="text-sm text-slate-900 block">My Child</strong>
+                        <span class="text-[11px] text-slate-500">Visual routines, sensory aids & school tools</span>
+                    </button>
+
+                    <button type="button" @click="userType = 'myself'; onboardingStep = 2" 
+                            class="p-4 rounded-2xl border-2 text-center transition-all btn-bounce flex flex-col items-center"
+                            :class="userType === 'myself' ? 'border-deepBlue bg-sky-50 shadow-sm' : 'border-slate-200 hover:border-slate-300'">
+                        <span class="text-3xl mb-1">🌱</span>
+                        <strong class="text-sm text-slate-900 block">Myself</strong>
+                        <span class="text-[11px] text-slate-500">Executive tools, somatic resets & advocacy</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: NAME & AGE / STAGE -->
+            <div x-show="onboardingStep === 2" class="space-y-4">
+                <div class="text-center space-y-1">
+                    <span class="text-3xl" x-text="userType === 'child' ? '🌟' : '🤝'"></span>
+                    <h3 class="text-xl font-black text-slate-900" x-text="userType === 'child' ? 'About Your Child' : 'Nice to meet you!'"></h3>
+                    <p class="text-xs text-slate-600">This helps us personalize routines and match age-appropriate strategies.</p>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1" x-text="userType === 'child' ? 'Child\'s First Name:' : 'Your First Name:'"></label>
+                        <input type="text" x-model="childName" placeholder="e.g. Leo" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                    </div>
+
+                    <div x-show="userType === 'child'">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Child's Age (Years):</label>
+                        <input type="number" min="1" max="18" x-model.number="childAge" placeholder="e.g. 7" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                    </div>
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="button" @click="onboardingStep = 1" class="w-1/3 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 btn-bounce">Back</button>
+                    <button type="button" @click="if(!childName) { alert('Please enter a name'); return; } onboardingStep = 3" class="w-2/3 py-2.5 rounded-xl bg-deepBlue hover:bg-sky-700 text-white text-xs font-bold shadow-sm btn-bounce">Continue &rarr;</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: DIAGNOSIS PATHWAY STATUS -->
+            <div x-show="onboardingStep === 3" class="space-y-4">
+                <div class="text-center space-y-1">
+                    <span class="text-3xl">🧭</span>
+                    <h3 class="text-xl font-black text-slate-900">Where are you on the journey?</h3>
+                    <p class="text-xs text-slate-600">No medical proof required. This ensures we show the most relevant support.</p>
+                </div>
+
+                <div class="space-y-2 pt-1">
+                    <template x-for="status in ['Formal Diagnosis Received', 'Currently on NHS / Private Waiting List', 'Exploring Traits & Pre-Assessment', 'Self-Identified / General Support']" :key="status">
+                        <button type="button" @click="diagnosisStatus = status" 
+                                class="w-full text-left p-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-between"
+                                :class="diagnosisStatus === status ? 'border-deepBlue bg-sky-50 text-deepBlue' : 'border-slate-200 text-slate-700 hover:bg-slate-50'">
+                            <span x-text="status"></span>
+                            <span x-show="diagnosisStatus === status">✓</span>
+                        </button>
+                    </template>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Identified Profiles / Diagnosis (Optional):</label>
+                    <input type="text" x-model="diagnosisDetails" placeholder="e.g. ASD Level 1, ADHD Combined, PDA profile, Sensory" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="button" @click="onboardingStep = 2" class="w-1/3 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 btn-bounce">Back</button>
+                    <button type="button" @click="completeOnboarding()" class="w-2/3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md btn-bounce">Save & Enter App ✨</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- AUTHENTICATION (LOGIN / SIGN-UP / PASSWORD RESET) MODAL -->
     <div x-show="!currentUser || showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative">
@@ -1662,10 +1774,52 @@
                 authError: '',
                 authSuccess: '',
 
-                // 30-Question Screener State
-                screenerResponses: {},
+                // ONBOARDING & PERSONALIZATION STATE
+                showOnboardingModal: false,
+                onboardingStep: 1,
+                onboardingCompleted: false,
+                userType: 'child', // 'child' or 'myself'
                 childName: '',
                 childAge: '',
+                diagnosisStatus: 'Formal Diagnosis Received',
+                diagnosisDetails: '',
+
+                get greetingHeader() {
+                    if (!this.childName) return "Practical tools built for neurodivergent reality.";
+                    return this.userType === 'child' 
+                        ? `Welcome back! Ready for ${this.childName}'s day?`
+                        : `Welcome back, ${this.childName}! Ready for today?`;
+                },
+                get greetingSubtext() {
+                    if (this.diagnosisDetails) {
+                        return `Personalized support space tailored for ${this.childName} (${this.diagnosisDetails}). Featuring visual transitions, calming tools, and legal blueprints.`;
+                    }
+                    return "Features the full chronological UK DLA Guide (Q1–84), complete EHCP statutory blueprint, expanded transition aids, support videos, sensory fidget toys, and customizable animal buddies.";
+                },
+
+                openProfileEditor() {
+                    this.onboardingStep = 1;
+                    this.showOnboardingModal = true;
+                },
+                completeOnboarding() {
+                    this.onboardingCompleted = true;
+                    this.showOnboardingModal = false;
+
+                    // Automatically tailor the Feelings & Tactics age-tier to their child's age
+                    if (this.childAge) {
+                        const age = Number(this.childAge);
+                        if (age <= 6) this.ageStage = 'infants';
+                        else if (age <= 11) this.ageStage = 'primary';
+                        else this.ageStage = 'teens';
+                    }
+
+                    this.saveLocalBackup();
+                    this.saveCloudProfile();
+                    this.triggerConfetti();
+                },
+
+                // 30-Question Screener State
+                screenerResponses: {},
                 screenerQuestions: [
                     { id: 1, cat: 'Sensory', text: 'Distressed by unexpected loud noises, specific pitches, or noisy crowded environments.' },
                     { id: 2, cat: 'Sensory', text: 'Extremely sensitive to clothing textures, tags, seams, or refuses certain fabrics.' },
@@ -1964,6 +2118,10 @@
                         const localPayload = {
                             childName: this.childName,
                             childAge: this.childAge,
+                            userType: this.userType,
+                            diagnosisStatus: this.diagnosisStatus,
+                            diagnosisDetails: this.diagnosisDetails,
+                            onboardingCompleted: this.onboardingCompleted,
                             starPoints: this.starPoints,
                             avatarBase: this.avatarBase,
                             equippedHat: this.equippedHat,
@@ -1985,6 +2143,10 @@
                             const data = JSON.parse(cached);
                             if (data.childName) this.childName = data.childName;
                             if (data.childAge) this.childAge = data.childAge;
+                            if (data.userType) this.userType = data.userType;
+                            if (data.diagnosisStatus) this.diagnosisStatus = data.diagnosisStatus;
+                            if (data.diagnosisDetails) this.diagnosisDetails = data.diagnosisDetails;
+                            if (data.onboardingCompleted !== undefined) this.onboardingCompleted = data.onboardingCompleted;
                             if (data.starPoints !== undefined) this.starPoints = data.starPoints;
                             if (data.avatarBase) this.avatarBase = data.avatarBase;
                             if (data.equippedHat !== undefined) this.equippedHat = data.equippedHat;
@@ -1993,6 +2155,13 @@
                             if (data.purchasedItemIds) this.purchasedItemIds = data.purchasedItemIds;
                             if (data.schedule && data.schedule.length > 0) this.schedule = data.schedule;
                             if (data.screenerResponses) this.screenerResponses = data.screenerResponses;
+
+                            if (this.childAge) {
+                                const age = Number(this.childAge);
+                                if (age <= 6) this.ageStage = 'infants';
+                                else if (age <= 11) this.ageStage = 'primary';
+                                else this.ageStage = 'teens';
+                            }
                         }
                     } catch(e) {
                         console.warn('Local storage read error:', e);
@@ -2062,6 +2231,11 @@
                         if (data) {
                             this.childName = data.child_name || this.childName;
                             this.childAge = data.child_age || this.childAge;
+                            this.userType = data.user_type || this.userType;
+                            this.diagnosisStatus = data.diagnosis_status || this.diagnosisStatus;
+                            this.diagnosisDetails = data.diagnosis_details || this.diagnosisDetails;
+                            this.onboardingCompleted = data.onboarding_completed ?? this.onboardingCompleted;
+
                             this.starPoints = data.star_points ?? this.starPoints;
                             if (data.avatar_base) this.avatarBase = data.avatar_base;
                             this.equippedHat = data.equipped_hat ?? '';
@@ -2070,8 +2244,23 @@
                             if (data.purchased_item_ids) this.purchasedItemIds = data.purchased_item_ids;
                             if (data.saved_schedule && data.saved_schedule.length > 0) this.schedule = data.saved_schedule;
 
+                            if (this.childAge) {
+                                const age = Number(this.childAge);
+                                if (age <= 6) this.ageStage = 'infants';
+                                else if (age <= 11) this.ageStage = 'primary';
+                                else this.ageStage = 'teens';
+                            }
+
+                            // Trigger onboarding modal if user has never completed it
+                            if (!this.onboardingCompleted && !this.childName) {
+                                this.showOnboardingModal = true;
+                            }
+
                             // Cache latest cloud values locally
                             this.saveLocalBackup();
+                        } else {
+                            // Brand new account profile row
+                            this.showOnboardingModal = true;
                         }
                     } catch (err) {
                         console.error('Error loading cloud profile:', err);
@@ -2086,6 +2275,10 @@
                             id: this.currentUser.id,
                             child_name: this.childName,
                             child_age: this.childAge,
+                            user_type: this.userType,
+                            diagnosis_status: this.diagnosisStatus,
+                            diagnosis_details: this.diagnosisDetails,
+                            onboarding_completed: this.onboardingCompleted,
                             star_points: this.starPoints,
                             avatar_base: this.avatarBase,
                             equipped_hat: this.equippedHat,
@@ -2286,7 +2479,7 @@
                             { icon: '🚪', title: 'Sensory Exit Script', desc: 'Use rehearsed phrase: "Need to step out to get air."', how: 'Provides autonomous boundary to escape before losing composure.' },
                             { icon: '💍', title: 'Discreet Fidget Stimming', desc: 'Use sensory ring, textured coin, or phone case.', how: 'Subtle motor regulation without feeling scrutinized by peers.' },
                             { icon: '👁️', title: '5-4-3-2-1 Sensory Grounding', desc: 'Name 5 things seen, 4 felt, 3 heard, 2 smelled, 1 tasted.', how: 'Forces prefrontal cortex to regain control from panicked limbic brain.' },
-                            { icon: '🚶‍♂', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
+                            { icon: '🚶‍♂️', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
                         ],
                         red: [
                             { icon: '📵', title: 'Total Digital Blackout', desc: 'Turn phone on Do Not Disturb and dim screen.', how: 'Stops notification dopamine spikes and social overload.' },
@@ -2383,7 +2576,7 @@
                     { category: 'comfort', icon: '🫂', label: 'Hug' },
                     { category: 'comfort', icon: '🎧', label: 'Headphones' },
                     { category: 'comfort', icon: '🧸', label: 'Comfort Toy' },
-                    { category: 'comfort', icon: '💆‍♂', label: 'Deep Pressure' },
+                    { category: 'comfort', icon: '💆‍♂️', label: 'Deep Pressure' },
                     { category: 'comfort', icon: '🏃‍♂️', label: 'Need a Break' },
                     { category: 'answers', icon: '👍', label: 'Yes' },
                     { category: 'answers', icon: '👎', label: 'No' },
@@ -2418,7 +2611,7 @@
 
                 // 9. SCHEDULE STATE
                 schedule: [
-                    { id: 1, icon: '☀️', name: 'Wake Up', done: false },
+                    { id: 1, icon: '☀️️', name: 'Wake Up', done: false },
                     { id: 2, icon: '👕', name: 'Get Dressed', done: false },
                     { id: 3, icon: '🍳', name: 'Eat Breakfast', done: false },
                     { id: 4, icon: '🦷', name: 'Brush Teeth', done: false }
