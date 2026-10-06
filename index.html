@@ -313,35 +313,80 @@
         <span>Visual Routine</span>
     </button>
 
-    <!-- Section: Emotional & Behavioral Support -->
+<!-- Section: Emotional & Behavioral Support -->
     <div class="pt-2 border-t border-slate-100">
         <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
             🧠 Emotional & Behavioral Support
         </div>
         <div class="space-y-1 mt-1 pl-2">
-            <button @click="activeTab = 'tactics'; mobileMenuOpen = false" 
-                    :class="activeTab === 'tactics' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                <span>📘</span>
-                <span>Clinical OT Strategies</span>
+            <!-- 1. Meltdowns -->
+            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span>🎈</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
+                    <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
+                </div>
             </button>
-            <button @click="activeTab = 'somatic'; mobileMenuOpen = false" 
-                    :class="activeTab === 'somatic' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                <span>🌬️</span>
-                <span>Polyvagal Somatic Resets</span>
+
+            <!-- 2. RSD -->
+            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span>⚡</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
+                    <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
+                </div>
             </button>
-            <button @click="activeTab = 'panda'; mobileMenuOpen = false" 
-                    :class="activeTab === 'panda' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+
+            <!-- 3. PDA -->
+            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                 <span>🐼</span>
-                <span>PANDA Framework (PDA)</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
+                    <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
+                </div>
             </button>
+
+            <!-- 4. Anxiety & Depression -->
+            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxiety'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span>🥣</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
+                    <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
+                </div>
+            </button>
+
+            <!-- 5. Somatics -->
+            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'somatics'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span>🌊</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
+                    <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
+                </div>
+            </button>
+
+            <!-- 6. Feelings & Tactics -->
+            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'feelings'; mobileMenuOpen = false" 
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span>🎯</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
+                    <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
+                </div>
+            </button>
+
+            <!-- 7. Video Demonstrations -->
             <button @click="activeTab = 'videos'; mobileMenuOpen = false" 
-                    :class="activeTab === 'videos' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                 <span>🎬</span>
-                <span>Video Demonstrations</span>
+                <div>
+                    <span class="font-bold text-slate-800 block text-xs">Video Demonstrations</span>
+                    <span class="text-[10px] text-slate-400 block">OT & Lived-Experience Videos</span>
+                </div>
             </button>
         </div>
     </div>
