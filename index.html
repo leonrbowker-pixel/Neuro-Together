@@ -125,19 +125,13 @@
                 </button>
 
                 <!-- Supabase User Account / Sign In Button -->
-                <template x-if="!currentUser">
-                    <button @click="showAuthModal = true" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm transition-all btn-bounce flex items-center gap-1.5">
-                        <span>🔒</span>
-                        <span>Sign In</span>
+        <template x-if="currentUser">
+                    <button @click="handleSignOut()" title="Sign Out" class="p-2 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors btn-bounce text-xs font-bold flex items-center gap-1">
+                        <span>🚪</span>
+                        <span class="hidden xl:inline">Exit</span>
                     </button>
                 </template>
-                <template x-if="currentUser">
-                    <div class="flex items-center gap-1.5 bg-slate-100 border border-slate-200 py-1 px-2.5 rounded-full">
-                        <span x-text="currentUser.email" class="hidden sm:inline font-medium truncate max-w-[140px]"></span>
-                        <button @click="handleSignOut()" class="text-[10px] text-red-600 hover:text-red-700 font-black ml-1 uppercase">Exit</button>
-                    </div>
-                </template>
-            </div>
+        
 
             <!-- Desktop Categorized Navigation -->
             <div class="hidden lg:flex items-center space-x-2 text-xs font-bold">
@@ -1709,7 +1703,7 @@
                     { label: 'R', icon: '🚀', active: false }
                 ],
 
-                init() {
+init() {
                     // Check Supabase session
                     if (window.supabaseClient) {
                         supabaseClient.auth.getSession().then(({ data: { session } }) => {
@@ -1717,13 +1711,16 @@
                                 this.currentUser = session.user;
                                 this.showAuthModal = false;
                                 this.loadCloudProfile();
+                            } else {
+                                this.currentUser = null;
+                                this.showAuthModal = true;
                             }
                         });
 
                         supabaseClient.auth.onAuthStateChange((_event, session) => {
                             this.currentUser = session ? session.user : null;
+                            this.showAuthModal = !session;
                             if (session) {
-                                this.showAuthModal = false;
                                 this.loadCloudProfile();
                             }
                         });
