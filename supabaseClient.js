@@ -1,5 +1,5 @@
 // Supabase Configuration
-const SUPABASE_URL = 'https://lomndhkkgunxuarrobxz.supabase.co';
+const SUPABASE_URL = 'https://lomndhkkgunyuarrobxz.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZ';
 
 // Attach directly to window using the CDN's supabase object
