@@ -94,16 +94,7 @@
 </head>
 <body class="text-darkText min-h-screen flex flex-col justify-between" x-data="parentApp()">
 
-    <!-- TOP EMERGENCY ALERT BAR -->
-    <div class="bg-red-500 text-white px-4 py-2 text-xs md:text-sm font-bold flex justify-between items-center no-print">
-        <div class="flex items-center gap-2">
-            <span class="animate-pulse">🚨</span>
-            <span>Experiencing high distress or an active meltdown?</span>
-        </div>
-        <button @click="showMeltdownMode = true" class="bg-white text-red-600 px-3 py-1 rounded-full text-xs font-extrabold hover:bg-red-50 transition-all shadow-sm btn-bounce">
-            Launch Emergency Meltdown Mode
-        </button>
-    </div>
+
 
     <!-- STRUCTURED CLEAN NAVIGATION BAR -->
     <header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b-2 border-slate-200 no-print">
@@ -381,27 +372,19 @@
         </div>
     </div>
 
-    <!-- Section: Calming Games & Buddy -->
-    <div class="pt-2 border-t border-slate-100">
-        <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-            🎮 Calming Games & Buddy
-        </div>
-        <div class="space-y-1 mt-1 pl-2">
-            <!-- Sensory Pop-It Toys -->
-            <button @click="activeTab = 'DESKTOP_POPIT_TAB_NAME'; mobileMenuOpen = false" 
+<!-- Sensory Pop-It Toys -->
+            <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); mobileMenuOpen = false" 
                     class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                 <span>🫧</span>
                 <span>Sensory Pop-It Toys</span>
             </button>
 
             <!-- Hero Buddy Room -->
-            <button @click="activeTab = 'DESKTOP_HERO_TAB_NAME'; mobileMenuOpen = false" 
+            <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
                     class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🦸</span>
+                <span>🐾</span>
                 <span>Hero Buddy Room</span>
             </button>
-        </div>
-    </div>
 
     <!-- Section: Statutory & Legal Advocacy -->
     <div class="pt-2 border-t border-slate-100">
@@ -1487,6 +1470,9 @@
         function parentApp() {
             return {
                 activeTab: 'home',
+                fidgetMode: 'popit',
+            popShape: 'square',
+            activeColorTheme: 'rainbow',
                 mobileMenuOpen: false,
                 showMeltdownMode: false,
                 showNotesModal: false,
