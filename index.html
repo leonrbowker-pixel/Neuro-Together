@@ -125,179 +125,179 @@
                 </button>
 
                 <!-- Supabase User Account / Sign In Button -->
-        <template x-if="currentUser">
+                <template x-if="currentUser">
                     <button @click="handleSignOut()" title="Sign Out" class="p-2 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors btn-bounce text-xs font-bold flex items-center gap-1">
                         <span>🚪</span>
                         <span class="hidden xl:inline">Exit</span>
                     </button>
                 </template>
-        
 
-            <!-- Desktop Categorized Navigation -->
-            <div class="hidden lg:flex items-center space-x-2 text-xs font-bold">
-                <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all btn-bounce">Home</button>
-                
-                <!-- Category 1: Schedules & Cards -->
-                <div class="relative" x-data="{ open: false }" @click.outside="open = false">
-                    <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white">
-                        <span>🗓️ Schedules & Cards</span>
-                        <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <!-- Desktop Categorized Navigation -->
+                <div class="hidden lg:flex items-center space-x-2 text-xs font-bold">
+                    <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all btn-bounce">Home</button>
+                    
+                    <!-- Category 1: Schedules & Cards -->
+                    <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white">
+                            <span>🗓️ Schedules & Cards</span>
+                            <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak class="absolute left-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
+                            <button @click="activeTab = 'nowNext'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>⏳</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">Now & Next Board</span>
+                                    <span class="text-[10px] text-slate-400">Step-by-step transition & rewards</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'routineBuilder'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>📋</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">Interactive Daily Schedule</span>
+                                    <span class="text-[10px] text-slate-400">Add, arrange & earn stars</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'photoCards'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>💬</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">Visual PECS Cards</span>
+                                    <span class="text-[10px] text-slate-400">Speech audio phrase builder</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 2: Emotional & Behavioral Support Dropdown -->
+                    <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-emerald-800 hover:bg-emerald-50 transition-all border border-emerald-300 bg-white font-bold text-xs btn-bounce">
+                            <span>🧠 Emotional & Behavioral Support</span>
+                            <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak class="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
+                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🛡️</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
+                                    <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>⚡</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
+                                    <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🐼</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
+                                    <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🌧️</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
+                                    <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🌊</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
+                                    <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
+                                </div>
+                            </button>
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <button @click="activeTab = 'feelingsTactics'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🎯</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
+                                    <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 3: Calming Games & Buddy Dropdown -->
+                    <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white font-bold text-xs btn-bounce">
+                            <span>🎮 Calming Games & Buddy</span>
+                            <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak class="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
+                            <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🫧</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Sensory Fidget Toys</span>
+                                    <span class="text-[10px] text-slate-400 block">Silicone Pop-Its & Clickers</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'rewardGame'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                                <span>🐾</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block text-xs">Hero Buddy Avatar Room</span>
+                                    <span class="text-[10px] text-slate-400 block">Spend Tokens & Play</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category 4: Videos -->
+                    <button @click="activeTab = 'videos'" :class="activeTab === 'videos' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all flex items-center gap-1 btn-bounce">
+                        <span>🎥</span>
+                        <span>Support Videos</span>
                     </button>
-                    <div x-show="open" x-cloak class="absolute left-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
-                        <button @click="activeTab = 'nowNext'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>⏳</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">Now & Next Board</span>
-                                <span class="text-[10px] text-slate-400">Step-by-step transition & rewards</span>
-                            </div>
+
+                    <!-- Category 5: Statutory Legal Advocacy -->
+                    <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white">
+                            <span>⚖️ DLA, EHCP & GP</span>
+                            <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <button @click="activeTab = 'routineBuilder'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>📋</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">Interactive Daily Schedule</span>
-                                <span class="text-[10px] text-slate-400">Add, arrange & earn stars</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'photoCards'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>💬</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">Visual PECS Cards</span>
-                                <span class="text-[10px] text-slate-400">Speech audio phrase builder</span>
-                            </div>
-                        </button>
+                        <div x-show="open" x-cloak class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
+                            <button @click="activeTab = 'dlaGuide'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>💷</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">Chronological DLA Guide</span>
+                                    <span class="text-[10px] text-slate-400">Complete Q1 to Q84 step-by-step</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'ehcpHub'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>📑</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">UK EHCP Master Hub</span>
+                                    <span class="text-[10px] text-slate-400">Sections A–K, 20-wk timeline & appeals</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'arfidHub'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>🥑</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">ARFID Feeding Guide</span>
+                                    <span class="text-[10px] text-slate-400">Food aversions & sensory eating</span>
+                                </div>
+                            </button>
+                            <button @click="activeTab = 'questionnaire'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                                <span>🩺</span>
+                                <div>
+                                    <span class="font-bold text-slate-800 block">30-Q GP Trait Screener</span>
+                                    <span class="text-[10px] text-slate-400">Exportable medical evidence report</span>
+                                </div>
+                            </button>
+                            <div class="border-t my-1"></div>
+                            <button @click="activeTab = 'legalPrivacy'; open = false" class="w-full text-left px-4 py-2 text-xs text-slate-500 hover:bg-slate-50">
+                                Legal Notices & Privacy Policy
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Category 2: Emotional & Behavioral Support Dropdown -->
-                <div class="relative" x-data="{ open: false }" @click.outside="open = false">
-                    <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-emerald-800 hover:bg-emerald-50 transition-all border border-emerald-300 bg-white font-bold text-xs btn-bounce">
-                        <span>🧠 Emotional & Behavioral Support</span>
-                        <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open" x-cloak class="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
-                        <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🛡️</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
-                                <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>⚡</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
-                                <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🐼</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
-                                <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🌧️</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
-                                <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🌊</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
-                                <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
-                            </div>
-                        </button>
-                        <div class="border-t border-slate-100 my-1"></div>
-                        <button @click="activeTab = 'feelingsTactics'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🎯</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
-                                <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Category 3: Calming Games & Buddy Dropdown -->
-                <div class="relative" x-data="{ open: false }" @click.outside="open = false">
-                    <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white font-bold text-xs btn-bounce">
-                        <span>🎮 Calming Games & Buddy</span>
-                        <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open" x-cloak class="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
-                        <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🫧</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Sensory Fidget Toys</span>
-                                <span class="text-[10px] text-slate-400 block">Silicone Pop-Its & Clickers</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'rewardGame'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                            <span>🐾</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block text-xs">Hero Buddy Avatar Room</span>
-                                <span class="text-[10px] text-slate-400 block">Spend Tokens & Play</span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Category 4: Videos -->
-                <button @click="activeTab = 'videos'" :class="activeTab === 'videos' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all flex items-center gap-1 btn-bounce">
-                    <span>🎥</span>
-                    <span>Support Videos</span>
+                <!-- Mobile Menu Toggle Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden bg-slate-100 p-2 rounded-xl text-slate-700 hover:bg-slate-200 btn-bounce">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
-
-                <!-- Category 5: Statutory Legal Advocacy -->
-                <div class="relative" x-data="{ open: false }" @click.outside="open = false">
-                    <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white">
-                        <span>⚖️ DLA, EHCP & GP</span>
-                        <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div x-show="open" x-cloak class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
-                        <button @click="activeTab = 'dlaGuide'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>💷</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">Chronological DLA Guide</span>
-                                <span class="text-[10px] text-slate-400">Complete Q1 to Q84 step-by-step</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'ehcpHub'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>📑</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">UK EHCP Master Hub</span>
-                                <span class="text-[10px] text-slate-400">Sections A–K, 20-wk timeline & appeals</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'arfidHub'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>🥑</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">ARFID Feeding Guide</span>
-                                <span class="text-[10px] text-slate-400">Food aversions & sensory eating</span>
-                            </div>
-                        </button>
-                        <button @click="activeTab = 'questionnaire'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                            <span>🩺</span>
-                            <div>
-                                <span class="font-bold text-slate-800 block">30-Q GP Trait Screener</span>
-                                <span class="text-[10px] text-slate-400">Exportable medical evidence report</span>
-                            </div>
-                        </button>
-                        <div class="border-t my-1"></div>
-                        <button @click="activeTab = 'legalPrivacy'; open = false" class="w-full text-left px-4 py-2 text-xs text-slate-500 hover:bg-slate-50">
-                            Legal Notices & Privacy Policy
-                        </button>
-                    </div>
-                </div>
             </div>
-
-            <!-- Mobile Menu Toggle Button -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden bg-slate-100 p-2 rounded-xl text-slate-700 hover:bg-slate-200 btn-bounce">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
         </div>
     </header>
 
@@ -328,7 +328,7 @@
             <div class="space-y-1 mt-1 pl-2">
                 <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <span>🛡️</span>
+                    <span>🛡️️</span>
                     <div>
                         <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
                         <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
@@ -450,6 +450,19 @@
                 </button>
             </div>
         </div>
+
+        <!-- Mobile User Account / Sign Out Row -->
+        <template x-if="currentUser">
+            <div class="pt-4 mt-3 border-t border-slate-200 flex items-center justify-between px-2">
+                <div class="truncate max-w-[170px]">
+                    <span class="block text-[10px] text-slate-400 font-bold uppercase">Signed in as</span>
+                    <span class="text-xs font-semibold text-slate-700 truncate block" x-text="currentUser.email"></span>
+                </div>
+                <button @click="handleSignOut(); mobileMenuOpen = false" class="bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs px-3 py-1.5 rounded-lg border border-red-200 btn-bounce">
+                    Sign Out
+                </button>
+            </div>
+        </template>
     </div>
 
     <!-- Main Container -->
@@ -493,7 +506,7 @@
                     <div @click="activeTab = 'nowNext'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-sky-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">⏳</div>
                         <h4 class="font-bold text-slate-900 mb-1">Now & Next Board</h4>
-                        <p class="text-xs text-slate-600">Rich choice of daily steps, sensory routines, school transitions, and rewards.</p>
+                        <p class="text-xs text-slate-600">Rich choice of daily steps, sensory routines, calming visual timer, and rewards.</p>
                     </div>
                     <div @click="activeTab = 'videos'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-vibrantRed cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">🎥</div>
@@ -514,7 +527,7 @@
             </div>
         </div>
 
-        <!-- 2. NOW & NEXT BOARD -->
+        <!-- 2. NOW & NEXT BOARD (WITH CALMING VISUAL TIMER) -->
         <div x-show="activeTab === 'nowNext'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -523,9 +536,16 @@
                         <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Interactive "Now, Next & Later" Visual Board</h2>
                         <p class="text-slate-600 text-sm mt-1">Helps children anticipate transitions, know what calm behavior is expected next, and look forward to an earned reward.</p>
                     </div>
-                    <button @click="resetNowNext()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs btn-bounce">Reset Board</button>
+                    <div class="flex gap-2 no-print">
+                        <button @click="resetNowNext()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs btn-bounce">Reset Board</button>
+                        <button @click="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-sm btn-bounce">
+                            <span>🖨️</span>
+                            <span>Print Board</span>
+                        </button>
+                    </div>
                 </div>
 
+                <!-- NOW / NEXT / LATER CARDS -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                     <div class="bg-amber-50/80 border-4 border-amber-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
                         <span class="bg-amber-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">1. NOW</span>
@@ -555,6 +575,86 @@
                     </div>
                 </div>
 
+                <!-- CALMING VISUAL TIME-AWARENESS TIMER -->
+                <div class="bg-sky-50/60 border-2 border-sky-200 rounded-3xl p-6 space-y-4 no-print">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-sky-100 pb-3">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">🌸</span>
+                                <h3 class="text-sm font-black text-slate-800 uppercase tracking-wider">Calming Transition Timer</h3>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-0.5">A gentle visual aid to provide predictable time-scaffolding without pressure or alarm buzzers.</p>
+                        </div>
+                        <!-- Parent Configuration Drawer Toggle -->
+                        <div class="flex items-center gap-2">
+                            <button @click="timerConfigOpen = !timerConfigOpen" class="bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 btn-bounce flex items-center gap-1">
+                                <span>⚙️</span>
+                                <span x-text="timerConfigOpen ? 'Close Settings' : 'Customize Duration'"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Customizable Parent Duration Controls -->
+                    <div x-show="timerConfigOpen" x-cloak class="bg-white p-4 rounded-2xl border border-sky-200 space-y-3">
+                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Set Time Presets:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <button @click="setTimerMinutes(2)" :class="timerMinutes === 2 && !timerRunning ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-xl text-xs font-bold btn-bounce">2 Mins (Quick)</button>
+                            <button @click="setTimerMinutes(5)" :class="timerMinutes === 5 && !timerRunning ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-xl text-xs font-bold btn-bounce">5 Mins</button>
+                            <button @click="setTimerMinutes(10)" :class="timerMinutes === 10 && !timerRunning ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-xl text-xs font-bold btn-bounce">10 Mins</button>
+                            <button @click="setTimerMinutes(15)" :class="timerMinutes === 15 && !timerRunning ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-xl text-xs font-bold btn-bounce">15 Mins</button>
+                            <button @click="setTimerMinutes(20)" :class="timerMinutes === 20 && !timerRunning ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-xl text-xs font-bold btn-bounce">20 Mins</button>
+                            <button @click="setTimerMinutes(30)" :class="timerMinutes === 30 && !timerRunning ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-xl text-xs font-bold btn-bounce">30 Mins (Focus)</button>
+                        </div>
+                        <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                            <span class="text-xs font-medium text-slate-600">Custom minutes:</span>
+                            <input type="number" min="1" max="120" x-model.number="customTimerInput" @change="setTimerMinutes(customTimerInput)" class="w-16 px-2 py-1 text-xs border rounded-lg">
+                            <button @click="setTimerMinutes(customTimerInput)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold px-3 py-1 text-xs rounded-lg btn-bounce">Apply</button>
+                        </div>
+                    </div>
+
+                    <!-- Visual Calming Ring and Controls -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-6 py-2">
+                        <!-- Calming Circular Progress Gauge -->
+                        <div class="relative w-44 h-44 flex items-center justify-center">
+                            <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
+                                <!-- Background Track -->
+                                <circle cx="60" cy="60" r="50" stroke="#E2E8F0" stroke-width="8" fill="none" />
+                                <!-- Calming Progress Ring -->
+                                <circle cx="60" cy="60" r="50"
+                                        :stroke="timerRingColor"
+                                        stroke-width="8"
+                                        stroke-linecap="round"
+                                        fill="none"
+                                        :stroke-dasharray="314.159"
+                                        :stroke-dashoffset="314.159 - (314.159 * timerProgressPercent / 100)"
+                                        class="transition-all duration-1000 ease-linear" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                <span class="text-2xl font-black text-slate-800 font-mono tracking-tight" x-text="formattedTimerTime"></span>
+                                <span class="text-[11px] font-bold text-slate-500 uppercase mt-0.5" x-text="timerStateLabel"></span>
+                            </div>
+                        </div>
+
+                        <!-- Action Control Buttons -->
+                        <div class="flex flex-col gap-2 w-full sm:w-auto">
+                            <div class="flex gap-2">
+                                <button @click="toggleTimer()" 
+                                        class="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl font-bold text-xs shadow-sm transition-all btn-bounce flex items-center justify-center gap-1.5"
+                                        :class="timerRunning ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300' : 'bg-deepBlue hover:bg-sky-700 text-white'">
+                                    <span x-text="timerRunning ? '⏸ Pause' : (timerRemaining === timerTotalSeconds ? '▶ Start Timer' : '▶ Resume')"></span>
+                                </button>
+                                <button @click="resetTimer()" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 btn-bounce">
+                                    ↺ Reset
+                                </button>
+                            </div>
+                            <p class="text-[11px] text-slate-500 text-center sm:text-left mt-1">
+                                Gentle, soft color-shift cues the child as time unfolds.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRESET CHOICE PALETTE -->
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 no-print">
                     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
                         <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Choose Activities & Rewards to Place on Board:</h3>
@@ -861,7 +961,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <span class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tactile Regulation & Stimming</span>
-                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Sensory Fidget Suite 🫧 ⌨️️</h2>
+                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Sensory Fidget Suite 🫧 ⌨</h2>
                         <p class="text-slate-600 text-sm mt-1">Pop-It silicone shapes and an acoustic mechanical keyboard clicker specifically designed for ASD/ADHD sensory stimming.</p>
                     </div>
                     <div class="flex gap-2">
@@ -1078,7 +1178,7 @@
                             <template x-if="equippedAccessory && equippedAccessory !== 'cape'">
                                 <div class="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
                                     <template x-if="equippedAccessory === 'shades'">
-                                        <span class="text-5xl -translate-y-1 transform scale-110 drop-shadow-sm">🕶️️</span>
+                                        <span class="text-5xl -translate-y-1 transform scale-110 drop-shadow-sm">🕶</span>
                                     </template>
                                     <template x-if="equippedAccessory === 'headphones'">
                                         <span class="text-7xl -translate-y-1 transform scale-110">🎧</span>
@@ -1364,11 +1464,11 @@
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">Child / Young Person Name (Optional):</label>
-                            <input type="text" x-model="childName" placeholder="e.g. Alex" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-deepBlue">
+                            <input type="text" x-model="childName" @change="saveCloudProfile()" placeholder="e.g. Alex" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-deepBlue">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">Age / Year Group (Optional):</label>
-                            <input type="text" x-model="childAge" placeholder="e.g. 8 years (Year 3)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-deepBlue">
+                            <input type="text" x-model="childAge" @change="saveCloudProfile()" placeholder="e.g. 8 years (Year 3)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-deepBlue">
                         </div>
                     </div>
 
@@ -1385,7 +1485,7 @@
                                 <div class="flex items-center gap-1 shrink-0 bg-slate-50 p-1.5 rounded-xl border border-slate-200">
                                     <template x-for="opt in [{val: 0, label: 'Never'}, {val: 1, label: 'Rarely'}, {val: 2, label: 'Often'}, {val: 3, label: 'Always'}]" :key="opt.val">
                                         <button type="button"
-                                                @click="screenerResponses[q.id] = opt.val" 
+                                                @click="screenerResponses[q.id] = opt.val; saveLocalBackup();" 
                                                 :class="screenerResponses[q.id] === opt.val ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200/60'"
                                                 class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all"
                                                 x-text="opt.label">
@@ -1470,7 +1570,7 @@
 
     </main>
 
-    <!-- AUTHENTICATION (LOGIN / SIGN-UP) MODAL -->
+    <!-- AUTHENTICATION (LOGIN / SIGN-UP / PASSWORD RESET) MODAL -->
     <div x-show="!currentUser || showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative">
             <template x-if="currentUser">
@@ -1479,7 +1579,7 @@
             
             <div class="text-center space-y-1">
                 <span class="text-3xl">🛡️</span>
-                <h3 class="text-lg font-black text-slate-900" x-text="authMode === 'login' ? 'Sign In to NeuroTogether' : 'Create Free Account'"></h3>
+                <h3 class="text-lg font-black text-slate-900" x-text="authMode === 'login' ? 'Sign In to NeuroTogether' : (authMode === 'signup' ? 'Create Free Account' : 'Reset Your Password')"></h3>
                 <p class="text-xs text-slate-500">Safely backup & isolate your data.</p>
             </div>
 
@@ -1489,9 +1589,15 @@
                     <input type="email" x-model="authEmail" required placeholder="parent@example.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
                 </div>
 
-                <div>
+                <div x-show="authMode !== 'forgot'">
                     <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Password</label>
-                    <input type="password" x-model="authPassword" required minlength="6" placeholder="At least 6 characters" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                    <input type="password" x-model="authPassword" :required="authMode !== 'forgot'" minlength="6" placeholder="At least 6 characters" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                    
+                    <div class="flex justify-end mt-1" x-show="authMode === 'login'">
+                        <button type="button" @click="authMode = 'forgot'; authError = ''; authSuccess = '';" class="text-[11px] font-semibold text-deepBlue hover:underline">
+                            Forgot password?
+                        </button>
+                    </div>
                 </div>
 
                 <div x-show="authError" class="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs" x-text="authError"></div>
@@ -1499,7 +1605,7 @@
 
                 <button type="submit" :disabled="authLoading" class="w-full bg-deepBlue hover:bg-sky-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm btn-bounce flex items-center justify-center gap-2">
                     <span x-show="authLoading" class="animate-spin text-sm">⌛</span>
-                    <span x-text="authMode === 'login' ? 'Sign In' : 'Create Account'"></span>
+                    <span x-text="authMode === 'login' ? 'Sign In' : (authMode === 'signup' ? 'Create Account' : 'Send Reset Link')"></span>
                 </button>
             </form>
 
@@ -1509,6 +1615,9 @@
                 </template>
                 <template x-if="authMode === 'signup'">
                     <p>Already have an account? <button @click="authMode = 'login'; authError = ''; authSuccess = '';" class="font-bold text-deepBlue hover:underline">Log in</button></p>
+                </template>
+                <template x-if="authMode === 'forgot'">
+                    <p>Remembered your credentials? <button @click="authMode = 'login'; authError = ''; authSuccess = '';" class="font-bold text-deepBlue hover:underline">Back to Sign In</button></p>
                 </template>
             </div>
         </div>
@@ -1546,7 +1655,7 @@
                 // AUTHENTICATION STATE
                 currentUser: null,
                 showAuthModal: true,
-                authMode: 'login',
+                authMode: 'login', // 'login', 'signup', 'forgot'
                 authEmail: '',
                 authPassword: '',
                 authLoading: false,
@@ -1641,6 +1750,7 @@
                 selectAnimal(animal) {
                     this.avatarBase = animal;
                     this.playAcousticPop();
+                    this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
                 hasPurchased(item) {
@@ -1664,6 +1774,7 @@
                             if (item.type === 'companion') this.equippedCompanion = item.key;
                         }
                         this.playRewardSound(659.25);
+                        this.saveLocalBackup();
                         this.saveCloudProfile();
                     } else {
                         if (this.starPoints >= item.cost) {
@@ -1671,6 +1782,7 @@
                             this.purchasedItemIds.push(item.id);
                             this.buyOrEquip(item);
                             this.triggerConfetti();
+                            this.saveLocalBackup();
                             this.saveCloudProfile();
                         } else {
                             alert("Not enough Star Tokens yet! Complete tasks on your Schedule to earn more ✨");
@@ -1703,8 +1815,109 @@
                     { label: 'R', icon: '🚀', active: false }
                 ],
 
-init() {
-                    // Check Supabase session
+                // 3. CALMING VISUAL TIMER STATE
+                timerMinutes: 5,
+                customTimerInput: 5,
+                timerTotalSeconds: 300,
+                timerRemaining: 300,
+                timerRunning: false,
+                timerInterval: null,
+                timerConfigOpen: false,
+
+                get timerProgressPercent() {
+                    if (this.timerTotalSeconds <= 0) return 0;
+                    return ((this.timerTotalSeconds - this.timerRemaining) / this.timerTotalSeconds) * 100;
+                },
+                get timerRingColor() {
+                    const percentLeft = (this.timerRemaining / this.timerTotalSeconds) * 100;
+                    if (percentLeft > 50) return '#38BDF8'; // Calming sky blue
+                    if (percentLeft > 20) return '#FBBF24'; // Warm soft amber
+                    return '#F472B6'; // Gentle warm rose
+                },
+                get timerStateLabel() {
+                    if (this.timerRemaining === 0) return '🌸 Finished gently';
+                    if (this.timerRunning) return '⏳ Calming time';
+                    if (this.timerRemaining < this.timerTotalSeconds) return '⏸ Paused';
+                    return 'Ready';
+                },
+                get formattedTimerTime() {
+                    const mins = Math.floor(this.timerRemaining / 60);
+                    const secs = this.timerRemaining % 60;
+                    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                },
+                setTimerMinutes(mins) {
+                    const m = Math.max(1, Math.min(120, Number(mins) || 5));
+                    this.timerMinutes = m;
+                    this.customTimerInput = m;
+                    this.timerTotalSeconds = m * 60;
+                    this.timerRemaining = this.timerTotalSeconds;
+                    if (this.timerRunning) {
+                        clearInterval(this.timerInterval);
+                        this.timerRunning = false;
+                    }
+                },
+                toggleTimer() {
+                    if (this.timerRunning) {
+                        clearInterval(this.timerInterval);
+                        this.timerRunning = false;
+                    } else {
+                        if (this.timerRemaining === 0) {
+                            this.timerRemaining = this.timerTotalSeconds;
+                        }
+                        this.timerRunning = true;
+                        this.timerInterval = setInterval(() => {
+                            if (this.timerRemaining > 0) {
+                                this.timerRemaining--;
+                            } else {
+                                clearInterval(this.timerInterval);
+                                this.timerRunning = false;
+                                this.playCalmTimerCompletion();
+                                this.triggerConfetti();
+                            }
+                        }, 1000);
+                    }
+                },
+                resetTimer() {
+                    if (this.timerInterval) clearInterval(this.timerInterval);
+                    this.timerRunning = false;
+                    this.timerRemaining = this.timerTotalSeconds;
+                },
+                playCalmTimerCompletion() {
+                    try {
+                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        const now = audioCtx.currentTime;
+                        
+                        // Gentle primary chime (C5)
+                        const osc1 = audioCtx.createOscillator();
+                        const gain1 = audioCtx.createGain();
+                        osc1.type = 'sine';
+                        osc1.frequency.setValueAtTime(523.25, now);
+                        gain1.gain.setValueAtTime(0.18, now);
+                        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+                        osc1.connect(gain1);
+                        gain1.connect(audioCtx.destination);
+                        osc1.start(now);
+                        osc1.stop(now + 1.2);
+
+                        // Soothing harmonic companion chime (G5)
+                        const osc2 = audioCtx.createOscillator();
+                        const gain2 = audioCtx.createGain();
+                        osc2.type = 'sine';
+                        osc2.frequency.setValueAtTime(783.99, now + 0.25);
+                        gain2.gain.setValueAtTime(0.15, now + 0.25);
+                        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.6);
+                        osc2.connect(gain2);
+                        gain2.connect(audioCtx.destination);
+                        osc2.start(now + 0.25);
+                        osc2.stop(now + 1.6);
+                    } catch(e) {}
+                },
+
+                init() {
+                    // 1. Initialise Offline LocalStorage Fallback First
+                    this.loadLocalBackup();
+
+                    // 2. Check Supabase session
                     if (window.supabaseClient) {
                         supabaseClient.auth.getSession().then(({ data: { session } }) => {
                             if (session) {
@@ -1726,6 +1939,13 @@ init() {
                         });
                     }
 
+                    // Online/Offline sync listener
+                    window.addEventListener('online', () => {
+                        if (this.currentUser) {
+                            this.saveCloudProfile();
+                        }
+                    });
+
                     this.initAllTrays();
                     window.addEventListener('keydown', (e) => {
                         if (this.activeTab === 'fidgetGame' && this.fidgetMode === 'keyboard') {
@@ -1738,7 +1958,48 @@ init() {
                     });
                 },
 
-                // SUPABASE AUTHENTICATION METHODS
+                // OFFLINE LOCALSTORAGE SYNC LAYER
+                saveLocalBackup() {
+                    try {
+                        const localPayload = {
+                            childName: this.childName,
+                            childAge: this.childAge,
+                            starPoints: this.starPoints,
+                            avatarBase: this.avatarBase,
+                            equippedHat: this.equippedHat,
+                            equippedAccessory: this.equippedAccessory,
+                            equippedCompanion: this.equippedCompanion,
+                            purchasedItemIds: this.purchasedItemIds,
+                            schedule: this.schedule,
+                            screenerResponses: this.screenerResponses
+                        };
+                        localStorage.setItem('neurotogether_cached_data', JSON.stringify(localPayload));
+                    } catch(e) {
+                        console.warn('Local storage write blocked:', e);
+                    }
+                },
+                loadLocalBackup() {
+                    try {
+                        const cached = localStorage.getItem('neurotogether_cached_data');
+                        if (cached) {
+                            const data = JSON.parse(cached);
+                            if (data.childName) this.childName = data.childName;
+                            if (data.childAge) this.childAge = data.childAge;
+                            if (data.starPoints !== undefined) this.starPoints = data.starPoints;
+                            if (data.avatarBase) this.avatarBase = data.avatarBase;
+                            if (data.equippedHat !== undefined) this.equippedHat = data.equippedHat;
+                            if (data.equippedAccessory !== undefined) this.equippedAccessory = data.equippedAccessory;
+                            if (data.equippedCompanion !== undefined) this.equippedCompanion = data.equippedCompanion;
+                            if (data.purchasedItemIds) this.purchasedItemIds = data.purchasedItemIds;
+                            if (data.schedule && data.schedule.length > 0) this.schedule = data.schedule;
+                            if (data.screenerResponses) this.screenerResponses = data.screenerResponses;
+                        }
+                    } catch(e) {
+                        console.warn('Local storage read error:', e);
+                    }
+                },
+
+                // SUPABASE AUTHENTICATION METHODS (INCL. FORGOT PASSWORD)
                 async handleAuthSubmit() {
                     if (!window.supabaseClient) {
                         this.authError = 'Supabase client not loaded.';
@@ -1748,7 +2009,13 @@ init() {
                     this.authError = '';
                     this.authSuccess = '';
                     try {
-                        if (this.authMode === 'signup') {
+                        if (this.authMode === 'forgot') {
+                            const { error } = await supabaseClient.auth.resetPasswordForEmail(this.authEmail, {
+                                redirectTo: window.location.origin + window.location.pathname
+                            });
+                            if (error) throw error;
+                            this.authSuccess = 'Password recovery link sent! Check your inbox.';
+                        } else if (this.authMode === 'signup') {
                             const { data, error } = await supabaseClient.auth.signUp({
                                 email: this.authEmail,
                                 password: this.authPassword,
@@ -1802,6 +2069,9 @@ init() {
                             this.equippedCompanion = data.equipped_companion ?? '⭐';
                             if (data.purchased_item_ids) this.purchasedItemIds = data.purchased_item_ids;
                             if (data.saved_schedule && data.saved_schedule.length > 0) this.schedule = data.saved_schedule;
+
+                            // Cache latest cloud values locally
+                            this.saveLocalBackup();
                         }
                     } catch (err) {
                         console.error('Error loading cloud profile:', err);
@@ -1809,7 +2079,8 @@ init() {
                 },
 
                 async saveCloudProfile() {
-                    if (!this.currentUser || !window.supabaseClient) return;
+                    this.saveLocalBackup(); // Always save to local backup immediately
+                    if (!this.currentUser || !window.supabaseClient || !navigator.onLine) return;
                     try {
                         await supabaseClient.from('profiles').upsert({
                             id: this.currentUser.id,
@@ -1868,7 +2139,7 @@ init() {
                     setTimeout(() => { this.keyboardKeys[index].active = false; }, 120);
                 },
 
-                // 3. EXPANDED NOW & NEXT PRESETS
+                // 4. EXPANDED NOW & NEXT PRESETS
                 nowItem: { icon: '👟', name: 'Put Shoes On', behavior: 'Sitting quietly on the bottom stair' },
                 nextItem: { icon: '🚗', name: 'Get In Car', behavior: 'Holding parent hand on driveway' },
                 laterItem: { icon: '🛝', name: 'Play at the Park', behavior: 'Fun reward time on the swings!' },
@@ -1912,9 +2183,10 @@ init() {
                     this.nowItem = { icon: '👟', name: 'Put Shoes On', behavior: 'Sitting quietly on bottom stair' };
                     this.nextItem = { icon: '🚗', name: 'Get In Car', behavior: 'Holding parent hand on driveway' };
                     this.laterItem = { icon: '🛝', name: 'Play at Park', behavior: 'Fun reward time on the swings!' };
+                    this.resetTimer();
                 },
 
-                // 4. CHRONOLOGICAL DLA MASTER DATA
+                // 5. CHRONOLOGICAL DLA MASTER DATA
                 dlaStep: 'mobility',
                 currentSupportTopic: 'meltdowns',
 
@@ -1924,7 +2196,7 @@ init() {
                         : [];
                 },
 
-                // 5. EXPANDED FEELINGS & REGULATION TACTICS DATABASE
+                // 6. EXPANDED FEELINGS & REGULATION TACTICS DATABASE
                 ageStage: 'primary',
                 selectedZone: 'yellow',
                 zoneLabels: {
@@ -2028,7 +2300,7 @@ init() {
                     return this.tacticsDatabase[this.ageStage][this.selectedZone];
                 },
 
-                // 6. SUPPORT VIDEOS
+                // 7. SUPPORT VIDEOS
                 videos: [
                     {
                         id: 1,
@@ -2082,7 +2354,7 @@ init() {
                     return this.videos.filter(v => v.tag === this.videoFilter);
                 },
 
-                // 7. FULL 18-ITEM AAC VISUAL COMMUNICATION DECK
+                // 8. FULL 18-ITEM AAC VISUAL COMMUNICATION DECK
                 cardFilter: 'all',
                 sentenceStrip: [],
                 allCards: [
@@ -2144,7 +2416,7 @@ init() {
                     this.speakText(fullText);
                 },
 
-                // 8. SCHEDULE STATE
+                // 9. SCHEDULE STATE
                 schedule: [
                     { id: 1, icon: '☀️', name: 'Wake Up', done: false },
                     { id: 2, icon: '👕', name: 'Get Dressed', done: false },
@@ -2167,10 +2439,12 @@ init() {
                 addStepToSchedule(item) {
                     this.schedule.push({ id: Date.now() + Math.random(), icon: item.icon, name: item.name, done: false });
                     this.playRewardSound(440);
+                    this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
                 removeStep(idx) { 
                     this.schedule.splice(idx, 1); 
+                    this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
                 moveStep(idx, dir) {
@@ -2179,11 +2453,13 @@ init() {
                         const temp = this.schedule[idx];
                         this.schedule[idx] = this.schedule[target];
                         this.schedule[target] = temp;
+                        this.saveLocalBackup();
                         this.saveCloudProfile();
                     }
                 },
                 clearSchedule() { 
                     this.schedule = []; 
+                    this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
                 toggleStepDone(step) {
@@ -2193,6 +2469,7 @@ init() {
                         this.triggerConfetti();
                         this.playRewardSound(783.99);
                     }
+                    this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
                 loadPreset(type) {
@@ -2217,6 +2494,7 @@ init() {
                             { id: 3, icon: '🎧', name: 'Sensory Break', done: false }
                         ];
                     }
+                    this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
 
