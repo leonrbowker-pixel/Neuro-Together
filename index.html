@@ -94,8 +94,6 @@
 </head>
 <body class="text-darkText min-h-screen flex flex-col justify-between" x-data="parentApp()">
 
-
-
     <!-- STRUCTURED CLEAN NAVIGATION BAR -->
     <header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b-2 border-slate-200 no-print">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -154,7 +152,7 @@
                     </div>
                 </div>
 
-<!-- 1. EMOTIONAL & BEHAVIORAL SUPPORT DROPDOWN (Meltdowns to Feelings & Tactics) -->
+                <!-- Category 2: Emotional & Behavioral Support Dropdown -->
                 <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                     <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-emerald-800 hover:bg-emerald-50 transition-all border border-emerald-300 bg-white font-bold text-xs btn-bounce">
                         <span>🧠 Emotional & Behavioral Support</span>
@@ -207,27 +205,37 @@
                     </div>
                 </div>
 
-                <!-- Sensory Pop-It Toys -->
-            <button @click="activeTab = 'fidgetGame'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🫧</span>
-                <span>Sensory Pop-It Toys</span>
-            </button>
+                <!-- Category 3: Calming Games & Buddy Dropdown -->
+                <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                    <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white font-bold text-xs btn-bounce">
+                        <span>🎮 Calming Games & Buddy</span>
+                        <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div x-show="open" x-cloak class="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
+                        <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <span>🫧</span>
+                            <div>
+                                <span class="font-bold text-slate-800 block text-xs">Sensory Fidget Toys</span>
+                                <span class="text-[10px] text-slate-400 block">Silicone Pop-Its & Clickers</span>
+                            </div>
+                        </button>
+                        <button @click="activeTab = 'rewardGame'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <span>🐾</span>
+                            <div>
+                                <span class="font-bold text-slate-800 block text-xs">Hero Buddy Avatar Room</span>
+                                <span class="text-[10px] text-slate-400 block">Spend Tokens & Play</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
 
-            <!-- Hero Buddy Room -->
-            <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🐾</span>
-                <span>Hero Buddy Room</span>
-            </button>
-
-                <!-- Category 3: Videos -->
+                <!-- Category 4: Videos -->
                 <button @click="activeTab = 'videos'" :class="activeTab === 'videos' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all flex items-center gap-1 btn-bounce">
                     <span>🎥</span>
                     <span>Support Videos</span>
                 </button>
 
-                <!-- Category 4: Statutory Legal Advocacy -->
+                <!-- Category 5: Statutory Legal Advocacy -->
                 <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                     <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-all border border-slate-200 bg-white">
                         <span>⚖️ DLA, EHCP & GP</span>
@@ -276,144 +284,154 @@
             </button>
         </div>
 
-   <!-- Mobile Drawer Navigation -->
-<<div x-show="mobileMenuOpen" x-cloak class="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-3 max-h-[85vh] overflow-y-auto pb-8">
-    <!-- Home -->
-    <button @click="activeTab = 'home'; mobileMenuOpen = false" 
-            :class="activeTab === 'home' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-700 hover:bg-slate-50'" 
-            class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
-        <span>🏠</span>
-        <span>Home Dashboard</span>
-    </button>
+        <!-- Mobile Drawer Navigation -->
+        <div x-show="mobileMenuOpen" x-cloak class="lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-3 max-h-[85vh] overflow-y-auto pb-8">
+            <!-- Home -->
+            <button @click="activeTab = 'home'; mobileMenuOpen = false" 
+                    :class="activeTab === 'home' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
+                    class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
+                <span>🏠</span>
+                <span>Home Dashboard</span>
+            </button>
 
-    <!-- Routine -->
-    <button @click="activeTab = 'nowNext'; mobileMenuOpen = false" 
-            :class="activeTab === 'nowNext' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-700 hover:bg-slate-50'" 
-            class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
-        <span>⏳</span>
-        <span>Visual Routine</span>
-    </button>
+            <!-- Routine -->
+            <button @click="activeTab = 'nowNext'; mobileMenuOpen = false" 
+                    :class="activeTab === 'nowNext' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
+                    class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
+                <span>⏳</span>
+                <span>Visual Routine</span>
+            </button>
 
-<!-- Section: Emotional & Behavioral Support -->
-    <div class="pt-2 border-t border-slate-100">
-        <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-            🧠 Emotional & Behavioral Support
+            <!-- Section: Emotional & Behavioral Support -->
+            <div class="pt-2 border-t border-slate-100">
+                <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    🧠 Emotional & Behavioral Support
+                </div>
+                <div class="space-y-1 mt-1 pl-2">
+                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🛡️</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
+                            <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
+                        </div>
+                    </button>
+
+                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>⚡</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
+                            <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
+                        </div>
+                    </button>
+
+                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🐼</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
+                            <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
+                        </div>
+                    </button>
+
+                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🌧️</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
+                            <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
+                        </div>
+                    </button>
+
+                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🌊</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
+                            <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
+                        </div>
+                    </button>
+
+                    <button @click="activeTab = 'feelingsTactics'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🎯</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
+                            <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
+                        </div>
+                    </button>
+
+                    <button @click="activeTab = 'videos'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🎬</span>
+                        <div>
+                            <span class="font-bold text-slate-800 block text-xs">Video Demonstrations</span>
+                            <span class="text-[10px] text-slate-400 block">OT & Lived-Experience Videos</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sensory Games Section -->
+            <div class="pt-2 border-t border-slate-100">
+                <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    🎮 Calming Games & Buddy
+                </div>
+                <div class="space-y-1 mt-1 pl-2">
+                    <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🫧</span>
+                        <span>Sensory Pop-It Toys</span>
+                    </button>
+
+                    <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                        <span>🐾</span>
+                        <span>Hero Buddy Room</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section: Statutory & Legal Advocacy -->
+            <div class="pt-2 border-t border-slate-100">
+                <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    ⚖️ Legal & Advocacy
+                </div>
+                <div class="space-y-1 mt-1 pl-2">
+                    <button @click="activeTab = 'dlaGuide'; mobileMenuOpen = false" 
+                            :class="activeTab === 'dlaGuide' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                        <span>💷</span>
+                        <span>DLA Form Guide (Q1–Q84)</span>
+                    </button>
+                    <button @click="activeTab = 'ehcpHub'; mobileMenuOpen = false" 
+                            :class="activeTab === 'ehcpHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                        <span>📑</span>
+                        <span>EHCP Master Blueprint</span>
+                    </button>
+                    <button @click="activeTab = 'arfidHub'; mobileMenuOpen = false" 
+                            :class="activeTab === 'arfidHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                        <span>🥑</span>
+                        <span>ARFID Feeding Guide</span>
+                    </button>
+                    <button @click="activeTab = 'questionnaire'; mobileMenuOpen = false"
+                            :class="activeTab === 'questionnaire' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                        <span>🩺</span>
+                        <span>30-Q GP Trait Screener</span>
+                    </button>
+                    <button @click="activeTab = 'legalPrivacy'; mobileMenuOpen = false"
+                            :class="activeTab === 'legalPrivacy' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
+                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                        <span>⚖️</span>
+                        <span>Legal Notices & Privacy Policy</span>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="space-y-1 mt-1 pl-2">
-            <!-- 1. Meltdowns -->
-            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🎈</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
-                    <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
-                </div>
-            </button>
-
-            <!-- 2. RSD -->
-            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>⚡</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
-                    <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
-                </div>
-            </button>
-
-            <!-- 3. PDA -->
-            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🐼</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
-                    <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
-                </div>
-            </button>
-
-            <!-- 4. Anxiety & Depression -->
-            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🥣</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
-                    <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
-                </div>
-            </button>
-
-            <!-- 5. Somatics & Emotional Dysregulation -->
-            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🌊</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
-                    <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
-                </div>
-            </button>
-
-            <!-- 6. Feelings & Tactics -->
-            <button @click="activeTab = 'feelingsTactics'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🎯</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
-                    <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
-                </div>
-            </button>
-
-            <!-- 7. Video Demonstrations -->
-            <button @click="activeTab = 'videos'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🎬</span>
-                <div>
-                    <span class="font-bold text-slate-800 block text-xs">Video Demonstrations</span>
-                    <span class="text-[10px] text-slate-400 block">OT & Lived-Experience Videos</span>
-                </div>
-            </button>
-        </div>
-    </div>
-
-<!-- Sensory Pop-It Toys -->
-            <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🫧</span>
-                <span>Sensory Pop-It Toys</span>
-            </button>
-
-            <!-- Hero Buddy Room -->
-            <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                <span>🐾</span>
-                <span>Hero Buddy Room</span>
-            </button>
-
-    <!-- Section: Statutory & Legal Advocacy -->
-    <div class="pt-2 border-t border-slate-100">
-        <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-            ⚖️ Legal & Advocacy
-        </div>
-        <div class="space-y-1 mt-1 pl-2">
-            <button @click="activeTab = 'dlaGuide'; mobileMenuOpen = false" 
-                    :class="activeTab === 'dlaGuide' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                <span>📋</span>
-                <span>DLA Form Guide</span>
-            </button>
-            <button @click="activeTab = 'ehcpHub'; mobileMenuOpen = false" 
-                    :class="activeTab === 'ehcpHub' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                <span>📑</span>
-                <span>EHCP & IPSEA Tool</span>
-            </button>
-      <button @click="activeTab = 'questionnaire'; mobileMenuOpen = false"
-                    :class="activeTab === 'questionnaire' ? 'bg-primary-50 text-primary-700 font-bold' : 'text-slate-700 hover:bg-slate-50'"
-                    class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                <span>🩺</span>
-                <span>30-Q GP Trait Screener & Letters</span>
-            </button>
-     
-        </div>
-    </div>
-<</div>
     </header>
 
     <!-- Main Container -->
@@ -469,7 +487,7 @@
                         <h4 class="font-bold text-slate-900 mb-1">Feelings & Tactics (Ages 4–16)</h4>
                         <p class="text-xs text-slate-600">Deeply expanded sensory, somatic, and cognitive tactics for every zone.</p>
                     </div>
-                    <div @click="activeTab = 'fidgetGame'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-amber-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-amber-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">🫧</div>
                         <h4 class="font-bold text-slate-900 mb-1">Sensory Fidget Toys</h4>
                         <p class="text-xs text-slate-600">Pop-It silicone shapes and an acoustic mechanical keyboard clicker.</p>
@@ -548,19 +566,18 @@
             </div>
         </div>
 
-        <!-- 3. FULL CHRONOLOGICAL DLA MASTER GUIDE (Q1 TO Q84) -->
-        <!-- DYNAMIC SUPPORT HUB CONTAINER (READING & VIDEO GUIDES) -->
-        <div x-show="activeTab === 'supportHub'" class="space-y-8" x-data="{ get topic() { return window.supportHubData[currentSupportTopic] || {} } }">
+        <!-- 3. SUPPORT HUB CONTAINER -->
+        <div x-show="activeTab === 'supportHub'" class="space-y-8" x-data="{ get topic() { return (window.supportHubData && window.supportHubData[currentSupportTopic]) ? window.supportHubData[currentSupportTopic] : {} } }">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" x-text="topic.badge"></span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2" x-text="topic.title"></h2>
-                    <p class="text-slate-600 text-sm mt-2 leading-relaxed" x-text="topic.overview"></p>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" x-text="topic.badge || 'Guidance'"></span>
+                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2" x-text="topic.title || 'Support Guide'"></h2>
+                    <p class="text-slate-600 text-sm mt-2 leading-relaxed" x-text="topic.overview || ''"></p>
                 </div>
 
                 <!-- Comprehensive Reading Sections -->
                 <div class="space-y-6 pt-2">
-                    <template x-for="sec in topic.sections" :key="sec.heading">
+                    <template x-for="sec in (topic.sections || [])" :key="sec.heading">
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
                             <h3 class="font-bold text-slate-900 text-base" x-text="sec.heading"></h3>
                             <ul class="space-y-2">
@@ -576,12 +593,12 @@
                 </div>
 
                 <!-- Video Player Section -->
-                <div class="border-t border-slate-200 pt-6">
+                <div class="border-t border-slate-200 pt-6" x-show="topic.videos && topic.videos.length > 0">
                     <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                         <span>🎥</span> Video Demonstrations & Evidence
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <template x-for="vid in topic.videos" :key="vid.title">
+                        <template x-for="vid in (topic.videos || [])" :key="vid.title">
                             <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
                                 <div class="aspect-video w-full">
                                     <iframe class="w-full h-full" :src="vid.url" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -593,6 +610,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- 4. FULL CHRONOLOGICAL DLA MASTER GUIDE (Q1 TO Q84) -->
         <div x-show="activeTab === 'dlaGuide'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -622,7 +641,7 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                                 <div class="bg-red-50/70 p-4 rounded-2xl border border-red-100 space-y-1">
-                                    <span class="font-bold text-red-900 uppercase tracking-wider text-[10px]">⚠️️ Common Pitfall / Reject Trap:</span>
+                                    <span class="font-bold text-red-900 uppercase tracking-wider text-[10px]">⚠ Common Pitfall / Reject Trap:</span>
                                     <p class="text-slate-800 leading-relaxed" x-text="item.pitfall"></p>
                                 </div>
                                 <div class="bg-sky-50/70 p-4 rounded-2xl border border-sky-100 space-y-1">
@@ -637,16 +656,15 @@
                             </div>
 
                             <div class="space-y-2 pt-1">
-    <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-1.5">
-        <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-deepBlue">ASD Profile Model Evidence Statement:</span>
-            <button @click="navigator.clipboard.writeText(item.exampleASD); alert('ASD Model Statement copied!')" class="text-xs font-bold text-deepBlue hover:underline btn-bounce">
-                <span>📋 Copy Statement</span>
-            </button>
-        </div>
-        <p class="text-slate-700 font-mono text-[11px] leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200/70" x-text="item.exampleASD"></p>
-    </div>
-</div>
+                                <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-1.5">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs font-bold text-deepBlue">ASD Profile Model Evidence Statement:</span>
+                                        <button @click="navigator.clipboard.writeText(item.exampleASD); alert('ASD Model Statement copied!')" class="text-xs font-bold text-deepBlue hover:underline btn-bounce">
+                                            <span>📋 Copy Statement</span>
+                                        </button>
+                                    </div>
+                                    <p class="text-slate-700 font-mono text-[11px] leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200/70" x-text="item.exampleASD"></p>
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -654,7 +672,7 @@
             </div>
         </div>
 
-        <!-- 4. FULL UK EHCP MASTER HUB -->
+        <!-- 5. FULL UK EHCP MASTER HUB -->
         <div x-show="activeTab === 'ehcpHub'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -722,7 +740,7 @@
             </div>
         </div>
 
-        <!-- 5. FEELINGS, REGULATION & TACTICS -->
+        <!-- 6. FEELINGS, REGULATION & TACTICS -->
         <div x-show="activeTab === 'feelingsTactics'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -776,7 +794,7 @@
             </div>
         </div>
 
-        <!-- 6. SUPPORT VIDEO LIBRARY -->
+        <!-- 7. SUPPORT VIDEO LIBRARY -->
         <div x-show="activeTab === 'videos'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -822,7 +840,7 @@
             </div>
         </div>
 
-        <!-- 7. SENSORY FIDGET TOYS SUITE -->
+        <!-- 8. SENSORY FIDGET TOYS SUITE -->
         <div x-show="activeTab === 'fidgetGame'" class="space-y-8">
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -887,7 +905,7 @@
                                         </div>
                                         <div class="flex gap-2">
                                             <button @click="toggleBubbleState(heartBubbles[2])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[2].popped ? 'bubble-dome-popped-3d ' + heartBubbles[2].color : 'bubble-dome-3d ' + heartBubbles[2].color"></button>
-                                            <button @click="toggleBubbleState(heartBubbles[3])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[3].popped ? 'bubble-dome-popped-3d ' + heartBubbles[3].color : 'bubble-dome-3d ' + heartBubbles[3].color"></button>
+                                            <button @click="toggleBubbleState(heartBubbles[3])" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full btn-bounce cursor-pointer" :class="heartBubbles[3].popped ? 'bubble-dome-popped-3d ' + heartBubbles[2].color : 'bubble-dome-3d ' + heartBubbles[3].color"></button>
                                         </div>
                                     </div>
                                     <div class="flex justify-center gap-2 w-full">
@@ -968,7 +986,7 @@
             </div>
         </div>
 
-        <!-- 8. HERO BUDDY AVATAR ROOM -->
+        <!-- 9. HERO BUDDY AVATAR ROOM -->
         <div x-show="activeTab === 'rewardGame'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -1034,7 +1052,7 @@
                                 <div class="absolute -top-1 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-6xl drop-shadow-md">
                                     <template x-if="equippedHat === 'cap'"><span class="block transform -rotate-6">🧢</span></template>
                                     <template x-if="equippedHat === 'crown'"><span class="block">👑</span></template>
-                                    <template x-if="equippedHat === 'wizard'"><span class="block -translate-y-2">🧙‍♂️</span></template>
+                                    <template x-if="equippedHat === 'wizard'"><span class="block -translate-y-2">🧙‍♂️️</span></template>
                                     <template x-if="equippedHat === 'pirate'"><span class="block -translate-y-1">🏴‍☠️</span></template>
                                     <template x-if="equippedHat === 'dino'"><span class="block">🦖</span></template>
                                     <template x-if="equippedHat === 'flower'"><span class="block text-5xl">🌸</span></template>
@@ -1103,7 +1121,7 @@
             </div>
         </div>
 
-        <!-- 9. VISUAL DAILY SCHEDULE -->
+        <!-- 10. VISUAL DAILY SCHEDULE -->
         <div x-show="activeTab === 'routineBuilder'" class="space-y-6">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -1192,7 +1210,7 @@
             </div>
         </div>
 
-        <!-- 10. VISUAL PECS CARDS -->
+        <!-- 11. VISUAL PECS CARDS -->
         <div x-show="activeTab === 'photoCards'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -1250,7 +1268,7 @@
             </div>
         </div>
 
-        <!-- 11. ARFID TAB -->
+        <!-- 12. ARFID TAB -->
         <div x-show="activeTab === 'arfidHub'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -1297,36 +1315,7 @@
             </div>
         </div>
 
-        <!-- 12. MELTDOWN ADVICE & DEEP-PRESSURE THERAPY TAB -->
-        <div x-show="activeTab === 'meltdownGuide'" class="space-y-8">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
-                <div>
-                    <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Clinical Co-Regulation & Sensory Calming</span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2">The Complete Autistic Meltdown & Deep-Pressure Guide</h2>
-                    <p class="text-slate-600 text-sm mt-1">A meltdown is not a behavioral tantrum; it is an involuntary nervous system overload.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 space-y-2">
-                        <span class="bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Stage 1: The Rumble Phase</span>
-                        <h3 class="font-bold text-amber-900 text-base">Early Warning Signs</h3>
-                        <p class="text-xs text-slate-700 leading-relaxed">Pacing, covering ears, increased stimming. Drop all demands immediately.</p>
-                    </div>
-                    <div class="bg-red-50 p-6 rounded-2xl border border-red-200 space-y-2">
-                        <span class="bg-red-200 text-red-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Stage 2: Full Overload</span>
-                        <h3 class="font-bold text-red-900 text-base">The Active Meltdown</h3>
-                        <p class="text-xs text-slate-700 leading-relaxed">Fight-or-flight takeover. Silence adult talking. Move hard furniture away.</p>
-                    </div>
-                    <div class="bg-sky-50 p-6 rounded-2xl border border-sky-200 space-y-2">
-                        <span class="bg-sky-200 text-sky-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Stage 3: Post-Meltdown Drop</span>
-                        <h3 class="font-bold text-sky-900 text-base">Nervous Exhaustion</h3>
-                        <p class="text-xs text-slate-700 leading-relaxed">Intense fatigue. Offer water, blankets, zero debriefing until rested.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<!-- 13. 30-QUESTION QUESTIONNAIRE TAB WITH STATUTORY CLINICAL DISCLAIMER -->
+        <!-- 13. 30-QUESTION QUESTIONNAIRE TAB WITH STATUTORY CLINICAL DISCLAIMER -->
         <div x-show="activeTab === 'questionnaire'" class="space-y-8">
             <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -1431,10 +1420,18 @@
 
                         <!-- Export Action Button -->
                         <div class="flex justify-end pt-2 no-print">
-                            <button @click="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-90
+                            <button @click="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs flex items-center gap-2 shadow-sm btn-bounce">
+                                <span>🖨️</span>
+                                <span>Print / Save Evidence Report</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- 14. FULL DEDICATED LEGAL & PRIVACY POLICY TAB -->
-        <div x-show="activeTab === 'legalPrivacy'" class="space-y-8"></button>
+        <div x-show="activeTab === 'legalPrivacy'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
                     <span class="bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Compliance & Data Protection</span>
@@ -1472,34 +1469,6 @@
         </div>
 
     </main>
-
-    <!-- FULL SCREEN EMERGENCY MELTDOWN MODAL -->
-    <div x-show="showMeltdownMode" class="fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-6 text-white" x-cloak>
-        <div class="max-w-xl w-full text-center space-y-6" x-data="meltdownTimer()">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span class="text-red-500 font-bold tracking-widest uppercase text-xs">Emergency Mode Active</span>
-                <button @click="showMeltdownMode = false; stopTimer();" class="bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold btn-bounce">Exit Mode</button>
-            </div>
-            
-            <h2 class="text-3xl md:text-4xl font-black text-amber-300">Stop. Breathe. Lower Demands.</h2>
-            
-            <div class="relative w-48 h-48 mx-auto flex items-center justify-center">
-                <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="42" fill="#1E293B" stroke="#334155" stroke-width="6"/>
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="#EF4444" stroke-width="6"
-                            stroke-dasharray="264"
-                            :stroke-dashoffset="264 - (264 * (secondsLeft / 300))"
-                            stroke-linecap="round" class="transition-all duration-1000"/>
-                </svg>
-                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                    <span class="text-xs uppercase tracking-wider text-slate-400">Cooldown</span>
-                    <span class="text-3xl font-mono font-bold text-white" x-text="formatTime()">05:00</span>
-                </div>
-            </div>
-
-            <button @click="showMeltdownMode = false; stopTimer();" class="w-full bg-slate-800 hover:bg-slate-700 py-3 rounded-2xl font-bold text-xs btn-bounce">Close Emergency Protocol</button>
-        </div>
-    </div>
 
     <!-- VIDEO REFLECTION NOTES MODAL -->
     <div x-show="showNotesModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" x-cloak>
@@ -1544,66 +1513,59 @@
         function parentApp() {
             return {
                 activeTab: 'home',
-                fidgetMode: 'popit',
-            popShape: 'square',
-            activeColorTheme: 'rainbow',
-            // 30-Question Screener State
-            screenerResponses: {},
-            childName: '',
-            childAge: '',
-            screenerQuestions: [
-                // Sensory Processing
-                { id: 1, cat: 'Sensory', text: 'Distressed by unexpected loud noises, specific pitches, or noisy crowded environments.' },
-                { id: 2, cat: 'Sensory', text: 'Extremely sensitive to clothing textures, tags, seams, or refuses certain fabrics.' },
-                { id: 3, cat: 'Sensory', text: 'Engages in intense sensory seeking (spinning, crashing into furniture, chewing non-food objects).' },
-                { id: 4, cat: 'Sensory', text: 'Significant food aversions based purely on texture, smell, color, or temperature.' },
-                { id: 5, cat: 'Sensory', text: 'Shows an unusually high or low tolerance to pain, cold, or heat.' },
-                { id: 6, cat: 'Sensory', text: 'Becomes visually overwhelmed by fluorescent lighting, busy patterns, or bright glare.' },
-                { id: 7, cat: 'Sensory', text: 'Struggles with balance, clumsy movements, or poor body awareness in space (proprioception).' },
-                
-                // Executive Functioning & Focus
-                { id: 8, cat: 'Executive Function', text: 'Extreme difficulty initiating non-preferred tasks without intense 1-to-1 prompt scaffolding.' },
-                { id: 9, cat: 'Executive Function', text: 'Hyperfocuses deeply on special interest topics to the exclusion of basic needs (eating, drinking, toileting).' },
-                { id: 10, cat: 'Executive Function', text: 'Consistently misplaces essential daily items (shoes, coat, school bag, equipment).' },
-                { id: 11, cat: 'Executive Function', text: 'Struggles with multi-step sequential verbal instructions (forgets step 2 and 3).' },
-                { id: 12, cat: 'Executive Function', text: 'Shows significant time blindness (struggles to gauge time, transition between activities smoothly).' },
-                { id: 13, cat: 'Executive Function', text: 'Exhibits physical restlessness (fidgeting, pacing, rocking, or constantly shifting position).' },
-                { id: 14, cat: 'Executive Function', text: 'Impulsive decision-making without foreseeing immediate physical danger or social impact.' },
-                { id: 15, cat: 'Executive Function', text: 'Requires excessive mental effort and becomes fatigued quickly by typical school routines.' },
-                
-                // Social Communication & Interaction
-                { id: 16, cat: 'Communication', text: 'Takes language literally (struggles with sarcasm, idioms, or implied contextual subtext).' },
-                { id: 17, cat: 'Communication', text: 'Finds small talk challenging; prefers deep conversations focused purely on shared factual interests.' },
-                { id: 18, cat: 'Communication', text: 'Difficulty sustaining reciprocal back-and-forth social conversations.' },
-                { id: 19, cat: 'Communication', text: 'Avoids direct eye contact or finds maintaining eye contact uncomfortable/draining.' },
-                { id: 20, cat: 'Communication', text: 'Struggles to interpret peer social cues, body language, facial expressions, or boundaries.' },
-                { id: 21, cat: 'Communication', text: 'Prefers parallel play or solitary activities rather than unstructured group games.' },
-                { id: 22, cat: 'Communication', text: 'Experiences severe social exhaustion after school or public gatherings ("masking drop").' },
-
-                // Emotional Regulation & Demand Avoidance
-                { id: 23, cat: 'Emotional', text: 'Transitions between tasks trigger intense distress, shutdowns, or explosive meltdowns.' },
-                { id: 24, cat: 'Emotional', text: 'Perceives ordinary daily demands (brushing teeth, getting dressed) as intense nervous system threats.' },
-                { id: 25, cat: 'Emotional', text: 'Shows intense perfectionism and intense emotional collapse over perceived mistakes.' },
-                { id: 26, cat: 'Emotional', text: 'Experiences rapid mood dysregulation with prolonged recovery times following sensory overload.' },
-                { id: 27, cat: 'Emotional', text: 'Uses elaborate distraction, negotiation, or physical avoidance to evade everyday requests.' },
-                { id: 28, cat: 'Emotional', text: 'Internalizes distress quietly at school or public settings, collapsing into meltdowns at home ("coke bottle effect").' },
-                { id: 29, cat: 'Emotional', text: 'Highly sensitive to perceived criticism, rejection, or unfairness (Rejection Sensitive Dysphoria).' },
-                { id: 30, cat: 'Emotional', text: 'Relies heavily on rigid daily routines or rituals to manage baseline internal anxiety.' }
-            ],
-            getScreenerScore() {
-                return Object.values(this.screenerResponses).reduce((sum, val) => sum + (Number(val) || 0), 0);
-            },
-            getCategoryScore(catName) {
-                return this.screenerQuestions
-                    .filter(q => q.cat === catName)
-                    .reduce((sum, q) => sum + (Number(this.screenerResponses[q.id]) || 0), 0);
-            },
                 mobileMenuOpen: false,
-                showMeltdownMode: false,
                 showNotesModal: false,
                 selectedVideo: {},
                 videoFilter: 'all',
                 medicalConsentAgreed: false,
+
+                // 30-Question Screener State
+                screenerResponses: {},
+                childName: '',
+                childAge: '',
+                screenerQuestions: [
+                    { id: 1, cat: 'Sensory', text: 'Distressed by unexpected loud noises, specific pitches, or noisy crowded environments.' },
+                    { id: 2, cat: 'Sensory', text: 'Extremely sensitive to clothing textures, tags, seams, or refuses certain fabrics.' },
+                    { id: 3, cat: 'Sensory', text: 'Engages in intense sensory seeking (spinning, crashing into furniture, chewing non-food objects).' },
+                    { id: 4, cat: 'Sensory', text: 'Significant food aversions based purely on texture, smell, color, or temperature.' },
+                    { id: 5, cat: 'Sensory', text: 'Shows an unusually high or low tolerance to pain, cold, or heat.' },
+                    { id: 6, cat: 'Sensory', text: 'Becomes visually overwhelmed by fluorescent lighting, busy patterns, or bright glare.' },
+                    { id: 7, cat: 'Sensory', text: 'Struggles with balance, clumsy movements, or poor body awareness in space (proprioception).' },
+                    { id: 8, cat: 'Executive Function', text: 'Extreme difficulty initiating non-preferred tasks without intense 1-to-1 prompt scaffolding.' },
+                    { id: 9, cat: 'Executive Function', text: 'Hyperfocuses deeply on special interest topics to the exclusion of basic needs (eating, drinking, toileting).' },
+                    { id: 10, cat: 'Executive Function', text: 'Consistently misplaces essential daily items (shoes, coat, school bag, equipment).' },
+                    { id: 11, cat: 'Executive Function', text: 'Struggles with multi-step sequential verbal instructions (forgets step 2 and 3).' },
+                    { id: 12, cat: 'Executive Function', text: 'Shows significant time blindness (struggles to gauge time, transition between activities smoothly).' },
+                    { id: 13, cat: 'Executive Function', text: 'Exhibits physical restlessness (fidgeting, pacing, rocking, or constantly shifting position).' },
+                    { id: 14, cat: 'Executive Function', text: 'Impulsive decision-making without foreseeing immediate physical danger or social impact.' },
+                    { id: 15, cat: 'Executive Function', text: 'Requires excessive mental effort and becomes fatigued quickly by typical school routines.' },
+                    { id: 16, cat: 'Communication', text: 'Takes language literally (struggles with sarcasm, idioms, or implied contextual subtext).' },
+                    { id: 17, cat: 'Communication', text: 'Finds small talk challenging; prefers deep conversations focused purely on shared factual interests.' },
+                    { id: 18, cat: 'Communication', text: 'Difficulty sustaining reciprocal back-and-forth social conversations.' },
+                    { id: 19, cat: 'Communication', text: 'Avoids direct eye contact or finds maintaining eye contact uncomfortable/draining.' },
+                    { id: 20, cat: 'Communication', text: 'Struggles to interpret peer social cues, body language, facial expressions, or boundaries.' },
+                    { id: 21, cat: 'Communication', text: 'Prefers parallel play or solitary activities rather than unstructured group games.' },
+                    { id: 22, cat: 'Communication', text: 'Experiences severe social exhaustion after school or public gatherings ("masking drop").' },
+                    { id: 23, cat: 'Emotional', text: 'Transitions between tasks trigger intense distress, shutdowns, or explosive meltdowns.' },
+                    { id: 24, cat: 'Emotional', text: 'Perceives ordinary daily demands (brushing teeth, getting dressed) as intense nervous system threats.' },
+                    { id: 25, cat: 'Emotional', text: 'Shows intense perfectionism and intense emotional collapse over perceived mistakes.' },
+                    { id: 26, cat: 'Emotional', text: 'Experiences rapid mood dysregulation with prolonged recovery times following sensory overload.' },
+                    { id: 27, cat: 'Emotional', text: 'Uses elaborate distraction, negotiation, or physical avoidance to evade everyday requests.' },
+                    { id: 28, cat: 'Emotional', text: 'Internalizes distress quietly at school or public settings, collapsing into meltdowns at home ("coke bottle effect").' },
+                    { id: 29, cat: 'Emotional', text: 'Highly sensitive to perceived criticism, rejection, or unfairness (Rejection Sensitive Dysphoria).' },
+                    { id: 30, cat: 'Emotional', text: 'Relies heavily on rigid daily routines or rituals to manage baseline internal anxiety.' }
+                ],
+                get ScreenerScore() {
+                    return Object.values(this.screenerResponses).reduce((sum, val) => sum + (Number(val) || 0), 0);
+                },
+                getCategoryScore(catName) {
+                    return this.screenerQuestions
+                        .filter(q => q.cat === catName)
+                        .reduce((sum, q) => sum + (Number(this.screenerResponses[q.id]) || 0), 0);
+                },
+                getScreenerScore() {
+                    return Object.values(this.screenerResponses).reduce((sum, val) => sum + (Number(val) || 0), 0);
+                },
 
                 // STAR POINTS BALANCE
                 starPoints: 50,
@@ -1628,7 +1590,7 @@
                     { id: 1, type: 'hat', key: 'cap', name: 'Cool Cap', icon: '🧢', cost: 0 },
                     { id: 2, type: 'hat', key: 'crown', name: 'Party Crown', icon: '👑', cost: 20 },
                     { id: 3, type: 'hat', key: 'wizard', name: 'Wizard Hat', icon: '🧙‍♂️', cost: 30 },
-                    { id: 4, type: 'hat', key: 'pirate', name: 'Pirate Hat', icon: '🏴‍☠️', cost: 25 },
+                    { id: 4, type: 'hat', key: 'pirate', name: 'Pirate Hat', icon: '🏴‍‍☠️', cost: 25 },
                     { id: 5, type: 'hat', key: 'dino', name: 'Dino Beanie', icon: '🦖', cost: 35 },
                     { id: 6, type: 'hat', key: 'space_helmet', name: 'Space Helmet', icon: '🚀', cost: 45 },
                     { id: 7, type: 'companion', key: '⭐', name: 'Star Pet', icon: '⭐', cost: 0 },
@@ -1807,10 +1769,11 @@
                 // 4. CHRONOLOGICAL DLA MASTER DATA
                 dlaStep: 'mobility',
                 currentSupportTopic: 'meltdowns',
-                
 
                 get activeStepQuestions() {
-                    return window.dlaMasterData.filter(q => q.step === this.dlaStep);
+                    return (window.dlaMasterData && Array.isArray(window.dlaMasterData)) 
+                        ? window.dlaMasterData.filter(q => q.step === this.dlaStep)
+                        : [];
                 },
 
                 // 5. EXPANDED FEELINGS & REGULATION TACTICS DATABASE
@@ -2217,6 +2180,7 @@
                         noise.connect(filter);
                         filter.connect(noiseGain);
                         noiseGain.connect(audioCtx.destination);
+
                         noise.start(now);
                         noise.stop(now + 0.01);
                     } catch(e) {}
@@ -2244,8 +2208,6 @@
                 }
             }
         }
-
- 
     </script>
 </body>
 </html>
