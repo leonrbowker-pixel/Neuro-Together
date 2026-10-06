@@ -455,7 +455,7 @@
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+    <main x-show="currentUser" class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full" x-cloak></main>
 
         <!-- 1. HOME TAB -->
         <div x-show="activeTab === 'home'" class="space-y-10">
@@ -1473,9 +1473,11 @@
     </main>
 
     <!-- AUTHENTICATION (LOGIN / SIGN-UP) MODAL -->
-    <div x-show="showAuthModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" x-cloak>
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative" @click.outside="showAuthModal = false">
+   <div x-show="!currentUser || showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative">
+        <template x-if="currentUser">
             <button @click="showAuthModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
+        </template>
             
             <div class="text-center space-y-1">
                 <span class="text-3xl">🛡️</span>
