@@ -1325,12 +1325,13 @@
             </div>
         </div>
 
-        <!-- 13. 30-QUESTION QUESTIONNAIRE TAB WITH STATUTORY CLINICAL DISCLAIMER -->
+<!-- 13. 30-QUESTION QUESTIONNAIRE TAB WITH STATUTORY CLINICAL DISCLAIMER -->
         <div x-show="activeTab === 'questionnaire'" class="space-y-8">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
                     <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Clinical Referral Prep</span>
                     <h2 class="text-3xl font-extrabold text-slate-800 mt-2">30-Question Trait Screener & Evidence Pack</h2>
+                    <p class="text-slate-600 text-sm mt-1">Structured medical evidence compiler to prepare for your NHS neurodevelopmental / GP referral pathway.</p>
                 </div>
 
                 <!-- Mandatory Clinical & Medical Device Consent Gate -->
@@ -1353,11 +1354,83 @@
                     </label>
                 </div>
 
-                <div class="space-y-6 pt-4 no-print" x-show="medicalConsentAgreed">
-                    <p class="text-sm font-semibold text-slate-700">Consent confirmed. Answer each question to generate your GP evidence summary pack.</p>
-                </div>
-            </div>
-        </div>
+                <!-- Active Screener Container -->
+                <div class="space-y-6 pt-4" x-show="medicalConsentAgreed">
+                    <!-- Child Info Header Form -->
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Child / Young Person Name (Optional):</label>
+                            <input type="text" x-model="childName" placeholder="e.g. Alex" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-deepBlue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Age / Year Group (Optional):</label>
+                            <input type="text" x-model="childAge" placeholder="e.g. 8 years (Year 3)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-deepBlue">
+                        </div>
+                    </div>
+
+                    <!-- Question List Loop -->
+                    <div class="space-y-4 no-print">
+                        <template x-for="(q, idx) in screenerQuestions" :key="q.id">
+                            <div class="p-4 rounded-2xl border border-slate-200/80 bg-white hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="max-w-xl">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600" x-text="'Q' + (idx + 1)"></span>
+                                        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" x-text="q.cat"></span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm font-medium text-slate-800" x-text="q.text"></p>
+                                </div>
+                                <div class="flex items-center gap-1 shrink-0 bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+                                    <template x-for="opt in [{val: 0, label: 'Never'}, {val: 1, label: 'Rarely'}, {val: 2, label: 'Often'}, {val: 3, label: 'Always'}]" :key="opt.val">
+                                        <button type="button"
+                                                @click="screenerResponses[q.id] = opt.val" 
+                                                :class="screenerResponses[q.id] === opt.val ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-200/60'"
+                                                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all"
+                                                x-text="opt.label">
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Summary & GP Pack Export Block -->
+                    <div class="mt-8 p-6 bg-slate-900 text-white rounded-3xl border border-slate-800 space-y-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <span class="bg-amber-400/20 text-amber-300 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full border border-amber-300/30">Clinical Summary</span>
+                                <h3 class="text-xl font-bold text-white mt-1">GP Evidence Summary Report</h3>
+                                <p class="text-slate-400 text-xs">Print or save this clinical summary to present directly to your doctor or school SENCO.</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-3xl font-black text-amber-400" x-text="getScreenerScore()"></span>
+                                <span class="text-slate-400 text-xs"> / 90</span>
+                                <span class="block text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Total Trait Load</span>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown Pills -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="block text-[10px] uppercase font-bold text-slate-400">Sensory (21 max)</span>
+                                <span class="text-lg font-bold text-sky-400" x-text="getCategoryScore('Sensory')"></span>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="block text-[10px] uppercase font-bold text-slate-400">Executive (24 max)</span>
+                                <span class="text-lg font-bold text-emerald-400" x-text="getCategoryScore('Executive Function')"></span>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="block text-[10px] uppercase font-bold text-slate-400">Social (21 max)</span>
+                                <span class="text-lg font-bold text-purple-400" x-text="getCategoryScore('Communication')"></span>
+                            </div>
+                            <div class="bg-slate-800/80 p-3 rounded-2xl border border-slate-700">
+                                <span class="block text-[10px] uppercase font-bold text-slate-400">Emotional (24 max)</span>
+                                <span class="text-lg font-bold text-amber-400" x-text="getCategoryScore('Emotional')"></span>
+                            </div>
+                        </div>
+
+                        <!-- Export Action Button -->
+                        <div class="flex justify-end pt-2 no-print">
+                            <button @click="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-90
 
         <!-- 14. FULL DEDICATED LEGAL & PRIVACY POLICY TAB -->
         <div x-show="activeTab === 'legalPrivacy'" class="space-y-8">
@@ -1473,6 +1546,57 @@
                 fidgetMode: 'popit',
             popShape: 'square',
             activeColorTheme: 'rainbow',
+            // 30-Question Screener State
+            screenerResponses: {},
+            childName: '',
+            childAge: '',
+            screenerQuestions: [
+                // Sensory Processing
+                { id: 1, cat: 'Sensory', text: 'Distressed by unexpected loud noises, specific pitches, or noisy crowded environments.' },
+                { id: 2, cat: 'Sensory', text: 'Extremely sensitive to clothing textures, tags, seams, or refuses certain fabrics.' },
+                { id: 3, cat: 'Sensory', text: 'Engages in intense sensory seeking (spinning, crashing into furniture, chewing non-food objects).' },
+                { id: 4, cat: 'Sensory', text: 'Significant food aversions based purely on texture, smell, color, or temperature.' },
+                { id: 5, cat: 'Sensory', text: 'Shows an unusually high or low tolerance to pain, cold, or heat.' },
+                { id: 6, cat: 'Sensory', text: 'Becomes visually overwhelmed by fluorescent lighting, busy patterns, or bright glare.' },
+                { id: 7, cat: 'Sensory', text: 'Struggles with balance, clumsy movements, or poor body awareness in space (proprioception).' },
+                
+                // Executive Functioning & Focus
+                { id: 8, cat: 'Executive Function', text: 'Extreme difficulty initiating non-preferred tasks without intense 1-to-1 prompt scaffolding.' },
+                { id: 9, cat: 'Executive Function', text: 'Hyperfocuses deeply on special interest topics to the exclusion of basic needs (eating, drinking, toileting).' },
+                { id: 10, cat: 'Executive Function', text: 'Consistently misplaces essential daily items (shoes, coat, school bag, equipment).' },
+                { id: 11, cat: 'Executive Function', text: 'Struggles with multi-step sequential verbal instructions (forgets step 2 and 3).' },
+                { id: 12, cat: 'Executive Function', text: 'Shows significant time blindness (struggles to gauge time, transition between activities smoothly).' },
+                { id: 13, cat: 'Executive Function', text: 'Exhibits physical restlessness (fidgeting, pacing, rocking, or constantly shifting position).' },
+                { id: 14, cat: 'Executive Function', text: 'Impulsive decision-making without foreseeing immediate physical danger or social impact.' },
+                { id: 15, cat: 'Executive Function', text: 'Requires excessive mental effort and becomes fatigued quickly by typical school routines.' },
+                
+                // Social Communication & Interaction
+                { id: 16, cat: 'Communication', text: 'Takes language literally (struggles with sarcasm, idioms, or implied contextual subtext).' },
+                { id: 17, cat: 'Communication', text: 'Finds small talk challenging; prefers deep conversations focused purely on shared factual interests.' },
+                { id: 18, cat: 'Communication', text: 'Difficulty sustaining reciprocal back-and-forth social conversations.' },
+                { id: 19, cat: 'Communication', text: 'Avoids direct eye contact or finds maintaining eye contact uncomfortable/draining.' },
+                { id: 20, cat: 'Communication', text: 'Struggles to interpret peer social cues, body language, facial expressions, or boundaries.' },
+                { id: 21, cat: 'Communication', text: 'Prefers parallel play or solitary activities rather than unstructured group games.' },
+                { id: 22, cat: 'Communication', text: 'Experiences severe social exhaustion after school or public gatherings ("masking drop").' },
+
+                // Emotional Regulation & Demand Avoidance
+                { id: 23, cat: 'Emotional', text: 'Transitions between tasks trigger intense distress, shutdowns, or explosive meltdowns.' },
+                { id: 24, cat: 'Emotional', text: 'Perceives ordinary daily demands (brushing teeth, getting dressed) as intense nervous system threats.' },
+                { id: 25, cat: 'Emotional', text: 'Shows intense perfectionism and intense emotional collapse over perceived mistakes.' },
+                { id: 26, cat: 'Emotional', text: 'Experiences rapid mood dysregulation with prolonged recovery times following sensory overload.' },
+                { id: 27, cat: 'Emotional', text: 'Uses elaborate distraction, negotiation, or physical avoidance to evade everyday requests.' },
+                { id: 28, cat: 'Emotional', text: 'Internalizes distress quietly at school or public settings, collapsing into meltdowns at home ("coke bottle effect").' },
+                { id: 29, cat: 'Emotional', text: 'Highly sensitive to perceived criticism, rejection, or unfairness (Rejection Sensitive Dysphoria).' },
+                { id: 30, cat: 'Emotional', text: 'Relies heavily on rigid daily routines or rituals to manage baseline internal anxiety.' }
+            ],
+            getScreenerScore() {
+                return Object.values(this.screenerResponses).reduce((sum, val) => sum + (Number(val) || 0), 0);
+            },
+            getCategoryScore(catName) {
+                return this.screenerQuestions
+                    .filter(q => q.cat === catName)
+                    .reduce((sum, q) => sum + (Number(this.screenerResponses[q.id]) || 0), 0);
+            },
                 mobileMenuOpen: false,
                 showMeltdownMode: false,
                 showNotesModal: false,
@@ -2120,27 +2244,7 @@
             }
         }
 
-        function meltdownTimer() {
-            return {
-                secondsLeft: 300,
-                timer: null,
-                init() {
-                    this.timer = setInterval(() => {
-                        if (this.secondsLeft > 0) this.secondsLeft--;
-                        else this.stopTimer();
-                    }, 1000);
-                },
-                stopTimer() {
-                    clearInterval(this.timer);
-                    this.secondsLeft = 300;
-                },
-                formatTime() {
-                    const mins = String(Math.floor(this.secondsLeft / 60)).padStart(2, '0');
-                    const secs = String(this.secondsLeft % 60).padStart(2, '0');
-                    return `${mins}:${secs}`;
-                }
-            }
-        }
+ 
     </script>
 </body>
 </html>
