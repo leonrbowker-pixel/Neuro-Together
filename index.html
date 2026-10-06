@@ -305,159 +305,161 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
-<!-- Mobile Drawer Backdrop -->
-<div x-show="mobileMenuOpen" @click="mobileMenuOpen = false" class="lg:hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40" x-cloak></div>
-       
-<!-- Mobile Drawer Navigation -->
-        <div x-show="mobileMenuOpen" @click.outside="mobileMenuOpen = false" x-cloak class="lg:hidden fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-white shadow-2xl z-50 p-4 overflow-y-auto space-y-1"></div>
-            <button @click="activeTab = 'home'; mobileMenuOpen = false" 
-                    :class="activeTab === 'home' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
-                <span>🏠</span>
-                <span>Home Dashboard</span>
-            </button>
-
-            <button @click="activeTab = 'nowNext'; mobileMenuOpen = false" 
-                    :class="activeTab === 'videos' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                    class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
-                <span>⏳</span>
-                <span>Visual Routine</span>
-            </button>
-
-            <!-- Section: Emotional & Behavioral Support -->
-            <div class="pt-2 border-t border-slate-100">
-                <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    🧠 Emotional & Behavioral Support
-                </div>
-                <div class="space-y-1 mt-1 pl-2">
-                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🛡️</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
-                            <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
-                        </div>
-                    </button>
-
-                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>⚡</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
-                            <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
-                        </div>
-                    </button>
-
-                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🐼</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
-                            <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
-                        </div>
-                    </button>
-
-                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🌧️</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
-                            <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
-                        </div>
-                    </button>
-
-                    <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🌊</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
-                            <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
-                        </div>
-                    </button>
-
-                    <button @click="activeTab = 'feelingsTactics'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🎯</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
-                            <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
-                        </div>
-                    </button>
-
-                    <button @click="activeTab = 'videos'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🎬</span>
-                        <div>
-                            <span class="font-bold text-slate-800 block text-xs">Video Demonstrations</span>
-                            <span class="text-[10px] text-slate-400 block">OT & Lived-Experience Videos</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Sensory Games Section -->
-            <div class="pt-2 border-t border-slate-100">
-                <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    🎮 Calming Games & Buddy
-                </div>
-                <div class="space-y-1 mt-1 pl-2">
-                    <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🫧</span>
-                        <span>Sensory Pop-It Toys</span>
-                    </button>
-
-                    <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                        <span>🐾</span>
-                        <span>Hero Buddy Room</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Section: Statutory & Legal Advocacy -->
-            <div class="pt-2 border-t border-slate-100">
-                <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    ⚖️ Legal & Advocacy
-                </div>
-                <div class="space-y-1 mt-1 pl-2">
-                    <button @click="activeTab = 'dlaGuide'; mobileMenuOpen = false" 
-                            :class="activeTab === 'dlaGuide' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                        <span>💷</span>
-                        <span>DLA Form Guide (Q1–Q84)</span>
-                    </button>
-                    <button @click="activeTab = 'ehcpHub'; mobileMenuOpen = false" 
-                            :class="activeTab === 'ehcpHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                        <span>📑</span>
-                        <span>EHCP Master Blueprint</span>
-                    </button>
-                    <button @click="activeTab = 'arfidHub'; mobileMenuOpen = false" 
-                            :class="activeTab === 'arfidHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                        <span>🥑</span>
-                        <span>ARFID Feeding Guide</span>
-                    </button>
-                    <button @click="activeTab = 'questionnaire'; mobileMenuOpen = false"
-                            :class="activeTab === 'questionnaire' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                        <span>🩺</span>
-                        <span>30-Q GP Trait Screener</span>
-                    </button>
-                    <button @click="activeTab = 'legalPrivacy'; mobileMenuOpen = false"
-                            :class="activeTab === 'legalPrivacy' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
-                            class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
-                        <span>⚖️</span>
-                        <span>Legal Notices & Privacy Policy</span>
-                    </button>
-                </div>
-            </div>
-        </div>
     </header>
 
+    <!-- Mobile Drawer Backdrop -->
+    <div x-show="mobileMenuOpen" @click="mobileMenuOpen = false" class="lg:hidden fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40" x-cloak></div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div x-show="mobileMenuOpen" @click.outside="mobileMenuOpen = false" x-cloak class="lg:hidden fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-white shadow-2xl z-50 p-4 overflow-y-auto space-y-1">
+        <button @click="activeTab = 'home'; mobileMenuOpen = false" 
+                :class="activeTab === 'home' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
+                class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
+            <span>🏠</span>
+            <span>Home Dashboard</span>
+        </button>
+
+        <button @click="activeTab = 'nowNext'; mobileMenuOpen = false" 
+                :class="activeTab === 'nowNext' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
+            <span>⏳</span>
+            <span>Visual Routine</span>
+        </button>
+
+        <!-- Section: Emotional & Behavioral Support -->
+        <div class="pt-2 border-t border-slate-100">
+            <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                🧠 Emotional & Behavioral Support
+            </div>
+            <div class="space-y-1 mt-1 pl-2">
+                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🛡️</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
+                        <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
+                    </div>
+                </button>
+
+                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>⚡</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
+                        <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
+                    </div>
+                </button>
+
+                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🐼</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
+                        <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
+                    </div>
+                </button>
+
+                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🌧️</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
+                        <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
+                    </div>
+                </button>
+
+                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🌊</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
+                        <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
+                    </div>
+                </button>
+
+                <button @click="activeTab = 'feelingsTactics'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🎯</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
+                        <span class="text-[10px] text-slate-400 block">Interactive 4-Zone Strategies</span>
+                    </div>
+                </button>
+
+                <button @click="activeTab = 'videos'; mobileMenuOpen = false" 
+                        :class="activeTab === 'videos' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    <span>🎬</span>
+                    <div>
+                        <span class="font-bold text-slate-800 block text-xs">Video Demonstrations</span>
+                        <span class="text-[10px] text-slate-400 block">OT & Lived-Experience Videos</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sensory Games Section -->
+        <div class="pt-2 border-t border-slate-100">
+            <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                🎮 Calming Games & Buddy
+            </div>
+            <div class="space-y-1 mt-1 pl-2">
+                <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🫧</span>
+                    <span>Sensory Pop-It Toys</span>
+                </button>
+
+                <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <span>🐾</span>
+                    <span>Hero Buddy Room</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section: Statutory & Legal Advocacy -->
+        <div class="pt-2 border-t border-slate-100">
+            <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                ⚖️ Legal & Advocacy
+            </div>
+            <div class="space-y-1 mt-1 pl-2">
+                <button @click="activeTab = 'dlaGuide'; mobileMenuOpen = false" 
+                        :class="activeTab === 'dlaGuide' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    <span>💷</span>
+                    <span>DLA Form Guide (Q1–Q84)</span>
+                </button>
+                <button @click="activeTab = 'ehcpHub'; mobileMenuOpen = false" 
+                        :class="activeTab === 'ehcpHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    <span>📑</span>
+                    <span>EHCP Master Blueprint</span>
+                </button>
+                <button @click="activeTab = 'arfidHub'; mobileMenuOpen = false" 
+                        :class="activeTab === 'arfidHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    <span>🥑</span>
+                    <span>ARFID Feeding Guide</span>
+                </button>
+                <button @click="activeTab = 'questionnaire'; mobileMenuOpen = false"
+                        :class="activeTab === 'questionnaire' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    <span>🩺</span>
+                    <span>30-Q GP Trait Screener</span>
+                </button>
+                <button @click="activeTab = 'legalPrivacy'; mobileMenuOpen = false"
+                        :class="activeTab === 'legalPrivacy' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
+                        class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                    <span>⚖️</span>
+                    <span>Legal Notices & Privacy Policy</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Container -->
-    <main x-show="currentUser" class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full" x-cloak></main>
+    <main x-show="currentUser" class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full" x-cloak>
 
         <!-- 1. HOME TAB -->
         <div x-show="activeTab === 'home'" class="space-y-10">
@@ -865,7 +867,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <span class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tactile Regulation & Stimming</span>
-                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Sensory Fidget Suite 🫧 ⌨️</h2>
+                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Sensory Fidget Suite 🫧 ⌨️️</h2>
                         <p class="text-slate-600 text-sm mt-1">Pop-It silicone shapes and an acoustic mechanical keyboard clicker specifically designed for ASD/ADHD sensory stimming.</p>
                     </div>
                     <div class="flex gap-2">
@@ -1082,7 +1084,7 @@
                             <template x-if="equippedAccessory && equippedAccessory !== 'cape'">
                                 <div class="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
                                     <template x-if="equippedAccessory === 'shades'">
-                                        <span class="text-5xl -translate-y-1 transform scale-110 drop-shadow-sm">🕶️</span>
+                                        <span class="text-5xl -translate-y-1 transform scale-110 drop-shadow-sm">🕶️️</span>
                                     </template>
                                     <template x-if="equippedAccessory === 'headphones'">
                                         <span class="text-7xl -translate-y-1 transform scale-110">🎧</span>
@@ -1435,7 +1437,7 @@
 
                         <div class="flex justify-end pt-2 no-print">
                             <button @click="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-extrabold text-xs flex items-center gap-2 shadow-sm btn-bounce">
-                                <span>🖨️️</span>
+                                <span>🖨</span>
                                 <span>Print / Save Evidence Report</span>
                             </button>
                         </div>
@@ -1475,11 +1477,11 @@
     </main>
 
     <!-- AUTHENTICATION (LOGIN / SIGN-UP) MODAL -->
-   <div x-show="!currentUser || showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
-    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative">
-        <template x-if="currentUser">
-            <button @click="showAuthModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
-        </template>
+    <div x-show="!currentUser || showAuthModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative">
+            <template x-if="currentUser">
+                <button @click="showAuthModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
+            </template>
             
             <div class="text-center space-y-1">
                 <span class="text-3xl">🛡️</span>
@@ -1543,6 +1545,7 @@
         function parentApp() {
             return {
                 activeTab: 'home',
+                videoFilter: 'all',
                 mobileMenuOpen: false,
                 medicalConsentAgreed: false,
 
@@ -2014,7 +2017,7 @@
                             { icon: '🚪', title: 'Sensory Exit Script', desc: 'Use rehearsed phrase: "Need to step out to get air."', how: 'Provides autonomous boundary to escape before losing composure.' },
                             { icon: '💍', title: 'Discreet Fidget Stimming', desc: 'Use sensory ring, textured coin, or phone case.', how: 'Subtle motor regulation without feeling scrutinized by peers.' },
                             { icon: '👁️', title: '5-4-3-2-1 Sensory Grounding', desc: 'Name 5 things seen, 4 felt, 3 heard, 2 smelled, 1 tasted.', how: 'Forces prefrontal cortex to regain control from panicked limbic brain.' },
-                            { icon: '🚶‍♂️️', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
+                            { icon: '🚶‍♂', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
                         ],
                         red: [
                             { icon: '📵', title: 'Total Digital Blackout', desc: 'Turn phone on Do Not Disturb and dim screen.', how: 'Stops notification dopamine spikes and social overload.' },
@@ -2111,7 +2114,7 @@
                     { category: 'comfort', icon: '🫂', label: 'Hug' },
                     { category: 'comfort', icon: '🎧', label: 'Headphones' },
                     { category: 'comfort', icon: '🧸', label: 'Comfort Toy' },
-                    { category: 'comfort', icon: '💆‍♂️️', label: 'Deep Pressure' },
+                    { category: 'comfort', icon: '💆‍♂', label: 'Deep Pressure' },
                     { category: 'comfort', icon: '🏃‍♂️', label: 'Need a Break' },
                     { category: 'answers', icon: '👍', label: 'Yes' },
                     { category: 'answers', icon: '👎', label: 'No' },
@@ -2198,7 +2201,7 @@
                 loadPreset(type) {
                     if (type === 'morning') {
                         this.schedule = [
-                            { id: 1, icon: '☀️️', name: 'Wake Up', done: false },
+                            { id: 1, icon: '☀️', name: 'Wake Up', done: false },
                             { id: 2, icon: '👕', name: 'Get Dressed', done: false },
                             { id: 3, icon: '🍳', name: 'Breakfast', done: false },
                             { id: 4, icon: '🦷', name: 'Brush Teeth', done: false }
