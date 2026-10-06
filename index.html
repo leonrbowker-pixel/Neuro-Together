@@ -1544,7 +1544,7 @@
 
                 // AUTHENTICATION STATE
                 currentUser: null,
-                showAuthModal: false,
+                showAuthModal: true,
                 authMode: 'login',
                 authEmail: '',
                 authPassword: '',
@@ -1708,6 +1708,7 @@
                         supabaseClient.auth.getSession().then(({ data: { session } }) => {
                             if (session) {
                                 this.currentUser = session.user;
+                                this.showAuthModal = false;
                                 this.loadCloudProfile();
                             }
                         });
@@ -1715,6 +1716,7 @@
                         supabaseClient.auth.onAuthStateChange((_event, session) => {
                             this.currentUser = session ? session.user : null;
                             if (session) {
+                                this.showAuthModal = false;
                                 this.loadCloudProfile();
                             }
                         });
