@@ -102,8 +102,8 @@
     <!-- STRUCTURED CLEAN NAVIGATION BAR -->
     <header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b-2 border-slate-200 no-print">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Brand Logo -->
-            <div class="flex items-center space-x-3 cursor-pointer btn-bounce" @click="activeTab = 'home'">
+            <!-- Brand Logo (Acts as Home Button) -->
+            <div class="flex items-center space-x-3 cursor-pointer btn-bounce" @click="navigate('home')">
                 <div class="bg-sunshine p-2 rounded-2xl shadow-sm border border-amber-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -117,6 +117,15 @@
 
             <!-- Header Action Controls -->
             <div class="flex items-center gap-2">
+                <!-- Sound Effects Sensory Toggle Button -->
+                <button @click="soundEnabled = !soundEnabled; saveLocalBackup();" 
+                        :title="soundEnabled ? 'Mute Sensory Sounds' : 'Unmute Sensory Sounds'" 
+                        class="p-2 rounded-xl border border-slate-200 text-xs font-bold transition-all btn-bounce flex items-center gap-1.5"
+                        :class="soundEnabled ? 'bg-sky-50 text-deepBlue border-sky-200' : 'bg-slate-100 text-slate-400'">
+                    <span x-text="soundEnabled ? '🔊' : '🔇'"></span>
+                    <span class="hidden sm:inline" x-text="soundEnabled ? 'Sound On' : 'Muted'"></span>
+                </button>
+
                 <!-- Profile Customize Button -->
                 <template x-if="currentUser">
                     <button @click="openProfileEditor()" title="Edit Profile Details" class="p-2 rounded-xl text-slate-600 hover:text-deepBlue hover:bg-sky-50 transition-colors btn-bounce text-xs font-bold flex items-center gap-1 border border-slate-200 bg-white">
@@ -126,7 +135,7 @@
                 </template>
 
                 <!-- Star Points Live Counter -->
-                <button @click="activeTab = 'rewardGame'" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 px-3 py-1.5 rounded-full shadow-xs btn-bounce">
+                <button @click="navigate('rewardGame')" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 px-3 py-1.5 rounded-full shadow-xs btn-bounce">
                     <span class="text-base animate-bounce">✨</span>
                     <span class="text-xs font-black text-amber-900" x-text="starPoints + ' Stars'"></span>
                     <span class="text-[10px] bg-amber-400 text-amber-950 font-black px-1.5 py-0.5 rounded-full">Spend</span>
@@ -142,7 +151,7 @@
 
                 <!-- Desktop Categorized Navigation -->
                 <div class="hidden lg:flex items-center space-x-2 text-xs font-bold">
-                    <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all btn-bounce">Home</button>
+                    <button @click="navigate('home')" :class="activeTab === 'home' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all btn-bounce">Home</button>
                     
                     <!-- Category 1: Schedules & Cards -->
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
@@ -151,21 +160,21 @@
                             <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak class="absolute left-0 mt-2 w-60 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
-                            <button @click="activeTab = 'nowNext'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('nowNext'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>⏳</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">Now & Next Board</span>
                                     <span class="text-[10px] text-slate-400">Step-by-step transition & rewards</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'routineBuilder'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('routineBuilder'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>📋</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">Interactive Daily Schedule</span>
                                     <span class="text-[10px] text-slate-400">Add, arrange & earn stars</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'photoCards'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('photoCards'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>💬</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">Visual PECS Cards</span>
@@ -182,35 +191,35 @@
                             <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak class="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
-                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'meltdowns'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🛡️</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Meltdowns & Deep Pressure OT</span>
                                     <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'rsd'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>⚡</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Rejection Sensitive Dysphoria (RSD)</span>
                                     <span class="text-[10px] text-slate-400 block">Triggers & De-escalation across ages</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'pda'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🐼</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Pathological Demand Avoidance (PDA)</span>
                                     <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'anxietyDepression'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🌧️</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Anxiety & Depression (All Ages)</span>
                                     <span class="text-[10px] text-slate-400 block">Sensory burnout vs Clinical Depression</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'dysregulation'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🌊</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Emotional Dysregulation & Somatics</span>
@@ -218,7 +227,7 @@
                                 </div>
                             </button>
                             <div class="border-t border-slate-100 my-1"></div>
-                            <button @click="activeTab = 'feelingsTactics'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('feelingsTactics'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🎯</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Feelings & Tactics (Ages 4–16)</span>
@@ -235,14 +244,14 @@
                             <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak class="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
-                            <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('fidgetGame'); fidgetMode = 'popit'; if (!popShape) setPopShape('square'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🫧</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Sensory Fidget Toys</span>
                                     <span class="text-[10px] text-slate-400 block">Silicone Pop-Its & Clickers</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'rewardGame'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+                            <button @click="navigate('rewardGame'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>🐾</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block text-xs">Hero Buddy Avatar Room</span>
@@ -253,7 +262,7 @@
                     </div>
 
                     <!-- Category 4: Videos -->
-                    <button @click="activeTab = 'videos'" :class="activeTab === 'videos' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all flex items-center gap-1 btn-bounce">
+                    <button @click="navigate('videos')" :class="activeTab === 'videos' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all flex items-center gap-1 btn-bounce">
                         <span>🎥</span>
                         <span>Support Videos</span>
                     </button>
@@ -265,28 +274,28 @@
                             <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak class="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
-                            <button @click="activeTab = 'dlaGuide'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('dlaGuide'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>💷</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">Chronological DLA Guide</span>
                                     <span class="text-[10px] text-slate-400">Complete Q1 to Q84 step-by-step</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'ehcpHub'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('ehcpHub'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>📑</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">UK EHCP Master Hub</span>
                                     <span class="text-[10px] text-slate-400">Sections A–K, 20-wk timeline & appeals</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'arfidHub'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('arfidHub'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>🥑</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">ARFID Feeding Guide</span>
                                     <span class="text-[10px] text-slate-400">Food aversions & sensory eating</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'questionnaire'; open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
+                            <button @click="navigate('questionnaire'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>🩺</span>
                                 <div>
                                     <span class="font-bold text-slate-800 block">30-Q GP Trait Screener</span>
@@ -294,7 +303,7 @@
                                 </div>
                             </button>
                             <div class="border-t my-1"></div>
-                            <button @click="activeTab = 'legalPrivacy'; open = false" class="w-full text-left px-4 py-2 text-xs text-slate-500 hover:bg-slate-50">
+                            <button @click="navigate('legalPrivacy'); open = false" class="w-full text-left px-4 py-2 text-xs text-slate-500 hover:bg-slate-50">
                                 Legal Notices & Privacy Policy
                             </button>
                         </div>
@@ -314,14 +323,14 @@
 
     <!-- Mobile Drawer Navigation -->
     <div x-show="mobileMenuOpen" @click.outside="mobileMenuOpen = false" x-cloak class="lg:hidden fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-white shadow-2xl z-50 p-4 overflow-y-auto space-y-1">
-        <button @click="activeTab = 'home'; mobileMenuOpen = false" 
+        <button @click="navigate('home')" 
                 :class="activeTab === 'home' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'" 
                 class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
             <span>🏠</span>
             <span>Home Dashboard</span>
         </button>
 
-        <button @click="activeTab = 'nowNext'; mobileMenuOpen = false" 
+        <button @click="navigate('nowNext')" 
                 :class="activeTab === 'nowNext' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
                 class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-2">
             <span>⏳</span>
@@ -334,7 +343,7 @@
                 🧠 Emotional & Behavioral Support
             </div>
             <div class="space-y-1 mt-1 pl-2">
-                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'meltdowns'; mobileMenuOpen = false" 
+                <button @click="navigate('supportHub'); currentSupportTopic = 'meltdowns';" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🛡️</span>
                     <div>
@@ -343,7 +352,7 @@
                     </div>
                 </button>
 
-                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'rsd'; mobileMenuOpen = false" 
+                <button @click="navigate('supportHub'); currentSupportTopic = 'rsd';" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>⚡</span>
                     <div>
@@ -352,7 +361,7 @@
                     </div>
                 </button>
 
-                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'pda'; mobileMenuOpen = false" 
+                <button @click="navigate('supportHub'); currentSupportTopic = 'pda';" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🐼</span>
                     <div>
@@ -361,7 +370,7 @@
                     </div>
                 </button>
 
-                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'anxietyDepression'; mobileMenuOpen = false" 
+                <button @click="navigate('supportHub'); currentSupportTopic = 'anxietyDepression';" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🌧️</span>
                     <div>
@@ -370,7 +379,7 @@
                     </div>
                 </button>
 
-                <button @click="activeTab = 'supportHub'; currentSupportTopic = 'dysregulation'; mobileMenuOpen = false" 
+                <button @click="navigate('supportHub'); currentSupportTopic = 'dysregulation';" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🌊</span>
                     <div>
@@ -379,7 +388,7 @@
                     </div>
                 </button>
 
-                <button @click="activeTab = 'feelingsTactics'; mobileMenuOpen = false" 
+                <button @click="navigate('feelingsTactics')" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🎯</span>
                     <div>
@@ -388,7 +397,7 @@
                     </div>
                 </button>
 
-                <button @click="activeTab = 'videos'; mobileMenuOpen = false" 
+                <button @click="navigate('videos')" 
                         :class="activeTab === 'videos' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
                         class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
                     <span>🎬</span>
@@ -406,13 +415,13 @@
                 🎮 Calming Games & Buddy
             </div>
             <div class="space-y-1 mt-1 pl-2">
-                <button @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square'); mobileMenuOpen = false" 
+                <button @click="navigate('fidgetGame'); fidgetMode = 'popit'; if (!popShape) setPopShape('square');" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🫧</span>
                     <span>Sensory Pop-It Toys</span>
                 </button>
 
-                <button @click="activeTab = 'rewardGame'; mobileMenuOpen = false" 
+                <button @click="navigate('rewardGame')" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                     <span>🐾</span>
                     <span>Hero Buddy Room</span>
@@ -426,31 +435,31 @@
                 ⚖️ Legal & Advocacy
             </div>
             <div class="space-y-1 mt-1 pl-2">
-                <button @click="activeTab = 'dlaGuide'; mobileMenuOpen = false" 
+                <button @click="navigate('dlaGuide')" 
                         :class="activeTab === 'dlaGuide' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
                     <span>💷</span>
                     <span>DLA Form Guide (Q1–Q84)</span>
                 </button>
-                <button @click="activeTab = 'ehcpHub'; mobileMenuOpen = false" 
+                <button @click="navigate('ehcpHub')" 
                         :class="activeTab === 'ehcpHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
                     <span>📑</span>
                     <span>EHCP Master Blueprint</span>
                 </button>
-                <button @click="activeTab = 'arfidHub'; mobileMenuOpen = false" 
+                <button @click="navigate('arfidHub')" 
                         :class="activeTab === 'arfidHub' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-600 hover:bg-slate-50'" 
                         class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
                     <span>🥑</span>
                     <span>ARFID Feeding Guide</span>
                 </button>
-                <button @click="activeTab = 'questionnaire'; mobileMenuOpen = false"
+                <button @click="navigate('questionnaire')"
                         :class="activeTab === 'questionnaire' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
                         class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
                     <span>🩺</span>
                     <span>30-Q GP Trait Screener</span>
                 </button>
-                <button @click="activeTab = 'legalPrivacy'; mobileMenuOpen = false"
+                <button @click="navigate('legalPrivacy')"
                         :class="activeTab === 'legalPrivacy' ? 'bg-sky-50 text-deepBlue font-bold' : 'text-slate-700 hover:bg-slate-50'"
                         class="w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2">
                     <span>⚖️</span>
@@ -486,17 +495,20 @@
                         <template x-if="childName">
                             <span class="bg-deepBlue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm" x-text="userType === 'child' ? 'Tailored for ' + childName : 'Family Dashboard: ' + childName"></span>
                         </template>
+                        <template x-if="childAge">
+                            <span class="bg-white/80 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full shadow-xs" x-text="childAge + ' Years Old'"></span>
+                        </template>
                     </div>
 
                     <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight" x-text="greetingHeader"></h2>
                     <p class="text-base md:text-lg font-medium text-slate-700 leading-relaxed" x-text="greetingSubtext"></p>
                     
                     <div class="flex flex-wrap gap-3 pt-2">
-                        <button @click="activeTab = 'nowNext'" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all text-sm flex items-center gap-2 btn-bounce">
+                        <button @click="navigate('nowNext')" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all text-sm flex items-center gap-2 btn-bounce">
                             <span>Open Today's Visual Board</span>
                             <span>&rarr;</span>
                         </button>
-                        <button @click="activeTab = 'dlaGuide'" class="bg-white/90 text-slate-900 font-bold px-6 py-3 rounded-2xl shadow-sm hover:bg-white transition-all text-sm border border-slate-200 btn-bounce">
+                        <button @click="navigate('dlaGuide')" class="bg-white/90 text-slate-900 font-bold px-6 py-3 rounded-2xl shadow-sm hover:bg-white transition-all text-sm border border-slate-200 btn-bounce">
                             DLA Master Guide
                         </button>
                     </div>
@@ -507,32 +519,32 @@
             <div>
                 <h3 class="text-xl font-bold text-slate-800 mb-4">Core Visual, Play & Statutory Tools</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div @click="activeTab = 'dlaGuide'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-deepBlue cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="navigate('dlaGuide')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-deepBlue cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">💷</div>
                         <h4 class="font-bold text-slate-900 mb-1">Chronological DLA Guide</h4>
                         <p class="text-xs text-slate-600">Full questions 1 to 84 breakdown: traps, buzzwords, criteria & model statements.</p>
                     </div>
-                    <div @click="activeTab = 'ehcpHub'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-indigo-500 cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="navigate('ehcpHub')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-indigo-500 cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">📑</div>
                         <h4 class="font-bold text-slate-900 mb-1">UK EHCP Master Hub</h4>
                         <p class="text-xs text-slate-600">Complete guide to Sections A–K, 20-week legal timescales, and drafting tips.</p>
                     </div>
-                    <div @click="activeTab = 'nowNext'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-sky-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="navigate('nowNext')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-sky-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">⏳</div>
                         <h4 class="font-bold text-slate-900 mb-1">Now & Next Board</h4>
                         <p class="text-xs text-slate-600">Rich choice of daily steps, sensory routines, calming visual timer, and rewards.</p>
                     </div>
-                    <div @click="activeTab = 'videos'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-vibrantRed cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="navigate('videos')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-vibrantRed cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">🎥</div>
                         <h4 class="font-bold text-slate-900 mb-1">Support Video Library</h4>
                         <p class="text-xs text-slate-600">Curated video guides on ASD/ADHD traits, adult diagnosis, and reassurance.</p>
                     </div>
-                    <div @click="activeTab = 'feelingsTactics'" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-emerald-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="navigate('feelingsTactics')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-emerald-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">🎯</div>
                         <h4 class="font-bold text-slate-900 mb-1">Feelings & Tactics (Ages 4–16)</h4>
                         <p class="text-xs text-slate-600">Deeply expanded sensory, somatic, and cognitive tactics for every zone.</p>
                     </div>
-                    <div @click="activeTab = 'fidgetGame'; fidgetMode = 'popit'; if (!popShape) setPopShape('square')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-amber-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
+                    <div @click="navigate('fidgetGame'); fidgetMode = 'popit'; if (!popShape) setPopShape('square');" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-amber-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
                         <div class="text-3xl mb-3">🫧</div>
                         <h4 class="font-bold text-slate-900 mb-1">Sensory Fidget Toys</h4>
                         <p class="text-xs text-slate-600">Pop-It silicone shapes and an acoustic mechanical keyboard clicker.</p>
@@ -599,10 +611,9 @@
                             </div>
                             <p class="text-xs text-slate-500 mt-0.5">A gentle visual aid to provide predictable time-scaffolding without pressure or alarm buzzers.</p>
                         </div>
-                        <!-- Parent Configuration Drawer Toggle -->
                         <div class="flex items-center gap-2">
                             <button @click="timerConfigOpen = !timerConfigOpen" class="bg-white hover:bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 btn-bounce flex items-center gap-1">
-                                <span>⚙️️</span>
+                                <span>⚙️</span>
                                 <span x-text="timerConfigOpen ? 'Close Settings' : 'Customize Duration'"></span>
                             </button>
                         </div>
@@ -628,12 +639,9 @@
 
                     <!-- Visual Calming Ring and Controls -->
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6 py-2">
-                        <!-- Calming Circular Progress Gauge -->
                         <div class="relative w-44 h-44 flex items-center justify-center">
                             <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
-                                <!-- Background Track -->
                                 <circle cx="60" cy="60" r="50" stroke="#E2E8F0" stroke-width="8" fill="none" />
-                                <!-- Calming Progress Ring -->
                                 <circle cx="60" cy="60" r="50"
                                         :stroke="timerRingColor"
                                         stroke-width="8"
@@ -649,7 +657,6 @@
                             </div>
                         </div>
 
-                        <!-- Action Control Buttons -->
                         <div class="flex flex-col gap-2 w-full sm:w-auto">
                             <div class="flex gap-2">
                                 <button @click="toggleTimer()" 
@@ -746,10 +753,17 @@
         <!-- 4. FULL CHRONOLOGICAL DLA MASTER GUIDE (Q1 TO Q84) -->
         <div x-show="activeTab === 'dlaGuide'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
-                <div>
-                    <span class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Official Form DLA1A Child Step-by-Step</span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Chronological UK Child DLA Master Guide (Questions 1 to 84)</h2>
-                    <p class="text-slate-600 text-sm mt-1">This guide follows the exact order of the official 30+ page DWP <strong>DLA1A Child claim form</strong>. Follow each section to avoid rejection traps and articulate ADHD & ASD traits using statutory criteria.</p>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                    <div>
+                        <span class="bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Official Form DLA1A Child Step-by-Step</span>
+                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Chronological UK Child DLA Master Guide (Questions 1 to 84)</h2>
+                        <p class="text-slate-600 text-sm mt-1">Follow each question in official form order to avoid rejection traps and articulate ADHD & ASD traits cleanly.</p>
+                    </div>
+                    <!-- Master Statement Export Pack Trigger -->
+                    <button @click="copyAllDLAStatements()" class="bg-deepBlue hover:bg-sky-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm btn-bounce flex items-center gap-2 no-print shrink-0">
+                        <span>📋</span>
+                        <span>Copy All ASD Model Statements</span>
+                    </button>
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-2 text-center text-xs font-bold">
@@ -1250,14 +1264,20 @@
             </div>
         </div>
 
-        <!-- 10. VISUAL DAILY SCHEDULE -->
+        <!-- 10. VISUAL DAILY SCHEDULE (WITH STREAK TRACKER) -->
         <div x-show="activeTab === 'routineBuilder'" class="space-y-6">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Predictability & Routine</span>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Predictability & Routine</span>
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-black px-3 py-1 rounded-full flex items-center gap-1 shadow-xs">
+                                <span>🔥</span>
+                                <span x-text="routineStreak + ' Day Streak'"></span>
+                            </span>
+                        </div>
                         <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Interactive Visual Daily Schedule</h2>
-                        <p class="text-slate-600 text-sm mt-1">Ticking an activity gives +10 Star Tokens for your Hero Buddy! Rearrange order or print for the fridge.</p>
+                        <p class="text-slate-600 text-sm mt-1">Ticking an activity gives +10 Star Tokens for your Hero Buddy! Build routine momentum and print for the fridge.</p>
                     </div>
                     <div class="flex flex-wrap gap-2 no-print">
                         <button @click="clearSchedule()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-xs btn-bounce">Clear All</button>
@@ -1584,7 +1604,7 @@
 
     </main>
 
-    <!-- NEW: FIRST-TIME PERSONALIZED ONBOARDING & PROFILE SETUP MODAL -->
+    <!-- FIRST-TIME PERSONALIZED ONBOARDING & PROFILE SETUP MODAL -->
     <div x-show="currentUser && showOnboardingModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4" x-cloak>
         <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-6 relative border border-slate-100">
             <!-- Progress Dots -->
@@ -1624,12 +1644,12 @@
                 </div>
             </div>
 
-            <!-- STEP 2: NAME & AGE / STAGE -->
+            <!-- STEP 2: NAME & DATE OF BIRTH -->
             <div x-show="onboardingStep === 2" class="space-y-4">
                 <div class="text-center space-y-1">
                     <span class="text-3xl" x-text="userType === 'child' ? '🌟' : '🤝'"></span>
                     <h3 class="text-xl font-black text-slate-900" x-text="userType === 'child' ? 'About Your Child' : 'Nice to meet you!'"></h3>
-                    <p class="text-xs text-slate-600">This helps us personalize routines and match age-appropriate strategies.</p>
+                    <p class="text-xs text-slate-600">This helps us personalize routines and match age-appropriate strategies dynamically.</p>
                 </div>
 
                 <div class="space-y-3 pt-2">
@@ -1639,8 +1659,11 @@
                     </div>
 
                     <div x-show="userType === 'child'">
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Child's Age (Years):</label>
-                        <input type="number" min="1" max="18" x-model.number="childAge" placeholder="e.g. 7" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Date of Birth (DOB):</label>
+                        <input type="date" x-model="childDob" @change="calculateAgeFromDob()" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                        <template x-if="childAge">
+                            <span class="text-[11px] text-emerald-700 font-bold mt-1.5 block" x-text="'Calculated age: ' + childAge + ' years old'"></span>
+                        </template>
                     </div>
                 </div>
 
@@ -1703,7 +1726,19 @@
 
                 <div x-show="authMode !== 'forgot'">
                     <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Password</label>
-                    <input type="password" x-model="authPassword" :required="authMode !== 'forgot'" minlength="6" placeholder="At least 6 characters" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                    <div class="relative">
+                        <input :type="showPassword ? 'text' : 'password'" 
+                               x-model="authPassword" 
+                               :required="authMode !== 'forgot'" 
+                               minlength="6" 
+                               placeholder="At least 6 characters" 
+                               class="w-full pl-3 pr-10 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                        <button type="button" 
+                                @click="showPassword = !showPassword" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
+                            <span x-text="showPassword ? '🙈' : '👁️'"></span>
+                        </button>
+                    </div>
                     
                     <div class="flex justify-end mt-1" x-show="authMode === 'login'">
                         <button type="button" @click="authMode = 'forgot'; authError = ''; authSuccess = '';" class="text-[11px] font-semibold text-deepBlue hover:underline">
@@ -1741,7 +1776,7 @@
             <p class="text-slate-500 text-xs">&copy; 2026 NeuroTogether. Built with love and practical support for ADHD & ASD individuals and families everywhere.</p>
             <p class="text-[11px] text-slate-400 max-w-3xl mx-auto">
                 Legal Notice: Independent educational peer-advocacy resource. Not a diagnostic medical device or a substitute for professional clinical medical advice. Not affiliated with NHS England or the DWP.
-                <button @click="activeTab = 'legalPrivacy'" class="text-deepBlue font-bold underline ml-1">View Full Privacy Policy & Legal Disclaimers</button>
+                <button @click="navigate('legalPrivacy')" class="text-deepBlue font-bold underline ml-1">View Full Privacy Policy & Legal Disclaimers</button>
             </p>
         </div>
     </footer>
@@ -1763,6 +1798,7 @@
                 videoFilter: 'all',
                 mobileMenuOpen: false,
                 medicalConsentAgreed: false,
+                soundEnabled: true,
 
                 // AUTHENTICATION STATE
                 currentUser: null,
@@ -1770,6 +1806,7 @@
                 authMode: 'login', // 'login', 'signup', 'forgot'
                 authEmail: '',
                 authPassword: '',
+                showPassword: false,
                 authLoading: false,
                 authError: '',
                 authSuccess: '',
@@ -1780,9 +1817,13 @@
                 onboardingCompleted: false,
                 userType: 'child', // 'child' or 'myself'
                 childName: '',
+                childDob: '',
                 childAge: '',
                 diagnosisStatus: 'Formal Diagnosis Received',
                 diagnosisDetails: '',
+
+                // STREAKS & HABIT ENGINE
+                routineStreak: 1,
 
                 get greetingHeader() {
                     if (!this.childName) return "Practical tools built for neurodivergent reality.";
@@ -1797,6 +1838,32 @@
                     return "Features the full chronological UK DLA Guide (Q1–84), complete EHCP statutory blueprint, expanded transition aids, support videos, sensory fidget toys, and customizable animal buddies.";
                 },
 
+                // HARDWARE / URL NAVIGATION ROUTER
+                navigate(tab) {
+                    if (this.activeTab !== tab) {
+                        history.pushState({ tab: tab }, '', '');
+                        this.activeTab = tab;
+                    }
+                    this.mobileMenuOpen = false;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+
+                calculateAgeFromDob() {
+                    if (!this.childDob) return;
+                    const birthDate = new Date(this.childDob);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const m = today.getMonth() - birthDate.getMonth();
+                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    this.childAge = Math.max(0, age);
+                    
+                    if (this.childAge <= 6) this.ageStage = 'infants';
+                    else if (this.childAge <= 11) this.ageStage = 'primary';
+                    else this.ageStage = 'teens';
+                },
+
                 openProfileEditor() {
                     this.onboardingStep = 1;
                     this.showOnboardingModal = true;
@@ -1805,17 +1872,27 @@
                     this.onboardingCompleted = true;
                     this.showOnboardingModal = false;
 
-                    // Automatically tailor the Feelings & Tactics age-tier to their child's age
-                    if (this.childAge) {
-                        const age = Number(this.childAge);
-                        if (age <= 6) this.ageStage = 'infants';
-                        else if (age <= 11) this.ageStage = 'primary';
-                        else this.ageStage = 'teens';
-                    }
-
+                    this.calculateAgeFromDob();
                     this.saveLocalBackup();
                     this.saveCloudProfile();
                     this.triggerConfetti();
+                },
+
+                // DLA MASTER STATEMENT CLIPBOARD EXPORT
+                copyAllDLAStatements() {
+                    if (!window.dlaMasterData || !Array.isArray(window.dlaMasterData)) {
+                        alert('DLA data not loaded yet.');
+                        return;
+                    }
+                    const text = window.dlaMasterData.map(q => 
+                        `[${q.qNum}] ${q.officialTitle}\n` +
+                        `DWP Criteria: ${q.buzzwords}\n` +
+                        `ASD Evidence Statement: ${q.exampleASD}\n`
+                    ).join('\n---\n\n');
+
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('All 84 DLA Evidence Statements copied to clipboard! Ready to paste into a Word document or email to your SENCO.');
+                    });
                 },
 
                 // 30-Question Screener State
@@ -1984,9 +2061,9 @@
                 },
                 get timerRingColor() {
                     const percentLeft = (this.timerRemaining / this.timerTotalSeconds) * 100;
-                    if (percentLeft > 50) return '#38BDF8'; // Calming sky blue
-                    if (percentLeft > 20) return '#FBBF24'; // Warm soft amber
-                    return '#F472B6'; // Gentle warm rose
+                    if (percentLeft > 50) return '#38BDF8';
+                    if (percentLeft > 20) return '#FBBF24';
+                    return '#F472B6';
                 },
                 get timerStateLabel() {
                     if (this.timerRemaining === 0) return '🌸 Finished gently';
@@ -2037,11 +2114,11 @@
                     this.timerRemaining = this.timerTotalSeconds;
                 },
                 playCalmTimerCompletion() {
+                    if (!this.soundEnabled) return;
                     try {
                         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         const now = audioCtx.currentTime;
                         
-                        // Gentle primary chime (C5)
                         const osc1 = audioCtx.createOscillator();
                         const gain1 = audioCtx.createGain();
                         osc1.type = 'sine';
@@ -2053,7 +2130,6 @@
                         osc1.start(now);
                         osc1.stop(now + 1.2);
 
-                        // Soothing harmonic companion chime (G5)
                         const osc2 = audioCtx.createOscillator();
                         const gain2 = audioCtx.createGain();
                         osc2.type = 'sine';
@@ -2068,6 +2144,17 @@
                 },
 
                 init() {
+                    // Initialize browser back button listener
+                    history.replaceState({ tab: 'home' }, '', '');
+                    window.addEventListener('popstate', (e) => {
+                        if (e.state && e.state.tab) {
+                            this.activeTab = e.state.tab;
+                        } else {
+                            this.activeTab = 'home';
+                        }
+                        this.mobileMenuOpen = false;
+                    });
+
                     // 1. Initialise Offline LocalStorage Fallback First
                     this.loadLocalBackup();
 
@@ -2117,11 +2204,14 @@
                     try {
                         const localPayload = {
                             childName: this.childName,
+                            childDob: this.childDob,
                             childAge: this.childAge,
                             userType: this.userType,
                             diagnosisStatus: this.diagnosisStatus,
                             diagnosisDetails: this.diagnosisDetails,
                             onboardingCompleted: this.onboardingCompleted,
+                            routineStreak: this.routineStreak,
+                            soundEnabled: this.soundEnabled,
                             starPoints: this.starPoints,
                             avatarBase: this.avatarBase,
                             equippedHat: this.equippedHat,
@@ -2142,11 +2232,14 @@
                         if (cached) {
                             const data = JSON.parse(cached);
                             if (data.childName) this.childName = data.childName;
+                            if (data.childDob) this.childDob = data.childDob;
                             if (data.childAge) this.childAge = data.childAge;
                             if (data.userType) this.userType = data.userType;
                             if (data.diagnosisStatus) this.diagnosisStatus = data.diagnosisStatus;
                             if (data.diagnosisDetails) this.diagnosisDetails = data.diagnosisDetails;
                             if (data.onboardingCompleted !== undefined) this.onboardingCompleted = data.onboardingCompleted;
+                            if (data.routineStreak !== undefined) this.routineStreak = data.routineStreak;
+                            if (data.soundEnabled !== undefined) this.soundEnabled = data.soundEnabled;
                             if (data.starPoints !== undefined) this.starPoints = data.starPoints;
                             if (data.avatarBase) this.avatarBase = data.avatarBase;
                             if (data.equippedHat !== undefined) this.equippedHat = data.equippedHat;
@@ -2156,11 +2249,8 @@
                             if (data.schedule && data.schedule.length > 0) this.schedule = data.schedule;
                             if (data.screenerResponses) this.screenerResponses = data.screenerResponses;
 
-                            if (this.childAge) {
-                                const age = Number(this.childAge);
-                                if (age <= 6) this.ageStage = 'infants';
-                                else if (age <= 11) this.ageStage = 'primary';
-                                else this.ageStage = 'teens';
+                            if (this.childDob) {
+                                this.calculateAgeFromDob();
                             }
                         }
                     } catch(e) {
@@ -2230,6 +2320,7 @@
 
                         if (data) {
                             this.childName = data.child_name || this.childName;
+                            this.childDob = data.child_dob || this.childDob;
                             this.childAge = data.child_age || this.childAge;
                             this.userType = data.user_type || this.userType;
                             this.diagnosisStatus = data.diagnosis_status || this.diagnosisStatus;
@@ -2244,22 +2335,16 @@
                             if (data.purchased_item_ids) this.purchasedItemIds = data.purchased_item_ids;
                             if (data.saved_schedule && data.saved_schedule.length > 0) this.schedule = data.saved_schedule;
 
-                            if (this.childAge) {
-                                const age = Number(this.childAge);
-                                if (age <= 6) this.ageStage = 'infants';
-                                else if (age <= 11) this.ageStage = 'primary';
-                                else this.ageStage = 'teens';
+                            if (this.childDob) {
+                                this.calculateAgeFromDob();
                             }
 
-                            // Trigger onboarding modal if user has never completed it
                             if (!this.onboardingCompleted && !this.childName) {
                                 this.showOnboardingModal = true;
                             }
 
-                            // Cache latest cloud values locally
                             this.saveLocalBackup();
                         } else {
-                            // Brand new account profile row
                             this.showOnboardingModal = true;
                         }
                     } catch (err) {
@@ -2268,12 +2353,13 @@
                 },
 
                 async saveCloudProfile() {
-                    this.saveLocalBackup(); // Always save to local backup immediately
+                    this.saveLocalBackup();
                     if (!this.currentUser || !window.supabaseClient || !navigator.onLine) return;
                     try {
                         await supabaseClient.from('profiles').upsert({
                             id: this.currentUser.id,
                             child_name: this.childName,
+                            child_dob: this.childDob || null,
                             child_age: this.childAge,
                             user_type: this.userType,
                             diagnosis_status: this.diagnosisStatus,
@@ -2479,7 +2565,7 @@
                             { icon: '🚪', title: 'Sensory Exit Script', desc: 'Use rehearsed phrase: "Need to step out to get air."', how: 'Provides autonomous boundary to escape before losing composure.' },
                             { icon: '💍', title: 'Discreet Fidget Stimming', desc: 'Use sensory ring, textured coin, or phone case.', how: 'Subtle motor regulation without feeling scrutinized by peers.' },
                             { icon: '👁️', title: '5-4-3-2-1 Sensory Grounding', desc: 'Name 5 things seen, 4 felt, 3 heard, 2 smelled, 1 tasted.', how: 'Forces prefrontal cortex to regain control from panicked limbic brain.' },
-                            { icon: '🚶‍♂️', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
+                            { icon: '🚶‍♂', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
                         ],
                         red: [
                             { icon: '📵', title: 'Total Digital Blackout', desc: 'Turn phone on Do Not Disturb and dim screen.', how: 'Stops notification dopamine spikes and social overload.' },
@@ -2611,7 +2697,7 @@
 
                 // 9. SCHEDULE STATE
                 schedule: [
-                    { id: 1, icon: '☀️️', name: 'Wake Up', done: false },
+                    { id: 1, icon: '☀️', name: 'Wake Up', done: false },
                     { id: 2, icon: '👕', name: 'Get Dressed', done: false },
                     { id: 3, icon: '🍳', name: 'Eat Breakfast', done: false },
                     { id: 4, icon: '🦷', name: 'Brush Teeth', done: false }
@@ -2661,6 +2747,14 @@
                         this.starPoints += 10;
                         this.triggerConfetti();
                         this.playRewardSound(783.99);
+
+                        // Routine completion check for streaks
+                        const allCompleted = this.schedule.length > 0 && this.schedule.every(s => s.done);
+                        if (allCompleted) {
+                            this.routineStreak++;
+                            this.starPoints += 25; // Bonus reward
+                            alert(`🌟 Amazing! Full routine completed! You've reached a ${this.routineStreak}-day streak and earned 25 bonus stars!`);
+                        }
                     }
                     this.saveLocalBackup();
                     this.saveCloudProfile();
@@ -2691,8 +2785,9 @@
                     this.saveCloudProfile();
                 },
 
-                // AUDIO SYNTHESIZERS
+                // AUDIO SYNTHESIZERS (WITH GLOBAL SENSORY MUTE COMPLIANCE)
                 playAcousticPop(isPoppingIn = true) {
+                    if (!this.soundEnabled) return;
                     try {
                         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         const now = audioCtx.currentTime;
@@ -2742,6 +2837,7 @@
                 },
 
                 playChocolateSnap() {
+                    if (!this.soundEnabled) return;
                     try {
                         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         const now = audioCtx.currentTime;
@@ -2763,6 +2859,7 @@
                 },
 
                 playMechanicalSwitchClick() {
+                    if (!this.soundEnabled) return;
                     try {
                         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         const now = audioCtx.currentTime;
@@ -2807,6 +2904,7 @@
                 },
 
                 playRewardSound(freq) {
+                    if (!this.soundEnabled) return;
                     try {
                         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         const osc = audioCtx.createOscillator();
