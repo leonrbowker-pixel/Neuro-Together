@@ -1,4 +1,4 @@
-const CACHE_NAME = 'neurotogether-v3';
+const CACHE_NAME = 'neurotogether-v5';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
