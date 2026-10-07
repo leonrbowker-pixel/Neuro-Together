@@ -515,39 +515,189 @@
                 </div>
             </div>
 
-            <!-- Priority Tool Grid -->
-            <div>
-                <h3 class="text-xl font-bold text-slate-800 mb-4">Core Visual, Play & Statutory Tools</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div @click="navigate('dlaGuide')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-deepBlue cursor-pointer hover:shadow-md transition-all btn-bounce">
-                        <div class="text-3xl mb-3">💷</div>
-                        <h4 class="font-bold text-slate-900 mb-1">Chronological DLA Guide</h4>
-                        <p class="text-xs text-slate-600">Full questions 1 to 84 breakdown: traps, buzzwords, criteria & model statements.</p>
+            <!-- Interactive Category & Sub-Menu Directory Hub -->
+            <div class="space-y-4" x-data="{ openCategory: 'schedules' }">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-slate-800">Quick Navigation & Tool Hub</h3>
+                    <span class="text-xs text-slate-500 font-medium">Tap category to explore tools</span>
+                </div>
+
+                <div class="space-y-3">
+                    <!-- Category 1: Schedules & Transition Cards -->
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden transition-all">
+                        <button type="button" 
+                                @click="openCategory = (openCategory === 'schedules' ? '' : 'schedules')" 
+                                class="w-full p-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl p-2 bg-amber-50 rounded-2xl border border-amber-200">🗓️</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base">Schedules & Transition Cards</h4>
+                                    <p class="text-xs text-slate-500">Now & Next board, interactive daily routine, and PECS builder</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" :class="openCategory === 'schedules' ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="openCategory === 'schedules'" class="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                            <button @click="navigate('nowNext')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">⏳</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Now & Next Board</strong>
+                                    <span class="text-[10px] text-slate-500">Visual countdown transition aid</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('routineBuilder')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">📋</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Daily Visual Schedule</strong>
+                                    <span class="text-[10px] text-slate-500">Earn stars & track streaks</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('photoCards')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">💬</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Visual PECS Cards</strong>
+                                    <span class="text-[10px] text-slate-500">Spoken AAC communication strip</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                    <div @click="navigate('ehcpHub')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-indigo-500 cursor-pointer hover:shadow-md transition-all btn-bounce">
-                        <div class="text-3xl mb-3">📑</div>
-                        <h4 class="font-bold text-slate-900 mb-1">UK EHCP Master Hub</h4>
-                        <p class="text-xs text-slate-600">Complete guide to Sections A–K, 20-week legal timescales, and drafting tips.</p>
+
+                    <!-- Category 2: Emotional & Behavioral Support -->
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden transition-all">
+                        <button type="button" 
+                                @click="openCategory = (openCategory === 'support' ? '' : 'support')" 
+                                class="w-full p-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl p-2 bg-emerald-50 rounded-2xl border border-emerald-200">🧠</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base">Emotional & Behavioral Support</h4>
+                                    <p class="text-xs text-slate-500">Meltdowns, PDA PANDA guides, RSD de-escalation, and regulation tactics</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" :class="openCategory === 'support' ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="openCategory === 'support'" class="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                            <button @click="navigate('feelingsTactics')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🎯</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Feelings & Regulation Hub</strong>
+                                    <span class="text-[10px] text-slate-500">Tactics for 4 emotional zones</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'meltdowns';" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🛡️</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Meltdowns & Proprioception</strong>
+                                    <span class="text-[10px] text-slate-500">OT deep pressure soothing</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'pda';" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🐼</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">PDA (PANDA Framework)</strong>
+                                    <span class="text-[10px] text-slate-500">Demand avoidance strategies</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'rsd';" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">⚡</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">RSD (Rejection Sensitivity)</strong>
+                                    <span class="text-[10px] text-slate-500">Triggers & de-escalation tips</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'dysregulation';" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🌊</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Somatic Dysregulation</strong>
+                                    <span class="text-[10px] text-slate-500">Polyvagal resets & heavy work</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('videos')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-emerald-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🎥</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Parent & Clinical Videos</strong>
+                                    <span class="text-[10px] text-slate-500">Reassurance & lived experience</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                    <div @click="navigate('nowNext')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-sky-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
-                        <div class="text-3xl mb-3">⏳</div>
-                        <h4 class="font-bold text-slate-900 mb-1">Now & Next Board</h4>
-                        <p class="text-xs text-slate-600">Rich choice of daily steps, sensory routines, calming visual timer, and rewards.</p>
+
+                    <!-- Category 3: Calming Sensory Games & Buddy Room -->
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden transition-all">
+                        <button type="button" 
+                                @click="openCategory = (openCategory === 'games' ? '' : 'games')" 
+                                class="w-full p-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl p-2 bg-pink-50 rounded-2xl border border-pink-200">🎮</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base">Calming Sensory Games & Avatar Buddy</h4>
+                                    <p class="text-xs text-slate-500">Silicone Pop-Its, Cherry MX clicker, and Star reward wardrobe</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" :class="openCategory === 'games' ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="openCategory === 'games'" class="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <button @click="navigate('fidgetGame'); fidgetMode = 'popit'; if (!popShape) setPopShape('square');" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-pink-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🫧</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Sensory Fidget Suite</strong>
+                                    <span class="text-[10px] text-slate-500">Pop-Its & keyboard sound stimming</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('rewardGame')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-pink-500 text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🐾</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Hero Buddy Avatar Room</strong>
+                                    <span class="text-[10px] text-slate-500">Dress Dougie, Ozzy & friends</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                    <div @click="navigate('videos')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-vibrantRed cursor-pointer hover:shadow-md transition-all btn-bounce">
-                        <div class="text-3xl mb-3">🎥</div>
-                        <h4 class="font-bold text-slate-900 mb-1">Support Video Library</h4>
-                        <p class="text-xs text-slate-600">Curated video guides on ASD/ADHD traits, adult diagnosis, and reassurance.</p>
-                    </div>
-                    <div @click="navigate('feelingsTactics')" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-emerald-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
-                        <div class="text-3xl mb-3">🎯</div>
-                        <h4 class="font-bold text-slate-900 mb-1">Feelings & Tactics (Ages 4–16)</h4>
-                        <p class="text-xs text-slate-600">Deeply expanded sensory, somatic, and cognitive tactics for every zone.</p>
-                    </div>
-                    <div @click="navigate('fidgetGame'); fidgetMode = 'popit'; if (!popShape) setPopShape('square');" class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-amber-400 cursor-pointer hover:shadow-md transition-all btn-bounce">
-                        <div class="text-3xl mb-3">🫧</div>
-                        <h4 class="font-bold text-slate-900 mb-1">Sensory Fidget Toys</h4>
-                        <p class="text-xs text-slate-600">Pop-It silicone shapes and an acoustic mechanical keyboard clicker.</p>
+
+                    <!-- Category 4: Statutory Legal Advocacy & Evidence -->
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden transition-all">
+                        <button type="button" 
+                                @click="openCategory = (openCategory === 'legal' ? '' : 'legal')" 
+                                class="w-full p-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="text-2xl p-2 bg-indigo-50 rounded-2xl border border-indigo-200">⚖️</span>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base">Statutory Legal Advocacy & Evidence</h4>
+                                    <p class="text-xs text-slate-500">DWP Child DLA Q1–84, 20-week EHCP Master Blueprint, ARFID & GP Screener</p>
+                                </div>
+                            </div>
+                            <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" :class="openCategory === 'legal' ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="openCategory === 'legal'" class="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
+                            <button @click="navigate('dlaGuide')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">💷</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Child DLA (Q1–84)</strong>
+                                    <span class="text-[10px] text-slate-400">Official criteria & traps</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('ehcpHub')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">📑</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">UK EHCP Blueprint</strong>
+                                    <span class="text-[10px] text-slate-400">20-wk timeline & Sec A–K</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('arfidHub')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🥑</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">ARFID Feeding Guide</strong>
+                                    <span class="text-[10px] text-slate-400">Sensory food strategies</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('questionnaire')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">🩺</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">30-Q GP Screener</strong>
+                                    <span class="text-[10px] text-slate-400">Printable medical pack</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -821,10 +971,24 @@
         <!-- 5. FULL UK EHCP MASTER HUB -->
         <div x-show="activeTab === 'ehcpHub'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
-                <div>
-                    <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">UK Special Educational Needs Law</span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2">UK EHCP (Education, Health and Care Plan) Master Guide</h2>
-                    <p class="text-slate-600 text-sm mt-1">An EHCP is a legally binding document issued by your Local Authority (LA) under the <em>Children and Families Act 2014</em>. It legally mandates specified educational provision that mainstream school budgets cannot provide alone.</p>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">UK Special Educational Needs Law</span>
+                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">UK EHCP (Education, Health and Care Plan) Master Guide</h2>
+                        <p class="text-slate-600 text-sm mt-1">An EHCP is a legally binding document issued by your Local Authority (LA) under the <em>Children and Families Act 2014</em>. It legally mandates specified educational provision that mainstream school budgets cannot provide alone.</p>
+                    </div>
+
+                    <!-- EXPORT & PRINT CONTROLS -->
+                    <div class="flex flex-wrap gap-2 no-print shrink-0">
+                        <button @click="copyEHCPBlueprint()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 btn-bounce">
+                            <span>📋</span>
+                            <span>Copy Legal Blueprint</span>
+                        </button>
+                        <button @click="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 shadow-sm btn-bounce">
+                            <span>🖨️</span>
+                            <span>Print / Save PDF</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 20-Week Legal Timeline -->
@@ -1196,7 +1360,7 @@
                                     <template x-if="equippedHat === 'cap'"><span class="block transform -rotate-6">🧢</span></template>
                                     <template x-if="equippedHat === 'crown'"><span class="block">👑</span></template>
                                     <template x-if="equippedHat === 'wizard'"><span class="block -translate-y-2">🧙‍♂️</span></template>
-                                    <template x-if="equippedHat === 'pirate'"><span class="block -translate-y-1">🏴‍‍☠️</span></template>
+                                    <template x-if="equippedHat === 'pirate'"><span class="block -translate-y-1">🏴‍☠️</span></template>
                                     <template x-if="equippedHat === 'dino'"><span class="block">🦖</span></template>
                                     <template x-if="equippedHat === 'flower'"><span class="block text-5xl">🌸</span></template>
                                 </div>
@@ -1895,6 +2059,40 @@
                     });
                 },
 
+                // EHCP MASTER BLUEPRINT CLIPBOARD EXPORT
+                copyEHCPBlueprint() {
+                    const text = 
+`NEUROTOGETHER - UK EHCP MASTER STATUTORY BLUEPRINT
+Reference: Children and Families Act 2014 | SEND Code of Practice 2015
+
+==================================================
+1. STATUTORY 20-WEEK LEGAL TIMELINE
+==================================================
+• Weeks 0–6: Request & Decision (LA has 6 weeks to decide whether to assess following parental request).
+• Weeks 6–16: Assessment & Gathering Evidence (EP, SaLT, OT, Paediatric reports).
+• Week 16: Draft Plan Decision (LA issues Draft EHCP or Refusal to Issue with First-Tier Tribunal appeal rights).
+• Week 20: Final Legal Plan (Mandates named placement and legally funded hours).
+
+==================================================
+2. KEY SECTION SPECIFICATION (SECTIONS A TO K)
+==================================================
+• Section A: Views of Parent & Child (masking, anxiety, meltdown triggers at home vs school).
+• Section B: SEN Needs (Every need must be recorded here: executive dysfunction, sensory overload, working memory).
+• Section F: Special Educational Provision (THE GOLDEN SECTION: Must be specified and quantified. Reject "access to support" -> Demand "1-to-1 TA for 25 hrs/week").
+• Section I: Placement (Consultation and named school).
+
+==================================================
+3. INDEPENDENT ADVICE & APPEAL RESOURCES
+==================================================
+• IPSEA: https://www.ipsea.org.uk/
+• Special Needs Jungle: https://www.specialneedsjungle.com/
+• SENDIASS Network: https://councilfordisabledchildren.org.uk/`;
+
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('EHCP Master Blueprint copied to clipboard! Ready to paste into an email or document for your meeting.');
+                    });
+                },
+
                 // 30-Question Screener State
                 screenerResponses: {},
                 screenerQuestions: [
@@ -2565,7 +2763,7 @@
                             { icon: '🚪', title: 'Sensory Exit Script', desc: 'Use rehearsed phrase: "Need to step out to get air."', how: 'Provides autonomous boundary to escape before losing composure.' },
                             { icon: '💍', title: 'Discreet Fidget Stimming', desc: 'Use sensory ring, textured coin, or phone case.', how: 'Subtle motor regulation without feeling scrutinized by peers.' },
                             { icon: '👁️', title: '5-4-3-2-1 Sensory Grounding', desc: 'Name 5 things seen, 4 felt, 3 heard, 2 smelled, 1 tasted.', how: 'Forces prefrontal cortex to regain control from panicked limbic brain.' },
-                            { icon: '🚶‍♂', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
+                            { icon: '🚶‍♂️', title: 'Solo Corridor Pacing', desc: 'Pace briskly down quiet hallway with earphones.', how: 'Channels agitated motor energy without peer interaction.' }
                         ],
                         red: [
                             { icon: '📵', title: 'Total Digital Blackout', desc: 'Turn phone on Do Not Disturb and dim screen.', how: 'Stops notification dopamine spikes and social overload.' },
