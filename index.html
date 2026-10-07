@@ -14,6 +14,9 @@
     <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="dlaData.js"></script>
+    <script src="cardsData.js"></script>
+    <script src="traitData.js"></script>
+    <script src="formsData.js"></script>
     <script src="supportData.js"></script>
     <script src="appAdditions.js"></script>
     
@@ -1589,82 +1592,46 @@
                 </div>
             </div>
         </div>
-
-        <!-- 12. ARFID GUIDE -->
+<!-- 12. ARFID GUIDE -->
         <div x-show="activeTab === 'arfidHub'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
-                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Clinical Nutrition & Sensory Aversion</span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2">ARFID (Avoidant/Restrictive Food Intake Disorder) Guide</h2>
-                    <p class="text-slate-600 text-sm mt-1">ARFID is not picky eating or stubbornness. It is an eating disorder driven by severe sensory hypersensitivity (texture, smell, colour), fear of negative consequences (choking, vomiting), or a complete absence of appetite cues.</p>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" x-text="arfidGuide.badge"></span>
+                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2" x-text="arfidGuide.title"></h2>
+                    <p class="text-slate-600 text-sm mt-1" x-text="arfidGuide.description"></p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-2">
-                        <span class="text-2xl">🤢</span>
-                        <h4 class="font-bold text-slate-900 text-sm">1. Sensory Sensitivity</h4>
-                        <p class="text-xs text-slate-600 leading-relaxed">Certain textures (e.g. wet or slimy vegetables) feel physically unbearable in the mouth, triggering an immediate gag reflex.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-2">
-                        <span class="text-2xl">😨</span>
-                        <h4 class="font-bold text-slate-900 text-sm">2. Fear of Negative Outcomes</h4>
-                        <p class="text-xs text-slate-600 leading-relaxed">Intense phobia of choking, nausea, or stomach pain, often following an illness or an episode of gagging.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-2">
-                        <span class="text-2xl">📉</span>
-                        <h4 class="font-bold text-slate-900 text-sm">3. Lack of Appetite Cues</h4>
-                        <p class="text-xs text-slate-600 leading-relaxed">Due to impaired interoception, the brain does not register hunger signals, causing them to forget or refuse meals entirely.</p>
-                    </div>
+                    <template x-for="(sub, idx) in arfidGuide.subtypes" :key="idx">
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-2">
+                            <span class="text-2xl" x-text="sub.icon"></span>
+                            <h4 class="font-bold text-slate-900 text-sm" x-text="sub.title"></h4>
+                            <p class="text-xs text-slate-600 leading-relaxed" x-text="sub.text"></p>
+                        </div>
+                    </template>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
                     <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 space-y-3">
                         <h3 class="font-bold text-emerald-900 text-sm">✅ Supportive ARFID Tactics</h3>
                         <ul class="space-y-2 text-slate-700">
-                            <li><strong>Protect Safe Foods:</strong> Always offer at least one guaranteed safe brand/texture at every meal without guilt.</li>
-                            <li><strong>Zero Mealtime Pressure:</strong> Never bribe, force-feed, or use "two more bites" bargaining. Pressure increases cortisol and stops swallowing.</li>
-                            <li><strong>Food Chaining:</strong> Introduce tiny variations from safe foods (e.g., if they accept one brand of chicken nugget, try a nearly identical breaded shape).</li>
+                            <template x-for="(tactic, idx) in arfidGuide.supportiveTactics" :key="idx">
+                                <li><strong x-text="tactic.title + ': '"></strong><span x-text="tactic.text"></span></li>
+                            </template>
                         </ul>
                     </div>
                     <div class="bg-red-50 p-6 rounded-2xl border border-red-200 space-y-3">
                         <h3 class="font-bold text-red-900 text-sm">❌ Harmful Approaches to Avoid</h3>
                         <ul class="space-y-2 text-slate-700">
-                            <li><strong>"They'll eat when they get hungry enough":</strong> Children with ARFID will starve themselves to the point of severe malnutrition.</li>
-                            <li><strong>Hiding vegetables inside safe foods:</strong> If the child discovers a hidden texture, they will lose trust in the safe food and drop it forever.</li>
+                            <template x-for="(avoid, idx) in arfidGuide.avoidTactics" :key="idx">
+                                <li><strong x-text="avoid.title + ': '"></strong><span x-text="avoid.text"></span></li>
+                            </template>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- 13. 30-QUESTION QUESTIONNAIRE TAB WITH STATUTORY CLINICAL DISCLAIMER -->
-        <div x-show="activeTab === 'questionnaire'" class="space-y-8">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
-                <div>
-                    <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Clinical Referral Prep</span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2">30-Question Trait Screener & Evidence Pack</h2>
-                    <p class="text-slate-600 text-sm mt-1">Structured medical evidence compiler to prepare for your NHS neurodevelopmental / GP referral pathway.</p>
-                </div>
-
-                <!-- Mandatory Clinical Consent Gate -->
-                <div class="bg-amber-50 border-2 border-amber-300 p-6 rounded-3xl space-y-4 no-print" x-show="!medicalConsentAgreed">
-                    <div class="flex items-center gap-3">
-                        <span class="text-3xl">🩺</span>
-                        <div>
-                            <h3 class="font-extrabold text-slate-900 text-base">Important Medical Device & Clinical Care Notice</h3>
-                            <p class="text-xs text-slate-700">Please review and confirm to proceed:</p>
-                        </div>
-                    </div>
-                    <div class="text-xs text-slate-700 leading-relaxed bg-white p-4 rounded-2xl border border-amber-200 space-y-2">
-                        <p><strong>1. Not a Medical Device:</strong> This questionnaire is strictly an informal self-reflection and educational guide. It is <strong>NOT a diagnostic medical device or clinical assessment</strong>.</p>
-                        <p><strong>2. No Medical Advice:</strong> Results calculated do not constitute medical diagnosis, treatment, or clinical prognosis for Attention Deficit Hyperactivity Disorder (ADHD) or Autism Spectrum Disorder (ASD).</p>
-                        <p><strong>3. Consult Qualified Healthcare Professionals:</strong> Always seek the direct clinical advice of a registered General Practitioner (GP), paediatrician, or clinical psychologist regarding any medical condition.</p>
-                    </div>
-                    <label class="flex items-center space-x-3 cursor-pointer bg-white p-3.5 rounded-2xl border border-amber-300">
-                        <input type="checkbox" x-model="medicalConsentAgreed" class="w-5 h-5 text-deepBlue rounded focus:ring-deepBlue">
-                        <span class="text-xs font-bold text-slate-900">I confirm that this tool is not for medical diagnosis, and I will consult a doctor for clinical medical advice.</span>
-                    </label>
-                </div>
+        
 
                 <!-- Active Screener Container -->
                 <div class="space-y-6 pt-4" x-show="medicalConsentAgreed">
@@ -2149,46 +2116,16 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
 • IPSEA: https://www.ipsea.org.uk/
 • Special Needs Jungle: https://www.specialneedsjungle.com/
 • SENDIASS Network: https://councilfordisabledchildren.org.uk/`;
-
-                    navigator.clipboard.writeText(text).then(() => {
+ 
+navigator.clipboard.writeText(text).then(() => {
                         alert('EHCP Master Blueprint copied to clipboard! Ready to paste into an email or document for your meeting.');
                     });
                 },
 
                 // 30-Question Screener State
                 screenerResponses: {},
-                screenerQuestions: [
-                    { id: 1, cat: 'Sensory', text: 'Distressed by unexpected loud noises, specific pitches, or noisy crowded environments.' },
-                    { id: 2, cat: 'Sensory', text: 'Extremely sensitive to clothing textures, tags, seams, or refuses certain fabrics.' },
-                    { id: 3, cat: 'Sensory', text: 'Engages in intense sensory seeking (spinning, crashing into furniture, chewing non-food objects).' },
-                    { id: 4, cat: 'Sensory', text: 'Significant food aversions based purely on texture, smell, colour, or temperature.' },
-                    { id: 5, cat: 'Sensory', text: 'Shows an unusually high or low tolerance to pain, cold, or heat.' },
-                    { id: 6, cat: 'Sensory', text: 'Becomes visually overwhelmed by fluorescent lighting, busy patterns, or bright glare.' },
-                    { id: 7, cat: 'Sensory', text: 'Struggles with balance, clumsy movements, or poor body awareness in space (proprioception).' },
-                    { id: 8, cat: 'Executive Function', text: 'Extreme difficulty initiating non-preferred tasks without intense 1-to-1 prompt scaffolding.' },
-                    { id: 9, cat: 'Executive Function', text: 'Hyperfocuses deeply on special interest topics to the exclusion of basic needs (eating, drinking, toileting).' },
-                    { id: 10, cat: 'Executive Function', text: 'Consistently misplaces essential daily items (shoes, coat, school bag, equipment).' },
-                    { id: 11, cat: 'Executive Function', text: 'Struggles with multi-step sequential verbal instructions (forgets step 2 and 3).' },
-                    { id: 12, cat: 'Executive Function', text: 'Shows significant time blindness (struggles to gauge time, transition between activities smoothly).' },
-                    { id: 13, cat: 'Executive Function', text: 'Exhibits physical restlessness (fidgeting, pacing, rocking, or constantly shifting position).' },
-                    { id: 14, cat: 'Executive Function', text: 'Impulsive decision-making without foreseeing immediate physical danger or social impact.' },
-                    { id: 15, cat: 'Executive Function', text: 'Requires excessive mental effort and becomes fatigued quickly by typical school routines.' },
-                    { id: 16, cat: 'Communication', text: 'Takes language literally (struggles with sarcasm, idioms, or implied contextual subtext).' },
-                    { id: 17, cat: 'Communication', text: 'Finds small talk challenging; prefers deep conversations focused purely on shared factual interests.' },
-                    { id: 18, cat: 'Communication', text: 'Difficulty sustaining reciprocal back-and-forth social conversations.' },
-                    { id: 19, cat: 'Communication', text: 'Avoids direct eye contact or finds maintaining eye contact uncomfortable/draining.' },
-                    { id: 20, cat: 'Communication', text: 'Struggles to interpret peer social cues, body language, facial expressions, or boundaries.' },
-                    { id: 21, cat: 'Communication', text: 'Prefers parallel play or solitary activities rather than unstructured group games.' },
-                    { id: 22, cat: 'Communication', text: 'Experiences severe social exhaustion after school or public gatherings ("masking drop").' },
-                    { id: 23, cat: 'Emotional', text: 'Transitions between tasks trigger intense distress, shutdowns, or explosive meltdowns.' },
-                    { id: 24, cat: 'Emotional', text: 'Perceives ordinary daily demands (brushing teeth, getting dressed) as intense nervous system threats.' },
-                    { id: 25, cat: 'Emotional', text: 'Shows intense perfectionism and intense emotional collapse over perceived mistakes.' },
-                    { id: 26, cat: 'Emotional', text: 'Experiences rapid mood dysregulation with prolonged recovery times following sensory overload.' },
-                    { id: 27, cat: 'Emotional', text: 'Uses elaborate distraction, negotiation, or physical avoidance to evade everyday requests.' },
-                    { id: 28, cat: 'Emotional', text: 'Internalises distress quietly at school or public settings, collapsing into meltdowns at home ("coke bottle effect").' },
-                    { id: 29, cat: 'Emotional', text: 'Highly sensitive to perceived criticism, rejection, or unfairness (Rejection Sensitive Dysphoria).' },
-                    { id: 30, cat: 'Emotional', text: 'Relies heavily on rigid daily routines or rituals to manage baseline internal anxiety.' }
-                ],
+                screenerQuestions: window.screenerQuestionsMaster || [],
+                arfidGuide: window.arfidGuideData || {},
                 getCategoryScore(catName) {
                     return this.screenerQuestions
                         .filter(q => q.cat === catName)
@@ -2197,7 +2134,6 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                 getScreenerScore() {
                     return Object.values(this.screenerResponses).reduce((sum, val) => sum + (Number(val) || 0), 0);
                 },
-
                 // STAR POINTS BALANCE
                 starPoints: 50,
 
@@ -2703,34 +2639,7 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                 customNowNextName: '',
                 customNowNextIcon: '⭐',
 
-                nowNextPresets: [
-                    { group: 'routine', icon: '👟', name: 'Shoes On' },
-                    { group: 'routine', icon: '🧥', name: 'Coat On' },
-                    { group: 'routine', icon: '👕', name: 'Get Dressed' },
-                    { group: 'routine', icon: '🦷', name: 'Brush Teeth' },
-                    { group: 'routine', icon: '🛁', name: 'Bath Time' },
-                    { group: 'routine', icon: '🌙', name: 'Bed Time' },
-                    { group: 'routine', icon: '🍳', name: 'Eat Meal' },
-                    { group: 'routine', icon: '🚽', name: 'Toilet' },
-                    { group: 'routine', icon: '🩳', name: 'Put Pyjamas On' },
-                    { group: 'school', icon: '🚗', name: 'Car Journey' },
-                    { group: 'school', icon: '🎒', name: 'Pack Bag' },
-                    { group: 'school', icon: '🏫', name: 'Classroom' },
-                    { group: 'school', icon: '🛒', name: 'Shops' },
-                    { group: 'school', icon: '📚', name: 'Homework / Reading' },
-                    { group: 'school', icon: '🩺', name: 'Doctor Visit' },
-                    { group: 'school', icon: '🚶‍♂️', name: 'Walking Outside' },
-                    { group: 'rewards', icon: '🛝', name: 'Park & Swings' },
-                    { group: 'rewards', icon: '🎮', name: 'Gaming Time' },
-                    { group: 'rewards', icon: '🍦', name: 'Ice Cream Treat' },
-                    { group: 'rewards', icon: '🧩', name: 'LEGO Building' },
-                    { group: 'rewards', icon: '📺', name: 'Favourite TV Programme' },
-                    { group: 'rewards', icon: '🚲', name: 'Bike / Scooter Ride' },
-                    { group: 'rewards', icon: '🎨', name: 'Arts, Crafts & Colouring' },
-                    { group: 'rewards', icon: '🤸', name: 'Play On The Trampoline' },
-                    { group: 'rewards', icon: '🍩', name: 'Bakery / Cafe Treat' },
-                    { group: 'rewards', icon: '📖', name: 'Story with Parent' }
-                ],
+nowNextPresets: window.nowNextPresetsMaster || [],
 
                 get filteredNowNextPresets() {
                     return this.nowNextPresets.filter(p => p.group === this.nowNextFilter);
@@ -2770,93 +2679,10 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                 // FEELINGS & REGULATION TACTICS DATABASE
                 ageStage: 'primary',
                 selectedZone: 'yellow',
-                zoneLabels: {
-                    infants: {
-                        blue: { icon: '🐢', name: 'Slow Turtle (Low Energy)' },
-                        green: { icon: '🐶', name: 'Happy Puppy (Safe & Ready)' },
-                        yellow: { icon: '🐆', name: 'Bouncy Cheetah (Wobbly / Loud)' },
-                        red: { icon: '🐻', name: 'Roaring Bear (Big Overload)' }
-                    },
-                    primary: {
-                        blue: { icon: '🥶', name: 'Blue Zone (Tired / Sad / Sick)' },
-                        green: { icon: '😊', name: 'Green Zone (Calm / Focused / Happy)' },
-                        yellow: { icon: '⚡', name: 'Yellow Zone (Anxious / Fidgety / Frustrated)' },
-                        red: { icon: '🔥', name: 'Red Zone (Meltdown / Panic / Explosion)' }
-                    },
-                    teens: {
-                        blue: { icon: '🔋', name: 'Low Battery (Burnout / Depleted)' },
-                        green: { icon: '🧠', name: 'Regulated / Flow (Centered & Safe)' },
-                        yellow: { icon: '⚠️', name: 'Overstimulated (Sensory Spike / Masking Strain)' },
-                        red: { icon: '💥', name: 'Shutdown / Fight-Flight (Crisis Mode)' }
-                    }
-                },
-
-                tacticsDatabase: {
-                    infants: {
-                        blue: [
-                            { icon: '🌯', title: 'Burrito Blanket Roll', desc: 'Roll gently into a soft fleece blanket.', how: 'Deep proprioceptive whole-body pressure wakes up awareness.' },
-                            { icon: '🧸', title: 'Snuggle Animal Squeeze', desc: 'Firm, rhythmic cuddle with a plush toy.', how: 'Promotes oxytocin release and comforting tactile grounding.' },
-                            { icon: '🎵', title: 'Gentle Nursery Hum', desc: 'Sing or hum a rhythmic, predictable song.', how: 'Auditory entrainment soothes low-arousal nervous system.' }
-                        ],
-                        green: [
-                            { icon: '🧩', title: 'Floor Blocks / Duplo', desc: 'Build towers or colour calmly.', how: 'Focuses motor coordination during ideal learning state.' },
-                            { icon: '📖', title: 'Sensory Touch & Feel Book', desc: 'Share storybooks with textures.', how: 'Strengthens connection and reciprocal joint attention.' },
-                            { icon: '🎨', title: 'Play-Dough Squishing', desc: 'Squish dough into shapes.', how: 'Maintains centered, rhythmic fine-motor sensory processing.' }
-                        ],
-                        yellow: [
-                            { icon: '🦘', title: 'Kangaroo Cushion Hops', desc: '10 big jumps onto cushions on the carpet.', how: 'Dumps excess adrenaline through heavy joint compression.' },
-                            { icon: '🥤', title: 'Thick Smoothie Straw Sip', desc: 'Sip cold smoothie through a narrow straw.', how: 'Oral motor resistance produces immediate neurological calming.' },
-                            { icon: '🐻', title: 'Firm Bear Hug', desc: 'Ask for a 10-second firm loving parent squeeze.', how: 'Chest compression down-regulates rising fight-or-flight energy.' }
-                        ],
-                        red: [
-                            { icon: '⛺', title: 'Quiet Dark Retreat', desc: 'Sit quietly under a draped blanket in a dim room.', how: 'Eliminates visual and auditory sensory triggers instantly.' },
-                            { icon: '🤫', title: 'Quiet Adult Presence', desc: 'Parent stays near in stillness without giving verbal demands.', how: 'Removes the cognitive burden of auditory language processing.' },
-                            { icon: '🧊', title: 'Cool Damp Flannel', desc: 'Gently press a cool damp cloth to forehead or wrists.', how: 'Activates mammalian dive reflex to drop spiking heart rate.' }
-                        ]
-                    },
-                    primary: {
-                        blue: [
-                            { icon: '🚶‍♂️', title: 'Brisk 5-Minute Lap', desc: 'Quick lap around the garden or room.', how: 'Stimulates vestibular and cardiovascular alert systems.' },
-                            { icon: '💧', title: 'Ice-Cold Water Sips', desc: 'Drink cold water through a sports bottle nozzle.', how: 'Oral thermal shock stimulates alertness and interoception.' },
-                            { icon: '🎵', title: 'Upbeat Rhythm Stomp', desc: 'March or drum along to a favourite beat.', how: 'Auditory-motor synchronisation elevates lethargic baseline.' }
-                        ],
-                        green: [
-                            { icon: '🎯', title: 'LEGO / Special Interest Time', desc: 'Dive into special topic or construction.', how: 'Dopaminergic flow state reinforces memory and skills.' },
-                            { icon: '🤝', title: 'Shared Board Game', desc: 'Play structured turn-taking games.', how: 'Practices reciprocal social skills while regulated.' },
-                            { icon: '📝', title: 'Calm Journal / Sketch', desc: 'Draw what feeling calm looks like.', how: 'Builds positive emotional memory anchors for future dysregulation.' }
-                        ],
-                        yellow: [
-                            { icon: '🧱', title: 'Heavy Wall Push-Offs', desc: 'Place flat palms on wall and push hard for 15s.', how: 'Provides intense proprioceptive feedback to muscles and joints.' },
-                            { icon: '🥨', title: 'Crunchy Snack Chew', desc: 'Eat raw carrots, pretzels, or tough dried fruit.', how: 'Jaw resistance triggers calming trigeminal nerve stimulation.' },
-                            { icon: '✋', title: '5-Finger Trace Breathing', desc: 'Trace up and down each finger, breathing in and out.', how: 'Combines tactile focus with steady 4-second breath cadence.' }
-                        ],
-                        red: [
-                            { icon: '🛑', title: 'Immediate Room Exit', desc: 'Leave crowded noisy space to go to safe retreat.', how: 'Cuts off environmental overload before panic peaks.' },
-                            { icon: '🪨', title: 'Deep Pressure Hug / Blanket', desc: 'Wrap in heavy blanket with firm flat palm pressure.', how: 'Stimulates parasympathetic nervous system release of endorphins.' },
-                            { icon: '🎧', title: 'Noise-Cancelling Silence', desc: 'Put on ear defenders with white/brown noise.', how: 'Shuts down sensory auditory triggers during survival fight-flight.' }
-                        ]
-                    },
-                    teens: {
-                        blue: [
-                            { icon: '🎧', title: 'Bilateral Stereo Lo-Fi', desc: 'Listen to alternating stereo audio on headphones.', how: 'Encourages inter-hemispheric brain synchronisation to clear fog.' },
-                            { icon: '⚡', title: 'High-Protein Fuel Grab', desc: 'Eat jerky, nuts, or protein shake with zero prep.', how: 'Stabilises dropping blood sugar that mimics executive dysfunction.' }
-                        ],
-                        green: [
-                            { icon: '🎧', title: 'Deep Hyperfocus Study', desc: 'Tackle high-demand schoolwork or creative project.', how: 'Executes complex planning while working memory is fully online.' },
-                            { icon: '💬', title: 'Unmasked Peer Chat', desc: 'Hang out with safe neurodivergent friends.', how: 'Builds authentic connection without masking exhaustion.' }
-                        ],
-                        yellow: [
-                            { icon: '🚪', title: 'Sensory Exit Script', desc: 'Use rehearsed phrase: "Need to step out to get air."', how: 'Provides autonomous boundary to escape before losing composure.' },
-                            { icon: '👁️', title: '5-4-3-2-1 Sensory Grounding', desc: 'Name 5 things seen, 4 felt, 3 heard, 2 smelled, 1 tasted.', how: 'Forces prefrontal cortex to regain control from panicked limbic brain.' }
-                        ],
-                        red: [
-                            { icon: '📵', title: 'Total Digital Blackout', desc: 'Turn phone on Do Not Disturb and dim screen.', how: 'Stops notification dopamine spikes and social overload.' },
-                            { icon: '🔇', title: 'Active ANC in Dark Room', desc: 'Put on ear defenders in pitch dark room.', how: 'Lowers sensory input to allow nervous system to exit crisis mode.' }
-                        ]
-                    }
-                },
-
-                get activeTactics() {
+                zoneLabels: window.zoneLabelsMaster || {},
+                tacticsDatabase: window.tacticsDatabaseMaster || {},
+                
+                 get activeTactics() {
                     return this.tacticsDatabase[this.ageStage][this.selectedZone];
                 },
 
@@ -2883,40 +2709,7 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                     };
                     reader.readAsDataURL(file);
                 },
-                allCards: [
-                    { category: 'needs', icon: '🥤', label: 'Drink' },
-                    { category: 'needs', icon: '🥪', label: 'Hungry' },
-                    { category: 'needs', icon: '😴', label: 'Tired' },
-                    { 
-                        category: 'needs', 
-                        icon: '🍼', 
-                        label: 'Dummy',
-                        iconHtml: `
-                            <svg class="w-10 h-10 text-amber-500 mx-auto" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 28 C22 16, 42 16, 42 28 Z" fill="#FDE68A" stroke="#D97706" stroke-width="3"/>
-                                <rect x="10" y="28" width="44" height="12" rx="6" fill="#38BDF8" stroke="#0284C7" stroke-width="3"/>
-                                <circle cx="18" cy="34" r="2" fill="white"/>
-                                <circle cx="46" cy="34" r="2" fill="white"/>
-                                <path d="M24 40 C24 54, 40 54, 40 40" stroke="#0284C7" stroke-width="3.5" fill="none"/>
-                            </svg>
-                        `
-                    },
-                    { category: 'needs', icon: '🚽', label: 'Toilet' },
-                    { category: 'needs', icon: '🩹', label: 'Hurt' },
-                    { category: 'needs', icon: '🛁', label: 'Bath' },
-                    { category: 'needs', icon: '👕', label: 'Clothes' },
-                    { category: 'comfort', icon: '🛋️', label: 'Quiet Space' },
-                    { category: 'comfort', icon: '🫂', label: 'Hug' },
-                    { category: 'comfort', icon: '🎧', label: 'Headphones' },
-                    { category: 'comfort', icon: '💆‍♂️', label: 'Deep Pressure' },
-                    { category: 'comfort', icon: '🏃‍♂️', label: 'Need a Break' },
-                    { category: 'answers', icon: '👍', label: 'Yes' },
-                    { category: 'answers', icon: '👎', label: 'No' },
-                    { category: 'answers', icon: '➕', label: 'More' },
-                    { category: 'answers', icon: '✋', label: 'Stop' },
-                    { category: 'answers', icon: '🏁', label: 'Finished' },
-                    { category: 'answers', icon: '🙋‍♂️', label: 'Help' }
-                ],
+                allCards: window.allCardsMasterData || [],
                 get filteredCards() {
                     if (this.cardFilter === 'all') return this.allCards;
                     return this.allCards.filter(c => c.category === this.cardFilter);
@@ -2942,28 +2735,8 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                 },
 
                 // SCHEDULE STATE (WITH SURVIVAL MODE AUTO-FILTER)
-                schedule: [
-                    { id: 1, icon: '☀️', name: 'Wake Up', done: false, essential: true },
-                    { id: 2, icon: '👕', name: 'Get Dressed', done: false, essential: true },
-                    { id: 3, icon: '🍳', name: 'Breakfast', done: false, essential: true },
-                    { id: 4, icon: '🦷', name: 'Brush Teeth', done: false, essential: true }
-                ],
-                availableActivities: [
-                    { icon: '☀️', name: 'Wake Up', essential: true },
-                    { icon: '👕', name: 'Get Dressed', essential: true },
-                    { icon: '🍳', name: 'Breakfast', essential: true },
-                    { icon: '🦷', name: 'Brush Teeth', essential: true },
-                    { icon: '🚽', name: 'Toilet', essential: true },
-                    { icon: '👟', name: 'Shoes & Coat', essential: false },
-                    { icon: '🎒', name: 'School Run', essential: false },
-                    { icon: '🛋️', name: 'Chill Out in Room', essential: true },
-                    { icon: '🍎', name: 'Snack Time', essential: true },
-                    { icon: '🧸', name: 'Free Play Time', essential: false },
-                    { icon: '📚', name: 'Homework / Reading', essential: false },
-                    { icon: '🧹', name: 'Tidy Up Toys', essential: false },
-                    { icon: '🛁', name: 'Bath Time', essential: true },
-                    { icon: '🌙', name: 'Bedtime Story', essential: true }
-                ],
+                schedule: window.defaultScheduleMaster || [],
+availableActivities: window.availableActivitiesMaster || [],
 
                 get displayedSchedule() {
                     if (this.energyBattery === 25) {
