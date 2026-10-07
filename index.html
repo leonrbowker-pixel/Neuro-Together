@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="dlaData.js"></script>
     <script src="supportData.js"></script>
+    <script src="appAdditions.js"></script>
     
     <!-- Supabase Library & Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -642,24 +643,28 @@
 
                 <!-- NOW / NEXT / LATER CARDS (CLEAN - NO PRESCRIPTIVE CAPTIONS) -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                    <div class="bg-amber-50/80 border-4 border-amber-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
+                    <div class="relative group bg-amber-50/80 border-4 border-amber-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
                         <span class="bg-amber-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">1. NOW</span>
+                        <button type="button" x-show="nowItem" @click.stop="clearNowNextSlot('now')" title="Clear card" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-amber-100 text-amber-700 hover:bg-red-500 hover:text-white font-black text-sm leading-none transition">&times;</button>
                         <div class="h-32 flex flex-col items-center justify-center">
                             <span class="text-6xl" x-text="nowItem.icon"></span>
                             <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="nowItem.name"></h3>
                         </div>
                     </div>
 
-                    <div class="bg-sky-50/80 border-4 border-sky-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
+                    <div class="relative group bg-sky-50/80 border-4 border-sky-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
                         <span class="bg-sky-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">2. NEXT</span>
+                         <button type="button" x-show="nextItem" @click.stop="clearNowNextSlot('next')" title="Clear card" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-sky-100 text-sky-700 hover:bg-red-500 hover:text-white font-black text-sm leading-none transition">&times;</button>
                         <div class="h-32 flex flex-col items-center justify-center">
                             <span class="text-6xl" x-text="nextItem.icon"></span>
+                           
                             <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="nextItem.name"></h3>
                         </div>
                     </div>
 
-                    <div class="bg-emerald-50/80 border-4 border-emerald-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
+                    <div class="relative group bg-emerald-50/80 border-4 border-emerald-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
                         <span class="bg-emerald-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">3. LATER (REWARD)</span>
+                        <button type="button" x-show="laterItem" @click.stop="clearLaterSlot" title="Clear card" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-700 hover:bg-red-500 hover:text-white font-black text-sm leading-none transition">&times;</button>
                         <div class="h-32 flex flex-col items-center justify-center">
                             <span class="text-6xl" x-text="laterItem.icon"></span>
                             <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="laterItem.name"></h3>
@@ -888,7 +893,7 @@
                                     <div class="flex gap-1">
                                         <button @click="moveStep(idx, -1)" :disabled="idx === 0" class="text-slate-300 hover:text-slate-700 disabled:opacity-20 text-xs font-bold px-1">▲</button>
                                         <button @click="moveStep(idx, 1)" :disabled="idx === displayedSchedule.length - 1" class="text-slate-300 hover:text-slate-700 disabled:opacity-20 text-xs font-bold px-1">▼</button>
-                                        <button @click="removeStep(idx)" class="text-slate-300 hover:text-red-500 font-bold text-sm ml-1">&times;</button>
+                                        <button @click="removeStep(step.id)" class="text-slate-300 hover:text-red-500 font-bold text-sm ml-1">&times;</button>
                                     </div>
                                 </div>
 
@@ -947,18 +952,35 @@
                     <button @click="cardFilter = 'comfort'" :class="cardFilter === 'comfort' ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3.5 py-1.5 rounded-xl text-xs font-bold btn-bounce">Comfort & Regulation</button>
                     <button @click="cardFilter = 'answers'" :class="cardFilter === 'answers' ? 'bg-deepBlue text-white' : 'bg-slate-100 text-slate-700'" class="px-3.5 py-1.5 rounded-xl text-xs font-bold btn-bounce">Responses & Actions</button>
                 </div>
-
+        <!-- Custom Real-Photo Card Creator -->
+                <div class="bg-sky-50 border-2 border-dashed border-sky-300 rounded-2xl p-4 flex flex-wrap sm:flex-nowrap items-center gap-3 no-print">
+                    <div class="flex-grow">
+                        <label class="block text-[11px] font-bold text-sky-900 uppercase mb-1">Add Real Photo Card</label>
+                        <input type="text" x-model="customPhotoLabel" placeholder="Card label (e.g. My Bedroom, School Bag)..." class="w-full px-3 py-1.5 rounded-xl border border-sky-200 text-xs bg-white outline-none">
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2 pt-4 sm:pt-0">
+                        <label class="cursor-pointer bg-deepBlue hover:bg-sky-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-sm btn-bounce">
+                            <span>📷 Choose Photo</span>
+                            <input type="file" accept="image/*" @change="handleCardPhotoUpload($event)" class="hidden">
+                        </label>
+                    </div>
+                </div>
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                     <template x-for="card in filteredCards" :key="card.label">
-                        <button @click="tapCard(card)" class="bg-white p-4 rounded-2xl border-2 border-slate-200 hover:border-deepBlue shadow-sm flex flex-col items-center justify-center text-center group transition-all h-28 btn-bounce">
-                            <div class="h-12 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <template x-if="card.iconHtml">
+<button @click="tapCard(card)" class="relative group bg-white p-4 rounded-2xl border-2 border-slate-100 hover:border-sky-300 flex flex-col items-center justify-center text-center shadow-xs hover:shadow-md transition">
+                            <span @click.stop="removeCard(card.label)" title="Delete card" class="absolute top-1.5 right-1.5 hidden group-hover:flex items-center justify-center w-5 h-5 rounded-full bg-red-100 text-red-600 hover:bg-red-500 hover:text-white text-xs font-bold leading-none cursor-pointer transition">&times;</span>
+                            <div class="h-12 flex items-center justify-center group-hover:scale-110 transition">
+                                <template x-if="card.photoUrl">
+                                    <img :src="card.photoUrl" class="w-12 h-12 rounded-xl object-cover shadow-xs border border-slate-200">
+                                </template>
+                                <template x-if="!card.photoUrl && card.iconHtml">
                                     <div x-html="card.iconHtml"></div>
                                 </template>
-                                <template x-if="!card.iconHtml">
+                                <template x-if="!card.photoUrl && !card.iconHtml">
                                     <span class="text-4xl" x-text="card.icon"></span>
                                 </template>
                             </div>
+
                             <span class="font-bold text-slate-800 text-xs mt-2 truncate w-full" x-text="card.label"></span>
                         </button>
                     </template>
@@ -1897,6 +1919,10 @@
                         </button>
                     </div>
                 </div>
+                <div x-show="authMode === 'updatePassword'">
+                    <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Enter New Password</label>
+                    <input type="password" x-model="authNewPassword" :required="authMode === 'updatePassword'" minlength="6" placeholder="Choose a strong password" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
+                </div>
 
                 <div x-show="authError" class="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs" x-text="authError"></div>
                 <div x-show="authSuccess" class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs" x-text="authSuccess"></div>
@@ -1957,6 +1983,7 @@
                 authMode: 'login', // 'login', 'signup', 'forgot'
                 authEmail: '',
                 authPassword: '',
+                authNewPassword: '',
                 showPassword: false,
                 authLoading: false,
                 authError: '',
@@ -2176,14 +2203,14 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
 
                 // HERO BUDDY AVATAR & MULTI-SPECIES STATE
                 availableAnimals: [
-                    { id: 'dog', name: 'Dougie', icon: '🐶' },
-                    { id: 'cat', name: 'Milo', icon: '🐱' },
-                    { id: 'otter', name: 'Ozzy', icon: '🦦' },
-                    { id: 'bird', name: 'Sunny', icon: '🦜' },
-                    { id: 'horse', name: 'Willow', icon: '🐴' },
-                    { id: 'donkey', name: 'Bramble', icon: '🫏' }
+                    { id: 'dog', name: 'Ava', icon: '🐶' },
+                    { id: 'cat', name: 'Bella', icon: '🐱' },
+                    { id: 'otter', name: 'Leon', icon: '🦦' },
+                    { id: 'bird', name: 'Xanthia', icon: '🦜' },
+                    { id: 'horse', name: 'Emma', icon: '🐴' },
+                    { id: 'donkey', name: 'Curtis', icon: '🫏' }
                 ],
-                avatarBase: { id: 'dog', name: 'Dougie', icon: '🐶' },
+                avatarBase: { id: 'dog', name: 'Ava', icon: '🐶' },
                 avatarMood: 'Feeling Happy & Safe 😊',
                 equippedHat: '',
                 equippedAccessory: '',
@@ -2401,13 +2428,18 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                             }
                         });
 
-                        supabaseClient.auth.onAuthStateChange((_event, session) => {
+                  supabaseClient.auth.onAuthStateChange((event, session) => {
+                        if (event === 'PASSWORD_RECOVERY') {
+                            this.authMode = 'updatePassword';
+                            this.showAuthModal = true;
+                        } else {
                             this.currentUser = session ? session.user : null;
                             this.showAuthModal = !session;
                             if (session) {
                                 this.loadCloudProfile();
                             }
-                        });
+                        }
+                    });
                     }
 
                     window.addEventListener('online', () => {
@@ -2501,6 +2533,16 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                     this.authError = '';
                     this.authSuccess = '';
                     try {
+                        if (this.authMode === 'updatePassword') {
+                        const { error } = await supabaseClient.auth.updateUser({ password: this.authNewPassword });
+                        if (error) throw error;
+                        this.authSuccess = 'Password updated successfully! Welcome back.';
+                        setTimeout(() => {
+                            this.showAuthModal = false;
+                            this.authMode = 'login';
+                        }, 1500);
+                        return;
+                    }
                         if (this.authMode === 'forgot') {
                             const { error } = await supabaseClient.auth.resetPasswordForEmail(this.authEmail, {
                                 redirectTo: window.location.origin + window.location.pathname
@@ -2821,6 +2863,26 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                 // AAC VISUAL COMMUNICATION DECK
                 cardFilter: 'all',
                 sentenceStrip: [],
+                customPhotoLabel: '',
+                handleCardPhotoUpload(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const base64Data = e.target.result;
+                        const labelText = this.customPhotoLabel.trim() || 'Custom Photo';
+                        this.allCards.unshift({
+                            category: 'needs',
+                            label: labelText,
+                            photoUrl: base64Data
+                        });
+                        this.customPhotoLabel = '';
+                        event.target.value = '';
+                        this.saveLocalBackup();
+                        this.playRewardSound(523.25);
+                    };
+                    reader.readAsDataURL(file);
+                },
                 allCards: [
                     { category: 'needs', icon: '🥤', label: 'Drink' },
                     { category: 'needs', icon: '🥪', label: 'Hungry' },
@@ -2922,10 +2984,39 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                     this.saveLocalBackup();
                     this.saveCloudProfile();
                 },
-                removeStep(idx) { 
-                    this.schedule.splice(idx, 1); 
+            removeStep(id) { 
+    this.schedule = this.schedule.filter(s => s.id !== id); 
+    this.saveLocalBackup();
+    this.saveCloudProfile();
+},
+clearNowNextSlot(slot) {
+                    if (this.nowNext && this.nowNext[slot] !== undefined) {
+                        this.nowNext[slot] = null;
+                        this.saveLocalBackup();
+                        this.saveCloudProfile();
+                    }
+                },
+
+                removeCard(cardLabel) {
+                    this.allCards = this.allCards.filter(c => c.label !== cardLabel);
                     this.saveLocalBackup();
                     this.saveCloudProfile();
+                },
+
+                newPromptLabel: '',
+                newPromptEmoji: '⭐',
+                addCustomSchedulePrompt() {
+                    const label = this.newPromptLabel.trim();
+                    if (!label) return;
+                    this.allCards.unshift({
+                        category: 'routine',
+                        label: label,
+                        icon: this.newPromptEmoji || '⭐'
+                    });
+                    this.newPromptLabel = '';
+                    this.saveLocalBackup();
+                    this.saveCloudProfile();
+                    this.playRewardSound(523.25);
                 },
                 moveStep(idx, dir) {
                     const target = idx + dir;
@@ -2986,138 +3077,24 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                 },
 
                 // AUDIO SYNTHESIZERS (SENSORY MUTE COMPLIANT)
-                playAcousticPop(isPoppingIn = true) {
+playAcousticPop(isPoppingIn = true) {
                     if (!this.soundEnabled) return;
-                    try {
-                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        const now = audioCtx.currentTime;
-
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.type = 'triangle';
-                        const start = isPoppingIn ? (340 + Math.random() * 60) : 180;
-                        const end = isPoppingIn ? 60 : 380;
-                        
-                        osc.frequency.setValueAtTime(start, now);
-                        osc.frequency.exponentialRampToValueAtTime(end, now + 0.04);
-
-                        gain.gain.setValueAtTime(0.4, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        osc.start(now);
-                        osc.stop(now + 0.04);
-
-                        const bufferSize = audioCtx.sampleRate * 0.012;
-                        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                        const output = buffer.getChannelData(0);
-                        for (let i = 0; i < bufferSize; i++) {
-                            output[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
-                        }
-
-                        const noise = audioCtx.createBufferSource();
-                        noise.buffer = buffer;
-                        const filter = audioCtx.createBiquadFilter();
-                        filter.type = 'bandpass';
-                        filter.frequency.setValueAtTime(1600, now);
-                        filter.Q.setValueAtTime(3.0, now);
-
-                        const noiseGain = audioCtx.createGain();
-                        noiseGain.gain.setValueAtTime(0.3, now);
-                        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.015);
-
-                        noise.connect(filter);
-                        filter.connect(noiseGain);
-                        noiseGain.connect(audioCtx.destination);
-
-                        noise.start(now);
-                        noise.stop(now + 0.015);
-                    } catch(e) {}
+                    if (window.playSafePop) window.playSafePop(isPoppingIn);
                 },
 
                 playChocolateSnap() {
                     if (!this.soundEnabled) return;
-                    try {
-                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        const now = audioCtx.currentTime;
-
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.type = 'sine';
-                        osc.frequency.setValueAtTime(220, now);
-                        osc.frequency.exponentialRampToValueAtTime(40, now + 0.035);
-
-                        gain.gain.setValueAtTime(0.6, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
-
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        osc.start(now);
-                        osc.stop(now + 0.035);
-                    } catch(e) {}
+                    if (window.playSafePop) window.playSafePop(false);
                 },
 
                 playMechanicalSwitchClick() {
                     if (!this.soundEnabled) return;
-                    try {
-                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        const now = audioCtx.currentTime;
-
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.type = 'square';
-                        osc.frequency.setValueAtTime(4200, now);
-                        osc.frequency.exponentialRampToValueAtTime(800, now + 0.008);
-
-                        gain.gain.setValueAtTime(0.35, now);
-                        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.008);
-
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        osc.start(now);
-                        osc.stop(now + 0.008);
-
-                        const bufferSize = audioCtx.sampleRate * 0.01;
-                        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                        const output = buffer.getChannelData(0);
-                        for (let i = 0; i < bufferSize; i++) {
-                            output[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.25));
-                        }
-                        const noise = audioCtx.createBufferSource();
-                        noise.buffer = buffer;
-                        const filter = audioCtx.createBiquadFilter();
-                        filter.type = 'highpass';
-                        filter.frequency.setValueAtTime(2500, now);
-
-                        const noiseGain = audioCtx.createGain();
-                        noiseGain.gain.setValueAtTime(0.4, now);
-                        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.01);
-
-                        noise.connect(filter);
-                        filter.connect(noiseGain);
-                        noiseGain.connect(audioCtx.destination);
-
-                        noise.start(now);
-                        noise.stop(now + 0.01);
-                    } catch(e) {}
+                    if (window.playSafeClick) window.playSafeClick();
                 },
 
                 playRewardSound(freq) {
                     if (!this.soundEnabled) return;
-                    try {
-                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        osc.start();
-                        osc.stop(audioCtx.currentTime + 0.3);
-                    } catch(e) {}
+                    if (window.playSafeReward) window.playSafeReward(freq);
                 },
                 triggerConfetti() {
                     if (typeof confetti === 'function') {
