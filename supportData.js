@@ -90,45 +90,49 @@ window.supportHubData = {
         ]
     },
 
-    // 3. ANXIETY & DEPRESSION
+    // 3. DEPRESSION, BURNOUT & SEPARATION ANXIETY
     anxietyDepression: {
-        title: "Co-occurring Anxiety & Depression (Ages 4 to Adult)",
-        badge: "Mental Health & Sensory Burnout",
-        overview: "Neurodivergent anxiety and depression are frequently misunderstood when viewed solely through traditional neurotypical frameworks. In autistic and ADHD profiles, chronic anxiety is primarily driven by sensory hypersensitivity, demand saturation, and the exhaustion of constant social camouflaging (masking). If unmanaged, this prolonged autonomic strain leads straight into autistic burnout.",
+        title: "Depression, Autistic Burnout & Separation Anxiety (Ages 4 to Adult)",
+        badge: "Mental Health & Sensory Recovery",
+        overview: "Autistic burnout and depression are frequently confused because both look like withdrawal, low mood, and exhaustion. However, burnout is a physiological nervous system crash caused by sensory overload and prolonged masking—not a lack of motivation. Understanding this difference, along with how separation anxiety acts as a fear of losing one's 'safe anchor', is crucial for healing.",
         sections: [
             {
-                heading: "Distinguishing Autistic Burnout from Clinical Depression",
+                heading: "Depression vs. Autistic Burnout: Spotting the Difference",
                 bullets: [
-                    "Loss of Skills vs Loss of Joy: Clinical depression is characterized by anhedonia (loss of interest in hobbies). Autistic burnout presents with an intense desire to engage in special interests, but a total loss of executive function and basic life skills (such as speaking, hygiene, or meal prep).",
-                    "Sensory Hypersensitivity: In burnout, baseline sensory thresholds collapse—tolerable noises, lights, and textures become physically unbearable.",
-                    "Treatment Danger: Standard Cognitive Behavioral Therapy (CBT) that challenges thoughts as 'irrational' can exacerbate neurodivergent burnout by invalidating legitimate sensory discomfort and nervous system exhaustion."
+                    "Loss of Joy vs. Loss of Battery: In depression, a person loses interest in things they usually love (anhedonia). In autistic burnout, the desire to enjoy their special interests is still there, but the body and brain simply have zero energy to execute them.",
+                    "Loss of Life Skills: Autistic burnout causes temporary skill regression. A child or adult may suddenly lose the ability to speak fluently, struggle to make basic decisions, drop things frequently, or find normal sounds and lights physically painful.",
+                    "Why Standard Depression Advice Fails: Conventional advice for depression—like 'push through it', 'go out and socialise', or aggressive talking therapy—can deepen autistic burnout. Burnout requires radical rest, dark quiet rooms, and dropping all non-essential demands."
                 ]
             },
             {
-                heading: "Age-Tiered Identification Indicators",
+                heading: "Separation Anxiety Across the Lifespan",
                 bullets: [
-                    "Ages 4–10: Somatic complaints (chronic morning nausea, stomach aches, headaches), severe separation anxiety, and intense rigidity around routine.",
-                    "Teens (11–17): Emotionally-Based School Avoidance (EBSA), situational mutism in group environments, retreat into digital solitary worlds, and sleep cycle inversion.",
-                    "Adults: Executive function paralysis, inertia, chronic fatigue, dropping communication with friends, and severe workplace attrition."
+                    "Children (The Safe Anchor): Children often rely on a parent as their external nervous system to filter out sensory overload. When separated, they feel exposed to sensory chaos. This shows up as morning stomach aches, clinging to clothing, and panic at school drop-offs or bedtime.",
+                    "Adults (The Predictability Anchor): In adults, separation anxiety is less about attachment and more about executive dread—the fear of navigating sensory environments, public transport, or appointments without their safe person.",
+                    "Somatic Warning Signs: Look for physical clues rather than spoken words: unexplained headaches, nausea, digestive upset, sudden sleep disruption, or spikes in vocal stimming."
                 ]
             },
             {
-                heading: "Intervention Framework: Sensory & Cognitive Recovery",
+                heading: "Everyday Strategies for Parents & Carers",
                 bullets: [
-                    "Comprehensive Sensory Audit: Before initiating psychological interventions, eliminate sensory drains—swap tight uniforms, audit artificial lighting, and supply loop earplugs or active noise cancellation.",
-                    "Predictability Architecture: Eliminate anticipation anxiety by providing visual timetables, clear itineraries with photographic references, and explicit exit plans for unfamiliar settings.",
-                    "Scheduled Masking Breaks: Dedicate 30–60 minutes of uninterrupted, zero-demand time immediately after school or work (dark room, sensory aids, low cognitive load)."
+                    "Drop Demands (The Survival Menu): When a child shows burnout warning signs, strip daily expectations down to the bare essentials: sleep, hydration, and safe comfort foods. Let messy rooms and school perfection wait.",
+                    "Connection Before Direction: Spend 2 to 3 minutes simply entering their world—sitting quietly beside them, noticing what they are building or watching—before asking them to start a task or prepare for a transition.",
+                    "Visual Bridges for Goodbyes: Never say 'I'll see you later'—it feels infinite and terrifying. Use concrete visual milestones: 'I will pick you up right after afternoon snack time, when the big hand is on the 6.'",
+                    "The Pocket Anchor: Send your child with a tangible piece of connection: a smooth pocket stone you both held, a small scented fabric scrap, a matching wristband, or a tiny marker-pen heart drawn on the back of both your hands.",
+                    "Calm the Body with Heavy Work: Deep pressure calms a racing nervous system faster than talking. Use tight 'burrito' blanket wraps, bear hugs, carrying a heavy backpack of books, or wall-push exercises before leaving the house.",
+                    "Short, Calm Goodbyes: Lingering or visibly anxious goodbyes confirm to your child's nervous system that something is wrong. Keep departures calm, confident, and brief: 'You are safe here, and I'll see you right after snack.'"
                 ]
             },
             {
-                heading: "Educational & Workplace Adjustments",
+                heading: "School & Work Accommodations",
                 bullets: [
-                    "School / EHCP: Embed sensory room access, movement breaks, lunch in quiet rooms, and alternative formats for verbal presentations.",
-                    "Workplace Reasonable Adjustments: Provide written instructions rather than ambiguous verbal briefs, private workspace options, and hybrid work allowances."
+                    "School / EHCP Adjustments: Agree on a dedicated quiet room pass, sensory breaks between classes, permission to wear noise-reducing earplugs, and a flexible start time on days with high morning anxiety.",
+                    "Adult Workplace Adjustments: Request clear written instructions instead of verbal meetings, hybrid working options, private desk locations away from foot traffic, and scheduled recharge windows."
                 ]
             }
         ],
         videos: [
+            { title: "Autistic Burnout vs Depression - Orion Kelly", url: "https://www.youtube-nocookie.com/embed/ltbQZ6qDBhs" },
             { title: "Guided Sensory Overload Reset", url: "https://www.youtube-nocookie.com/embed/PWahj_BOP-w" }
         ]
     },
@@ -207,4 +211,3 @@ window.supportHubData = {
         ]
     }
 };
-                heading: "The 3-Step De-escalation Protocol"
