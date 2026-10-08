@@ -1626,32 +1626,38 @@
                             <template x-for="(avoid, idx) in arfidGuide.avoidTactics" :key="idx">
                                 <li><strong x-text="avoid.title + ': '"></strong><span x-text="avoid.text"></span></li>
                             </template>
-                        </ul>
-                    </div>
+                   </ul>
                 </div>
             </div>
-        
-        
-<!-- Medical & Clinical Disclaimer Gate -->
-<div x-show="activeTab === 'questionnaire' && !medicalConsentAgreed" class="p-6 rounded-3xl bg-amber-50 border border-amber-200 shadow-sm text-slate-800 space-y-4"></div>
-    <div class="flex items-start gap-3">
-        <span class="text-2xl">⚠️</span>
-        <div class="space-y-2">
-            <h3 class="text-base font-bold text-amber-900">Clinical & Medical Disclaimer</h3>
-            <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
-                This screener is an observational evidence-gathering tool designed to assist parents and carers in documenting traits for discussions with GPs, pediatricians, or SENCOs. It does <strong>not</strong> constitute a formal clinical diagnosis of Autism, ADHD, or ARFID.
-            </p>
         </div>
-    </div>
-    <label class="flex items-center gap-3 pt-2 border-t border-amber-200/60 cursor-pointer select-none">
-        <input type="checkbox" x-model="medicalConsentAgreed" class="w-5 h-5 rounded border-amber-300 text-teal-600 focus:ring-teal-500">
-        <span class="text-xs sm:text-sm font-semibold text-amber-900">
-            I understand and acknowledge that this tool is for documentation purposes only.
-        </span>
-    </label>
-</div>
-                <!-- Active Screener Container -->
-                <div class="space-y-6 pt-4" x-show="medicalConsentAgreed">
+        <!-- End of ARFID Hub Container -->
+
+        <!-- Questionnaire Screen -->
+        <div x-show="activeTab === 'questionnaire'" class="max-w-4xl mx-auto space-y-6">
+
+            <!-- Medical & Clinical Disclaimer Gate -->
+            <div x-show="!medicalConsentAgreed" class="p-6 rounded-3xl bg-amber-50 border border-amber-200 shadow-sm text-slate-800 space-y-4">
+                <div class="flex items-start gap-3">
+                    <span class="text-2xl">⚠️</span>
+                    <div class="space-y-2">
+                        <h3 class="text-base font-bold text-amber-900">Clinical & Medical Disclaimer</h3>
+                        <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
+                            This screener is an observational evidence-gathering tool designed to assist parents and carers in documenting traits for discussions with GPs, pediatricians, or SENCOs. It does <strong>not</strong> constitute a formal clinical diagnosis of Autism, ADHD, or ARFID.
+                        </p>
+                    </div>
+                </div>
+                <label class="flex items-center gap-3 pt-2 border-t border-amber-200/60 cursor-pointer select-none">
+                    <input type="checkbox" x-model="medicalConsentAgreed" class="w-5 h-5 rounded border-amber-300 text-teal-600 focus:ring-teal-500">
+                    <span class="text-xs sm:text-sm font-semibold text-amber-900">
+                        I understand and acknowledge that this tool is for documentation purposes only.
+                    </span>
+                </label>
+            </div>
+
+            <!-- Active Screener Container -->
+            <div class="space-y-6 pt-4" x-show="medicalConsentAgreed">
+        
+
                     <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
                         <div>
                             <label class="block text-xs font-bold text-slate-600 mb-1">Child / Young Person Name (Optional):</label>
