@@ -144,6 +144,23 @@ window.getBatteryAdvice = function(level) {
             };
     }
 };
+window.applyBatterySchedule = function(level) {
+    const root = document.querySelector('[x-data]');
+    if (!root) return;
+    const data = Alpine.$data(root);
+    
+    data.energyBattery = Number(level);
+    
+    const advice = window.getBatteryAdvice(level);
+    if (advice && advice.suggestions && advice.suggestions.length > 0) {
+        data.displayedSchedule = advice.suggestions.map((s, idx) => ({
+            id: Date.now() + idx,
+            name: s.name,
+            icon: s.icon,
+            done: false
+        }));
+    }
+};
 
 // ==========================================
 // 4. VERIFIED CURATED VIDEO LIBRARY

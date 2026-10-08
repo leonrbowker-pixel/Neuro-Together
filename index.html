@@ -791,33 +791,166 @@
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 
                 <!-- INTEGRATED SENSORY BODY BATTERY CHECK (4-QUARTER SCALE) -->
-                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">🔋</span>
-                            <h3 class="font-extrabold text-slate-900 text-base">Sensory Body Battery Check-In</h3>
-                        </div>
-                        <p class="text-xs text-slate-500">How full is energy right now? 25% automatically activates Survival Mode (essentials only) to prevent meltdowns.</p>
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full md:w-auto">
-                        <button type="button" @click="setEnergyBattery(100)" :class="energyBattery === 100 ? 'bg-emerald-500 text-white shadow-sm' : 'bg-white text-slate-700 border border-slate-200'" class="px-3 py-2 rounded-xl font-bold text-xs btn-bounce flex items-center justify-center gap-1">
-                            <span>⚡</span>
-                            <span>100% Full</span>
-                        </button>
-                        <button type="button" @click="setEnergyBattery(75)" :class="energyBattery === 75 ? 'bg-teal-500 text-white shadow-sm' : 'bg-white text-slate-700 border border-slate-200'" class="px-3 py-2 rounded-xl font-bold text-xs btn-bounce flex items-center justify-center gap-1">
-                            <span>👍</span>
-                            <span>75% Steady</span>
-                        </button>
-                        <button type="button" @click="setEnergyBattery(50)" :class="energyBattery === 50 ? 'bg-amber-500 text-white shadow-sm' : 'bg-white text-slate-700 border border-slate-200'" class="px-3 py-2 rounded-xl font-bold text-xs btn-bounce flex items-center justify-center gap-1">
-                            <span>⏳</span>
-                            <span>50% Paced</span>
-                        </button>
-                        <button type="button" @click="setEnergyBattery(25)" :class="energyBattery === 25 ? 'bg-rose-500 text-white shadow-sm' : 'bg-white text-slate-700 border border-slate-200'" class="px-3 py-2 rounded-xl font-bold text-xs btn-bounce flex items-center justify-center gap-1">
-                            <span>🛡️</span>
-                            <span>25% Survival</span>
-                        </button>
-                    </div>
+<div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-6">
+    <!-- Header & Interactive Battery Level Selector -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-100">
+        <div class="space-y-1">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🔋</span>
+                <h3 class="font-extrabold text-slate-900 text-base">Sensory Body Battery Check-In</h3>
+            </div>
+            <p class="text-xs text-slate-500 max-w-xl">
+                Assess current nervous system capacity. Selecting a level explains your child's regulation state and offers a recommended schedule to prevent meltdowns.
+            </p>
+        </div>
+
+        <!-- 4-Quarter Scale Selector Buttons -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full md:w-auto">
+            <button type="button" @click="setEnergyBattery(100)"
+                :class="energyBattery === 100 ? 'bg-emerald-500 text-white shadow-md ring-2 ring-emerald-400/50' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'"
+                class="px-3 py-2 rounded-2xl flex flex-col items-center justify-center btn-bounce transition-all">
+                <div class="flex items-center gap-1 font-bold text-xs">
+                    <span>⚡</span> 100%
                 </div>
+                <span class="text-[10px] font-medium opacity-90">Fully Charged</span>
+            </button>
+
+            <button type="button" @click="setEnergyBattery(75)"
+                :class="energyBattery === 75 ? 'bg-teal-500 text-white shadow-md ring-2 ring-teal-400/50' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'"
+                class="px-3 py-2 rounded-2xl flex flex-col items-center justify-center btn-bounce transition-all">
+                <div class="flex items-center gap-1 font-bold text-xs">
+                    <span>👍</span> 75%
+                </div>
+                <span class="text-[10px] font-medium opacity-90">Steady & Ready</span>
+            </button>
+
+            <button type="button" @click="setEnergyBattery(50)"
+                :class="energyBattery === 50 ? 'bg-amber-500 text-white shadow-md ring-2 ring-amber-400/50' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'"
+                class="px-3 py-2 rounded-2xl flex flex-col items-center justify-center btn-bounce transition-all">
+                <div class="flex items-center gap-1 font-bold text-xs">
+                    <span>⏳</span> 50%
+                </div>
+                <span class="text-[10px] font-medium opacity-90">Take It Easy</span>
+            </button>
+
+            <button type="button" @click="setEnergyBattery(25)"
+                :class="energyBattery === 25 ? 'bg-rose-500 text-white shadow-md ring-2 ring-rose-400/50' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'"
+                class="px-3 py-2 rounded-2xl flex flex-col items-center justify-center btn-bounce transition-all">
+                <div class="flex items-center gap-1 font-bold text-xs">
+                    <span>🛡️</span> 25%
+                </div>
+                <span class="text-[10px] font-medium opacity-90">Survival Mode</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Dynamic Parent Guide & Routine Recommendation Panels -->
+    <div class="space-y-3">
+        <!-- 100% Panel -->
+        <div x-show="energyBattery === 100" class="space-y-3">
+            <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-xs text-slate-700 space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-emerald-950 text-sm">🟢 100% Full — Optimal Nervous System Bandwidth</span>
+                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Peak Capacity</span>
+                </div>
+                <p><strong>What this means:</strong> High sensory and emotional resilience. Executive function is fully primed; transitions, social interactions, and academic tasks require low co-regulation.</p>
+                <p><strong>Parent Strategy:</strong> Best window for new skills, noisy environments, haircuts, medical visits, or trying new foods.</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Suggested Visual Schedule for Today</span>
+                    <button type="button" @click="applyBatterySchedule(100)" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline">
+                        Apply to Schedule Board &rarr;
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>1. Morning:</strong> Full Morning Prep + Challenge</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>2. Midday:</strong> High Focus Learning / Errand</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>3. Afternoon:</strong> High-Energy Heavy Play</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>4. Evening:</strong> Normal Bedtime Routine</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 75% Panel -->
+        <div x-show="energyBattery === 75" class="space-y-3">
+            <div class="p-4 rounded-2xl bg-teal-50/70 border border-teal-200 text-xs text-slate-700 space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-teal-950 text-sm">🔵 75% Steady — Balanced & Functioning Well</span>
+                    <span class="bg-teal-100 text-teal-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Steady State</span>
+                </div>
+                <p><strong>What this means:</strong> Handles familiar routines with ease, but may show subtle signs of fatigue if multiple sensory inputs stack up without quiet breaks.</p>
+                <p><strong>Parent Strategy:</strong> Keep the day predictable. Pair challenging activities directly with preferred sensory breaks.</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Suggested Visual Schedule for Today</span>
+                    <button type="button" @click="applyBatterySchedule(75)" class="text-xs font-bold text-teal-700 hover:text-teal-800 hover:underline">
+                        Apply to Schedule Board &rarr;
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>1. Morning:</strong> Standard Visual Routine</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>2. Midday:</strong> Task + 15m Quiet Solo Break</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>3. Afternoon:</strong> Low-Demand Sensory Play</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>4. Evening:</strong> Dim-Light Wind Down</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 50% Panel -->
+        <div x-show="energyBattery === 50" class="space-y-3">
+            <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-slate-700 space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-amber-950 text-sm">🟡 50% Paced — Sensory Reserves Depleting</span>
+                    <span class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Caution / Pacing</span>
+                </div>
+                <p><strong>What this means:</strong> Working memory and self-regulation are running on reserve. Noticeable vocal stimming, restlessness, zoning out, or shorter patience.</p>
+                <p><strong>Parent Strategy:</strong> Drop non-essential expectations. Introduce proprioceptive input (weighted lap pad, trampolining, compression hug) to recharge.</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Suggested Visual Schedule for Today</span>
+                    <button type="button" @click="applyBatterySchedule(50)" class="text-xs font-bold text-amber-700 hover:text-amber-800 hover:underline">
+                        Apply to Schedule Board &rarr;
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>1. Morning:</strong> Essential Tasks Only</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>2. Midday:</strong> Proprioceptive Reset & Snack</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>3. Afternoon:</strong> Special Interest Immersion</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-2xs"><strong>4. Evening:</strong> Early Wind-Down & Low Light</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 25% Panel -->
+        <div x-show="energyBattery === 25" class="space-y-3">
+            <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 text-xs text-slate-700 space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-rose-950 text-sm">🔴 25% Survival Mode — Overload & Meltdown Prevention</span>
+                    <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Safety / Low Demand</span>
+                </div>
+                <p><strong>What this means:</strong> The nervous system has shifted into fight, flight, or shutdown mode. Verbal reasoning, multi-step requests, or corrective reprimands will provoke an explosive meltdown.</p>
+                <p><strong>Parent Strategy:</strong> Immediate sensory retreat. Reduce ambient noise, dim screens, eliminate direct demands, and provide co-regulation through calm proximity.</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Suggested Visual Schedule for Today</span>
+                    <button type="button" @click="applyBatterySchedule(25)" class="text-xs font-bold text-rose-700 hover:text-rose-800 hover:underline">
+                        Apply to Schedule Board &rarr;
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+                    <div class="bg-white p-2.5 rounded-xl border border-rose-200 shadow-2xs text-rose-950"><strong>1. Safe Haven:</strong> Sensory Cave / Dark Room</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-rose-200 shadow-2xs text-rose-950"><strong>2. Nourishment:</strong> Safe Food & Drink (Zero Pressure)</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-rose-200 shadow-2xs text-rose-950"><strong>3. Comfort:</strong> Passive Calming (Ear Defenders/Weighted Pad)</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-rose-200 shadow-2xs text-rose-950"><strong>4. Rest:</strong> Sleep / Deep Decompression</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
@@ -1631,28 +1764,29 @@
             </div>
         </div>
         <!-- End of ARFID Hub Container -->
+         </div>
 
-        <!-- Questionnaire Screen -->
-        <div x-show="activeTab === 'questionnaire'" class="max-w-4xl mx-auto space-y-6"></div>
+      <!-- Questionnaire Screen -->
+<div x-show="activeTab === 'questionnaire'" class="max-w-4xl mx-auto space-y-6">
 
-            <!-- Medical & Clinical Disclaimer Gate -->
-            <div x-show="!medicalConsentAgreed" class="p-6 rounded-3xl bg-amber-50 border border-amber-200 shadow-sm text-slate-800 space-y-4">
-                <div class="flex items-start gap-3">
-                    <span class="text-2xl">⚠️</span>
-                    <div class="space-y-2">
-                        <h3 class="text-base font-bold text-amber-900">Clinical & Medical Disclaimer</h3>
-                        <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
-                            This screener is an observational evidence-gathering tool designed to assist parents and carers in documenting traits for discussions with GPs, pediatricians, or SENCOs. It does <strong>not</strong> constitute a formal clinical diagnosis of Autism, ADHD, or ARFID.
-                        </p>
-                    </div>
-                </div>
-                <label class="flex items-center gap-3 pt-2 border-t border-amber-200/60 cursor-pointer select-none">
-                    <input type="checkbox" x-model="medicalConsentAgreed" class="w-5 h-5 rounded border-amber-300 text-teal-600 focus:ring-teal-500">
-                    <span class="text-xs sm:text-sm font-semibold text-amber-900">
-                        I understand and acknowledge that this tool is for documentation purposes only.
-                    </span>
-                </label>
+    <!-- Medical & Clinical Disclaimer Gate -->
+    <div x-show="!medicalConsentAgreed" class="p-6 rounded-3xl bg-amber-50 border border-amber-200 shadow-sm text-slate-800 space-y-4">
+        <div class="flex items-start gap-3">
+            <span class="text-2xl">⚠️</span>
+            <div class="space-y-2">
+                <h3 class="text-base font-bold text-amber-900">Clinical & Medical Disclaimer</h3>
+                <p class="text-xs sm:text-sm text-amber-800 leading-relaxed">
+                    This screener is an observational evidence-gathering tool designed to assist parents and carers in documenting traits for discussions with GPs, pediatricians, or SENCOs. It does <strong>not</strong> constitute a formal clinical diagnosis of Autism, ADHD, or ARFID.
+                </p>
             </div>
+        </div>
+        <label class="flex items-center gap-3 pt-2 border-t border-amber-200/60 cursor-pointer select-none">
+            <input type="checkbox" x-model="medicalConsentAgreed" class="w-5 h-5 rounded border-amber-300 text-teal-600 focus:ring-teal-500">
+            <span class="text-xs sm:text-sm font-semibold text-amber-900">
+                I understand and acknowledge that this tool is for documentation purposes only.
+            </span>
+        </label>
+    </div>
 
             <!-- Active Screener Container -->
             <div class="space-y-6 pt-4" x-show="medicalConsentAgreed">
@@ -1738,32 +1872,32 @@
         </div>   
        
         <!-- 14. FULL DEDICATED LEGAL & PRIVACY POLICY TAB -->
-        <div x-show="activeTab === 'legalPrivacy'" class="space-y-8">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
-                <div>
-                    <span class="bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Compliance & Data Protection</span>
-                    <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Legal Notices & Privacy Policy</h2>
-                    <p class="text-slate-600 text-sm mt-1">NeuroTogether is fully committed to user privacy, transparent operations, and compliance with the UK GDPR, Data Protection Act 2018, Apple Developer Guidelines, and Google Play Policies.</p>
-                </div>
+<div x-show="activeTab === 'legalPrivacy'" class="space-y-8">
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
+        <div>
+            <span class="bg-slate-100 text-slate-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Compliance & Data Protection</span>
+            <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Legal Notices & Privacy Policy</h2>
+            <p class="text-slate-600 text-sm mt-1">NeuroTogether is fully committed to user privacy, transparent operations, and compliance with the UK GDPR, Data Protection Act 2018, Apple Developer Guidelines, and Google Play Policies.</p>
+        </div>
 
-                <div class="space-y-6 text-xs text-slate-700 leading-relaxed">
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
-                        <h3 class="text-base font-bold text-slate-900">1. Privacy Policy & User Isolation</h3>
-                        <p><strong>Cloud Authentication & Data Isolation:</strong> With user accounts enabled, all personalised schedules, star token balances, and avatar wardrobes are encrypted and stored with Row-Level Security (RLS) under Supabase. Only authenticated account holders can access or modify their family's data.</p>
-                    </div>
+        <div class="space-y-6 text-xs text-slate-700 leading-relaxed">
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                <h3 class="text-base font-bold text-slate-900">1. Privacy Policy & User Isolation</h3>
+                <p><strong>Cloud Authentication & Data Isolation:</strong> With user accounts enabled, all personalised schedules, star token balances, and avatar wardrobes are encrypted and stored with Row-Level Security (RLS) under Supabase. Only authenticated account holders can access or modify their family's data.</p>
+            </div>
 
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
-                        <h3 class="text-base font-bold text-slate-900">2. Statutory Medical Disclaimer</h3>
-                        <p>NeuroTogether is NOT a licensed healthcare provider, diagnostic laboratory, or registered Medical Device under MHRA, FDA, or EU MDR regulations. All content, interactive question screeners, and sensory tools are provided for peer-support and informational self-reflection purposes only.</p>
-                    </div>
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                <h3 class="text-base font-bold text-slate-900">2. Statutory Medical Disclaimer</h3>
+                <p>NeuroTogether is NOT a licensed healthcare provider, diagnostic laboratory, or registered Medical Device under MHRA, FDA, or EU MDR regulations. All content, interactive question screeners, and sensory tools are provided for peer-support and informational self-reflection purposes only.</p>
+            </div>
 
-                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
-                        <h3 class="text-base font-bold text-slate-900">3. Non-Affiliation with Government Bodies</h3>
-                        <p>NeuroTogether is an independent educational initiative. We have no affiliation, endorsement, or operating relationship with the UK Department for Work and Pensions (DWP), National Health Service (NHS), or Department for Education.</p>
-                    </div>
-                </div>
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                <h3 class="text-base font-bold text-slate-900">3. Non-Affiliation with Government Bodies</h3>
+                <p>NeuroTogether is an independent educational initiative. We have no affiliation, endorsement, or operating relationship with the UK Department for Work and Pensions (DWP), National Health Service (NHS), or Department for Education.</p>
             </div>
         </div>
+    </div>
+</div>
 
     </main>
 
@@ -1964,7 +2098,7 @@
                 activeTab: 'home',
                 videoFilter: 'all',
                 mobileMenuOpen: false,
-                medicalConsentAgreed: true,
+                medicalConsentAgreed: false,
                 soundEnabled: true,
 
                 // AUTHENTICATION STATE
