@@ -1235,6 +1235,7 @@
                         <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl text-center text-xs text-slate-400">
                             No incidents recorded yet. Use the form above to build evidence for clinical referrals.
                         </div>
+                        
                     </template>
 
                     <div class="space-y-2">
@@ -2765,6 +2766,7 @@ navigator.clipboard.writeText(text).then(() => {
                             this.equippedCompanion = data.equipped_companion ?? '⭐';
                             if (data.purchased_item_ids) this.purchasedItemIds = data.purchased_item_ids;
                             if (data.saved_schedule && data.saved_schedule.length > 0) this.schedule = data.saved_schedule;
+                            if (data.incident_logs && data.incident_logs.length > 0) this.incidentLogs = data.incident_logs;
 
                             if (this.childDob) {
                                 this.calculateAgeFromDob();
@@ -2804,6 +2806,7 @@ navigator.clipboard.writeText(text).then(() => {
                             equipped_companion: this.equippedCompanion,
                             purchased_item_ids: this.purchasedItemIds,
                             saved_schedule: this.schedule,
+                            incident_logs: this.incidentLogs,
                             updated_at: new Date().toISOString()
                         });
                     } catch (err) {
