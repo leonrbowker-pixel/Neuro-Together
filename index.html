@@ -702,7 +702,24 @@
                             <button @click="nowNextFilter = 'rewards'" :class="nowNextFilter === 'rewards' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">🌟 Rewards</button>
                         </div>
                     </div>
-
+                <!-- Custom Item Creator -->
+                     <div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-wrap sm:flex-nowrap items-center gap-2">
+                      <input type="text" 
+                         x-model="newPresetIcon" 
+                         placeholder="Emoji (e.g. 🎨)" 
+                         class="w-24 px-3 py-2 text-sm border rounded-lg text-center" 
+                        maxlength="4">
+                    <input type="text" 
+           x-model="newPresetName" 
+           placeholder="Custom Activity Name..." 
+           class="flex-1 px-3 py-2 text-sm border rounded-lg text-sm"
+           @keydown.enter="addCustomNowNextPreset()">
+    <button type="button" 
+            @click="addCustomNowNextPreset()" 
+            class="bg-deepBlue hover:bg-sky-700 text-white font-bold text-xs px-4 py-2.5 rounded-lg btn-bounce shrink-0">
+        + Add Item
+    </button>
+</div>
                
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
