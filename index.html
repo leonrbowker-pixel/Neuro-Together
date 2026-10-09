@@ -15,9 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="dlaData.js"></script>
     <script src="cardsData.js"></script>
-    <script src="traitData.js"></script>
+    <script src="traitData.js?v=4"></script>
     <script src="formsData.js"></script>
-    <script src="supportData.js"></script>
+    <script src="supportData.js?v=2"></script>
     <script src="appAdditions.js"></script>
     
     <!-- Supabase Library & Config -->
@@ -230,7 +230,7 @@
                                     <span class="text-[10px] text-slate-400 block">Polyvagal resets & heavy work</span>
                                 </div>
                             </button>
-                            <button @click="activeTab = 'supportHub'; activeSupportTopic = 'anxietyDepression'; openDropdown = null" 
+                            <button @click="navigate('supportHub'); currentSupportTopic = 'anxietyDepression'"
         class="w-full text-left p-2.5 rounded-2xl hover:bg-slate-50 flex items-center gap-3 transition-colors group">
     <span class="text-xl">🧠</span>
     <div>
@@ -1372,7 +1372,7 @@
             </div>
         </div>
 
-        <!-- 8. SUPPORT HUB CONTAINER -->
+       <!-- 8. SUPPORT HUB CONTAINER -->
         <div x-show="activeTab === 'supportHub'" class="space-y-8" x-data="{ get topic() { return (window.supportHubData && window.supportHubData[currentSupportTopic]) ? window.supportHubData[currentSupportTopic] : {} } }">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
@@ -1396,9 +1396,29 @@
                         </div>
                     </template>
                 </div>
+
+                <!-- VIDEO SECTION -->
+                <div x-show="topic.videos && topic.videos.length > 0" class="pt-4 space-y-4">
+                    <h3 class="font-bold text-slate-800 text-base">Helpful Video Resources</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <template x-for="vid in (topic.videos || [])" :key="vid.url">
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                                <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-900 shadow-sm">
+                                    <iframe :src="vid.url" 
+                                            class="w-full h-full border-0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <div class="font-semibold text-slate-800 text-xs mt-2" x-text="vid.title"></div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
             </div>
         </div>
-
+        
         <!-- 9. FEELINGS, REGULATION & TACTICS -->
         <div x-show="activeTab === 'feelingsTactics'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
