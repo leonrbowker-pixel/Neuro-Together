@@ -783,7 +783,8 @@
 
                     <!-- Custom Card Quick-Add -->
                  <div class="flex gap-1 shrink-0 items-center">
-                     <button @click="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Add Step</button>
+                     <button @click="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
+                     <button @click="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Step</button>
                      <button @click="setNowNextReward(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Reward</button>
                      <button @click="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
                  </div>
@@ -2831,71 +2832,42 @@ navigator.clipboard.writeText(text).then(() => {
                 },
 
                 // NOW, NEXT & LATER STATE (CLEAN - NO PRESCRIPTIVE CAPTIONS)
-               nowNextChain: [
-            { icon: '👟', name: 'Shoes On' },
-            { icon: '🚗', name: 'Get In Car' },
-            { icon: '🛝', name: 'Park & Swings' }
-        ],
-                nowNextFilter: 'routine',
-                customNowNextName: '',
-                customNowNextIcon: '⭐',
-
-nowNextPresets: window.nowNextPresetsMaster || [],
-
-                get filteredNowNextPresets() {
-                    return this.nowNextPresets.filter(p => p.group === this.nowNextFilter);
+                 nowNextChain: [
+                 { icon: '👟', name: 'Shoes On' },
+                 { icon: '🚗', name: 'Get In Car' },
+                 { icon: '🛝', name: 'Park & Swings' }
+               ],
+                setNow(item) {
+                    if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
+                    this.nowNextChain.splice(0, 1, { ...item });
+                },
+                addToNowNextChain(item) {
+                    if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
+                    this.nowNextChain.splice(this.nowNextChain.length - 1, 0, { ...item });
                 },
 
-                addCustomNowNextPreset() {
-                    if (!this.customNowNextName.trim()) return;
-                    this.nowNextPresets.unshift({
-                        group: this.nowNextFilter,
-                        icon: this.customNowNextIcon || '⭐',
-                        name: this.customNowNextName.trim()
-                    });
-                    this.customNowNextName = '';
-                    this.playRewardSound(440);
+                setNowNextReward(item) {
+                    if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
+                    this.nowNextChain.splice(this.nowNextChain.length - 1, 1, { ...item });
                 },
-                deleteNowNextPreset(itemToDelete) {
-                   if (!confirm(`Delete "${itemToDelete.name}"?`)) return;
-                   this.nowNextPresets = this.nowNextPresets.filter(i => i.name !== itemToDelete.name);
-                 },
-  addToNowNextChain(item) {
-        if (!this.nowNextChain) this.resetNowNext();
-        if (this.nowNextChain.length === 0) {
-            this.nowNextChain.push({ ...item });
-        } else {
-            // Inserts intermediate step directly before the final reward slot
-            this.nowNextChain.splice(this.nowNextChain.length - 1, 0, { ...item });
-        }
-    },
 
-    setNowNextReward(item) {
-        if (!this.nowNextChain) this.resetNowNext();
-        if (this.nowNextChain.length === 0) {
-            this.nowNextChain.push({ ...item });
-        } else {
-            this.nowNextChain[this.nowNextChain.length - 1] = { ...item };
-        }
-    },
+                removeChainStep(index) {
+                    if (!this.nowNextChain) return;
+                    if (this.nowNextChain.length <= 2) {
+                        alert('Keep at least 2 steps (Now & Later).');
+                        return;
+                    }
+                    this.nowNextChain.splice(index, 1);
+                },
 
-    removeChainStep(index) {
-        if (!this.nowNextChain) return;
-        if (this.nowNextChain.length <= 2) {
-            alert('Keep at least 2 steps (Now & Later).');
-            return;
-        }
-        this.nowNextChain.splice(index, 1);
-    },
-
-    resetNowNext() {
-        this.nowNextChain = [
-            { icon: '👟', name: 'Shoes On' },
-            { icon: '🚗', name: 'Get In Car' },
-            { icon: '🛝', name: 'Park & Swings' }
-        ];
-        if (typeof this.resetTimer === 'function') this.resetTimer();
-    },
+                resetNowNext() {
+                    this.nowNextChain = [
+                        { icon: '👟', name: 'Shoes On' },
+                        { icon: '🚗', name: 'Get In Car' },
+                        { icon: '🛝', name: 'Park & Swings' }
+                    ];
+                    if (typeof this.resetTimer === 'function') this.resetTimer();
+                },
 
                 // CHRONOLOGICAL DLA MASTER DATA
                 dlaStep: 'mobility',
