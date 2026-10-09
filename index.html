@@ -2832,15 +2832,42 @@ navigator.clipboard.writeText(text).then(() => {
                 },
 
                 // NOW, NEXT & LATER STATE (CLEAN - NO PRESCRIPTIVE CAPTIONS)
-                 nowNextChain: [
-                 { icon: '👟', name: 'Shoes On' },
-                 { icon: '🚗', name: 'Get In Car' },
-                 { icon: '🛝', name: 'Park & Swings' }
-               ],
+                nowNextChain: [
+                    { icon: '👟', name: 'Shoes On' },
+                    { icon: '🚗', name: 'Get In Car' },
+                    { icon: '🛝', name: 'Park & Swings' }
+                ],
+                nowNextFilter: 'routine',
+                customNowNextName: '',
+                customNowNextIcon: '⭐',
+
+                nowNextPresets: window.nowNextPresetsMaster || [],
+
+                get filteredNowNextPresets() {
+                    return this.nowNextPresets.filter(p => p.group === this.nowNextFilter);
+                },
+
+                addCustomNowNextPreset() {
+                    if (!this.customNowNextName.trim()) return;
+                    this.nowNextPresets.unshift({
+                        group: this.nowNextFilter,
+                        icon: this.customNowNextIcon || '⭐',
+                        name: this.customNowNextName.trim()
+                    });
+                    this.customNowNextName = '';
+                    if (typeof this.playRewardSound === 'function') this.playRewardSound(440);
+                },
+
+                deleteNowNextPreset(itemToDelete) {
+                    if (!confirm(`Delete "${itemToDelete.name}"?`)) return;
+                    this.nowNextPresets = this.nowNextPresets.filter(i => i.name !== itemToDelete.name);
+                },
+
                 setNow(item) {
                     if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
                     this.nowNextChain.splice(0, 1, { ...item });
                 },
+
                 addToNowNextChain(item) {
                     if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
                     this.nowNextChain.splice(this.nowNextChain.length - 1, 0, { ...item });
@@ -2868,7 +2895,7 @@ navigator.clipboard.writeText(text).then(() => {
                     ];
                     if (typeof this.resetTimer === 'function') this.resetTimer();
                 },
-
+                
                 // CHRONOLOGICAL DLA MASTER DATA
                 dlaStep: 'mobility',
                 currentSupportTopic: 'meltdowns',
