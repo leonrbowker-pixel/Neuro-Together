@@ -175,39 +175,47 @@ window.supportHubData = {
         ]
     },
 
-    // 5. EMOTIONAL DYSREGULATION
+  // 5. EMOTIONAL DYSREGULATION & BIG FEELINGS
     dysregulation: {
-        title: "Emotional Dysregulation & The Polyvagal System",
-        badge: "Somatic Nervous System Scaffolding",
-        overview: "Emotional dysregulation describes an autonomic nervous system that struggles to maintain or regain stability when exposed to stress, transitions, sensory inputs, or emotional challenges. Rooted in Dr. Stephen Porges' Polyvagal Theory, regulation is a biological state determined by neuroception—the subconscious detection of safety and threat.",
+        title: "Emotional Dysregulation & Big Feelings",
+        badge: "Practical Nervous System Support",
+        overview: "Emotional dysregulation doesn't mean bad behaviour, naughtiness, or a child trying to be difficult. It simply means their nervous system has been completely overloaded, and the brain's thinking centre has temporarily gone offline. When someone hits this point, talking, lecturing, or reasoning won't work—their body is in fight-or-flight, and they need practical help to feel safe again.",
         sections: [
             {
-                heading: "The 3 Autonomic States of Polyvagal Theory",
+                heading: "What It Actually Looks Like (Beyond Crying & Shouting)",
                 bullets: [
-                    "Ventral Vagal (Safe & Social): The parasympathetic social engagement state. Heart rate is steady, eye contact is comfortable, auditory processing is clear, and the individual can reason, converse, and connect.",
-                    "Sympathetic (Mobilized / Fight-Flight): The adrenaline-driven defense state. Heart rate spikes, peripheral vision narrows, vocal volume rises, muscles tense, and the individual presents with pacing, running away, verbal attacks, or physical confrontation.",
-                    "Dorsal Vagal (Immobilized / Freeze-Shutdown): The primitive parasympathetic shutdown. Heart rate and metabolic activity drop drastically, presenting as limp posture, catatonic silence, dissociation, and complete detachment."
+                    "The Zero-to-a-Hundred Reaction: Something tiny—like a broken biscuit, a scratchy sock seam, or a minor change of plan—triggers a volcanic reaction. It isn't about the biscuit; it was just the straw that broke the camel's back after hours of holding it together.",
+                    "Physical Signs Come First: Before shouting or tears start, watch the body: clenched fists, flushed cheeks, shallow breathing, sudden tummy aches, or rapid pacing. The body always dysregulates before the mouth speaks.",
+                    "Fight, Flight, Freeze, or Fawn: Some children shout and kick (Fight), some bolt out of the room or hide under tables (Flight), some shut down and stop talking completely (Freeze), and others desperately over-please to avoid trouble (Fawn)."
                 ]
             },
             {
-                heading: "Somatic Nervous System Resets",
+                heading: "What to Do in the Middle of a Storm (The 3-Step Rule)",
                 bullets: [
-                    "Vestibular & Heavy Work (Proprioceptive Grounding): Carrying heavy baskets, pushing against a solid wall, performing crab-walks, or chewing dense sensory foods (dried fruit, celery, chewelry) provides heavy input that organizes autonomic firing.",
-                    "Cold Temperature Shock (Mammalian Dive Reflex): Splashing cold water over the eyes and cheeks or holding an ice cube stimulates the vagus nerve, prompting a reduction in heart rate.",
-                    "Auditory & Breath Reset: Extended exhalations (making the out-breath double the length of the in-breath, e.g., in for 3, out for 6) activate the vagal brake to pull the body out of sympathetic drive."
+                    "Step 1 - Drop Demands & Stop Talking: Avoid asking 'Why did you do that?' or delivering a lecture while they are overwhelmed. Their brain cannot process words right now. Keep your voice low, steady, and use simple reassurances: 'You are safe. I am right here.'",
+                    "Step 2 - Reduce Sensory Noise: Dim harsh overhead lighting, turn off loud TVs, ask bystanders or siblings to step into another room, or offer noise-cancelling headphones. Removing extra sensory input immediately relieves an overloaded brain.",
+                    "Step 3 - Ground the Body: Offer physical input that tells the nervous system it is safe: a firm bear hug (if they accept touch), a heavy blanket, a cold drink through a straw, or pushing hands flat against a solid wall."
                 ]
             },
             {
-                heading: "The Co-Regulation Before Self-Regulation Principle",
+                heading: "What NOT to Do (Common Traps)",
                 bullets: [
-                    "Neurodivergent individuals must experience hundreds of hours of calm, safe co-regulation with a regulated adult before their nervous systems develop independent self-regulation mechanisms.",
-                    "Body Language Anchoring: Keep arms open, shoulders loose, and avoid towering over the individual. Speak in a rhythmic, calm cadence.",
-                    "Post-Regulation Debriefing: Never debrief an incident while the body is returning to baseline. Wait until several hours have passed and both parties are grounded in a Ventral Vagal state."
+                    "Don't Lecture in the Moment: Save discussions, boundaries, and lessons for when their heart rate has settled and they feel completely calm—often hours later or the following morning.",
+                    "Don't Match Their Volume: If they scream and you shout back, their nervous system confirms there is immediate danger. Staying calm acts as their external anchor.",
+                    "Don't Punish the Overwhelm: Removing privileges, taking away screens, or threatening consequences during a meltdown increases adrenaline and drags out the episode. Address boundaries calmly once everyone is regulated."
+                ]
+            },
+            {
+                heading: "School & Daily Life Strategies",
+                bullets: [
+                    "The Safe Exit Pass: Agree on a subtle hand sign or quiet card at school so the child can step out to a quiet space without having to explain themselves aloud in front of peers.",
+                    "Zero-Demand After-School Decompression: Give 30 to 45 minutes of zero-demand rest (favourite snack, headphones, quiet room) before asking questions about school, homework, or chores."
                 ]
             }
         ],
         videos: [
-            { title: "Vagus Nerve & Polyvagal Reset Exercises", url: "https://www.youtube-nocookie.com/embed/tC8oF9zGLnY" }
+            { title: "Calming Sensory Strategies for Emotional Overload", url: "https://www.youtube-nocookie.com/embed/fAXAJwXYuWY" },
+            { title: "Guided Sensory Overload Reset", url: "https://www.youtube-nocookie.com/embed/PWahj_BOP-w" }
         ]
     }
 };
