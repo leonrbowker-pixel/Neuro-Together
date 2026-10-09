@@ -793,6 +793,7 @@
                                     <button @click="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
                                     <button @click="setNext(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Next</button>
                                     <button @click="setLater(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Later</button>
+                                    <button @click="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
                                 </div>
                             </div>
                         </template>
@@ -2847,7 +2848,10 @@ nowNextPresets: window.nowNextPresetsMaster || [],
                     this.customNowNextName = '';
                     this.playRewardSound(440);
                 },
-
+                    deleteNowNextPreset(itemToDelete) {
+                    if (!confirm(`Delete "${itemToDelete.name}"?`)) return;
+                     this.nowNextPresets = this.nowNextPresets.filter(i => i.name !== itemToDelete.name);
+                 },
                 setNow(item) { this.nowItem = { ...item }; },
                 setNext(item) { this.nextItem = { ...item }; },
                 setLater(item) { this.laterItem = { ...item }; },
