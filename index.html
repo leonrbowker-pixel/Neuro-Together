@@ -708,7 +708,7 @@
                 </button>
                 <button type="button" 
                         @click="nowNextFilter = 'rewards'" 
-                        :class="nowNextFilter === 'reward' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
+                        :class="nowNextFilter === 'rewards' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
                         class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all">
                     Rewards
                 </button>
@@ -2860,8 +2860,10 @@ navigator.clipboard.writeText(text).then(() => {
                 customNowNextName: '',
                 customNowNextIcon: '⭐',
 
-                nowNextPresets: window.nowNextPresetsMaster || [],
-
+nowNextPresets: (function() {
+    const saved = JSON.parse(localStorage.getItem('saved_nowNextPresets'));
+    return (saved && saved.length > 0) ? saved : (window.nowNextPresetsMaster || []);
+})(),
                 get filteredNowNextPresets() {
                     return this.nowNextPresets.filter(p => p.group === this.nowNextFilter);
                 },
@@ -2873,13 +2875,14 @@ navigator.clipboard.writeText(text).then(() => {
                         icon: this.customNowNextIcon || '⭐',
                         name: this.customNowNextName.trim()
                     });
-                    this.customNowNextName = '';
-                    if (typeof this.playRewardSound === 'function') this.playRewardSound(440);
+    localStorage.setItem('saved_nowNextPresets', JSON.stringify(this.nowNextPresets));
+    this.customNowNextName = '';
                 },
 
                 deleteNowNextPreset(itemToDelete) {
                     if (!confirm(`Delete "${itemToDelete.name}"?`)) return;
                     this.nowNextPresets = this.nowNextPresets.filter(i => i.name !== itemToDelete.name);
+                    localStorage.setItem('saved_nowNextPresets', JSON.stringify(this.nowNextPresets));
                 },
 
                 setNow(item) {
