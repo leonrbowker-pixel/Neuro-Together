@@ -680,13 +680,7 @@
             </span>
 
             <!-- Remove Step Button -->
-            <button type="button" 
-                    @click.stop="removeChainStep(index)" 
-                    title="Remove step" 
-                    class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 text-slate-400 hover:bg-red-500 hover:text-white font-black text-sm leading-none shadow-xs transition">
-                &times;
-            </button>
-
+            <button type="button" @click.stop="removeChainStep(index)" title="Remove step" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 text-slate-400 hover:bg-red-500 hover:text-white font-black text-sm leading-none shadow-xs transition z-10">✕</button>
             <!-- Card Content -->
             <div class="h-32 flex flex-col items-center justify-center">
                 <span class="text-6xl" x-text="card.icon"></span>
@@ -696,6 +690,38 @@
     </template>
 </div>
 
+                
+
+                <!-- PRESET CHOICE PALETTE WITH CUSTOM ADDER -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 no-print">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                        <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Choose or Create Items for Your Board:</h3>
+                        <div class="flex gap-1">
+                            <button @click="nowNextFilter = 'routine'" :class="nowNextFilter === 'routine' ? 'bg-deepBlue text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">Daily Routines</button>
+                            <button @click="nowNextFilter = 'school'" :class="nowNextFilter === 'school' ? 'bg-deepBlue text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">School & Out</button>
+                            <button @click="nowNextFilter = 'rewards'" :class="nowNextFilter === 'rewards' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">🌟 Rewards</button>
+                        </div>
+                    </div>
+
+               
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                        <template x-for="item in filteredNowNextPresets" :key="item.name">
+                            <div class="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-2.5 gap-2 shadow-xs hover:border-slate-300">
+                                <span class="text-xs font-bold flex items-center gap-2 truncate">
+                                    <span class="text-xl" x-text="item.icon"></span>
+                                    <span x-text="item.name"></span>
+                                </span>
+                                <div class="flex gap-1 shrink-0 items-center">
+                                    <button type="button" @click.stop="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
+                                    <button type="button" @click.stop="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Step</button>
+                                    <button type="button" @click.stop="setNowNextReward(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Reward</button>
+                                    <button type="button" @click.stop="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
                 <!-- CALMING VISUAL TIME-AWARENESS TIMER -->
                 <div class="bg-sky-50/60 border-2 border-sky-200 rounded-3xl p-6 space-y-4 no-print">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-sky-100 pb-3">
@@ -769,45 +795,7 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- PRESET CHOICE PALETTE WITH CUSTOM ADDER -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 no-print">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
-                        <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Choose or Create Items for Your Board:</h3>
-                        <div class="flex gap-1">
-                            <button @click="nowNextFilter = 'routine'" :class="nowNextFilter === 'routine' ? 'bg-deepBlue text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">Daily Routines</button>
-                            <button @click="nowNextFilter = 'school'" :class="nowNextFilter === 'school' ? 'bg-deepBlue text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">School & Out</button>
-                            <button @click="nowNextFilter = 'rewards'" :class="nowNextFilter === 'rewards' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">🌟 Rewards</button>
-                        </div>
-                    </div>
-
-                    <!-- Custom Card Quick-Add -->
-                 <div class="flex gap-1 shrink-0 items-center">
-                     <button @click="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
-                     <button @click="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Step</button>
-                     <button @click="setNowNextReward(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Reward</button>
-                     <button @click="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
-                 </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                        <template x-for="item in filteredNowNextPresets" :key="item.name">
-                            <div class="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-2.5 gap-2 shadow-xs hover:border-slate-300">
-                                <span class="text-xs font-bold flex items-center gap-2 truncate">
-                                    <span class="text-xl" x-text="item.icon"></span>
-                                    <span x-text="item.name"></span>
-                                </span>
-                                <div class="flex gap-1 shrink-0">
-                                    <button @click="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
-                                    <button @click="setNext(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Next</button>
-                                    <button @click="setLater(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Later</button>
-                                    <button @click="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                </div>
             </div>
-        </div>
 
         <!-- 3. VISUAL DAILY SCHEDULE (WITH INTEGRATED SENSORY BATTERY & STREAK TRACKER) -->
         <div x-show="activeTab === 'routineBuilder'" class="space-y-6">
@@ -2864,28 +2852,33 @@ navigator.clipboard.writeText(text).then(() => {
                 },
 
                 setNow(item) {
-                    if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
-                    this.nowNextChain.splice(0, 1, { ...item });
-                },
+    if (!this.nowNextChain || !this.nowNextChain.length) this.resetNowNext();
+    this.nowNextChain.splice(0, 1, { ...item });
+    this.nowNextChain = [...this.nowNextChain];
+},
 
-                addToNowNextChain(item) {
-                    if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
-                    this.nowNextChain.splice(this.nowNextChain.length - 1, 0, { ...item });
-                },
+addToNowNextChain(item) {
+    console.log('Button clicked! Item received:', item);
+    console.log('Current chain before:', JSON.stringify(this.nowNextChain));
+    if (!this.nowNextChain || !this.nowNextChain.length) this.resetNowNext();
+    const lastIdx = this.nowNextChain.length - 1;
+    this.nowNextChain.splice(lastIdx, 0, { ...item });
+    this.nowNextChain = [...this.nowNextChain];
+    console.log('Current chain after:', JSON.stringify(this.nowNextChain));
+},
 
-                setNowNextReward(item) {
-                    if (!this.nowNextChain || this.nowNextChain.length === 0) this.resetNowNext();
-                    this.nowNextChain.splice(this.nowNextChain.length - 1, 1, { ...item });
-                },
+removeChainStep(index) {
+    if (!this.nowNextChain || this.nowNextChain.length <= 2) return; // Keep at least Now + Later
+    this.nowNextChain.splice(index, 1);
+    this.nowNextChain = [...this.nowNextChain];
+},
 
-                removeChainStep(index) {
-                    if (!this.nowNextChain) return;
-                    if (this.nowNextChain.length <= 2) {
-                        alert('Keep at least 2 steps (Now & Later).');
-                        return;
-                    }
-                    this.nowNextChain.splice(index, 1);
-                },
+setNowNextReward(item) {
+    if (!this.nowNextChain || !this.nowNextChain.length) this.resetNowNext();
+    const lastIdx = this.nowNextChain.length - 1;
+    this.nowNextChain.splice(lastIdx, 1, { ...item });
+    this.nowNextChain = [...this.nowNextChain];
+},
 
                 resetNowNext() {
                     this.nowNextChain = [
