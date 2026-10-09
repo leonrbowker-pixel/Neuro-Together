@@ -1,4 +1,4 @@
-const CACHE_NAME = 'neurotogether-v5';
+const CACHE_NAME = 'neurotogether-v6';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -17,6 +17,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
+
   // Network-First for HTML/page navigation so updates are instant
   if (request.mode === 'navigate' || (request.method === 'GET' && request.headers.get('accept') && request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
@@ -32,7 +33,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-First with Network fallback for static assets
+  // Network-First for JavaScript and data files to prevent stale cached logic
+  if (request.destination === 'script' || request.url.endsWith('.js') || request.url.includes('.js?')) {
+    event.respondWith(
+      fetch(request)
+        .then((networkResponse) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, networkResponse.clone());
+            return networkResponse;
+          });
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Cache-First with Network fallback for images, fonts, and other static assets
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       return cachedResponse || fetch(request).then((networkResponse) => {
