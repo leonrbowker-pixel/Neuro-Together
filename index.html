@@ -693,43 +693,25 @@
                 
 
   <!-- Custom Item Creator -->
-<div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2"
-     x-data="{ customIcon: '⭐', customName: '' }">
+<div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2">
     <div class="flex gap-2">
         <input type="text" 
-               x-model="customIcon" 
+               x-model="customNowNextIcon" 
                placeholder="Emoji" 
-               class="w-16 px-2 py-2 text-base border rounded-lg text-center shrink-0">
+               class="w-16 px-2 py-2 text-base border rounded-lg text-center shrink-0"
+               maxlength="4">
         <input type="text" 
-               x-model="customName" 
+               x-model="customNowNextName" 
                placeholder="Custom Activity Name..." 
                class="flex-1 min-w-0 px-3 py-2 text-sm border rounded-lg"
-               @keydown.enter.prevent="
-                   if (customName.trim()) {
-                       $data.nowNextPresets.unshift({
-                           name: customName.trim(),
-                           icon: customIcon.trim() || '⭐',
-                           category: $data.nowNextFilter || 'routine'
-                       });
-                       customName = '';
-                   }
-               ">
-    </div>
-    <button type="button" 
-            @click="
-                if (customName.trim()) {
-                    $data.nowNextPresets.unshift({
-                        name: customName.trim(),
-                        icon: customIcon.trim() || '⭐',
-                        category: $data.nowNextFilter || 'routine'
-                    });
-                    customName = '';
-                }
-            " 
+               @keydown.enter.prevent="addCustomNowNextPreset()">
+      </div>
+      <button type="button" 
+            @click="addCustomNowNextPreset()" 
             class="w-full bg-deepBlue hover:bg-sky-700 text-white font-bold text-xs py-2 rounded-lg btn-bounce">
         + Add Item
-    </button>
-</div>
+       </button>
+    </div>
 
 <!-- PRESET GRID -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
