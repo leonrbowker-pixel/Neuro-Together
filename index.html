@@ -702,45 +702,62 @@
                             <button @click="nowNextFilter = 'rewards'" :class="nowNextFilter === 'rewards' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700'" class="px-2.5 py-1 rounded-lg text-xs font-bold">🌟 Rewards</button>
                         </div>
                     </div>
-                <!-- Custom Item Creator -->
-<div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
+ <!-- Custom Item Creator -->
+<div class="bg-white p-3 rounded-xl border border-slate-200 space-y-2"
      x-data="{ customIcon: '⭐', customName: '' }">
     <div class="flex gap-2">
         <input type="text" 
                x-model="customIcon" 
                placeholder="Emoji" 
-               class="w-20 px-3 py-2 text-sm border rounded-lg text-center" 
-               maxlength="4">
+               class="w-16 px-2 py-2 text-base border rounded-lg text-center shrink-0">
         <input type="text" 
                x-model="customName" 
-               placeholder="Activity Name (e.g. Park, iPad)..." 
-               class="flex-1 px-3 py-2 text-sm border rounded-lg text-sm"
-               @keydown.enter="if(customName.trim()) { nowNextPresets.push({ name: customName.trim(), icon: customIcon.trim() || '⭐', category: nowNextFilter }); customName = ''; }">
+               placeholder="Custom Activity Name..." 
+               class="flex-1 min-w-0 px-3 py-2 text-sm border rounded-lg"
+               @keydown.enter.prevent="
+                   if (customName.trim()) {
+                       $data.nowNextPresets.unshift({
+                           name: customName.trim(),
+                           icon: customIcon.trim() || '⭐',
+                           category: $data.nowNextFilter
+                       });
+                       customName = '';
+                   }
+               ">
     </div>
     <button type="button" 
-            @click="if(customName.trim()) { nowNextPresets.push({ name: customName.trim(), icon: customIcon.trim() || '⭐', category: nowNextFilter }); customName = ''; }" 
-            class="bg-deepBlue hover:bg-sky-700 text-white font-bold text-xs px-4 py-2.5 rounded-lg btn-bounce shrink-0">
+            @click="
+                if (customName.trim()) {
+                    $data.nowNextPresets.unshift({
+                        name: customName.trim(),
+                        icon: customIcon.trim() || '⭐',
+                        category: $data.nowNextFilter
+                    });
+                    customName = '';
+                }
+            " 
+            class="w-full bg-deepBlue hover:bg-sky-700 text-white font-bold text-xs py-2 rounded-lg btn-bounce">
         + Add Item
     </button>
 </div>
-               
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                        <template x-for="item in filteredNowNextPresets" :key="item.name"><template x-for="item in filteredNowNextPresets" :key="item.name">
-    <div class="flex flex-wrap items-center justify-between bg-white border border-slate-200 rounded-xl p-2.5 gap-2 shadow-xs hover:border-slate-300">
-        <span class="text-xs font-bold flex items-center gap-2 min-w-0 flex-1">
-            <span class="text-xl shrink-0" x-text="item.icon"></span>
-            <span class="break-words" x-text="item.name"></span>
-        </span>
-        <div class="flex gap-1 shrink-0 items-center">
-            <button type="button" @click.stop="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
-            <button type="button" @click.stop="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Step</button>
-            <button type="button" @click.stop="setNowNextReward(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Reward</button>
-            <button type="button" @click.stop="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
+<!-- PRESET GRID -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+    <template x-for="item in filteredNowNextPresets" :key="item.name">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-white border border-slate-200 rounded-xl p-3 gap-2 shadow-xs">
+            <div class="flex items-center gap-2 min-w-0">
+                <span class="text-xl shrink-0" x-text="item.icon"></span>
+                <span class="text-xs font-bold text-slate-800 break-words" x-text="item.name"></span>
+            </div>
+            <div class="flex gap-1 shrink-0 items-center self-end sm:self-auto">
+                <button type="button" @click.stop="setNow(item)" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Now</button>
+                <button type="button" @click.stop="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Step</button>
+                <button type="button" @click.stop="setNowNextReward(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Reward</button>
+                <button type="button" @click.stop="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
+            </div>
         </div>
-    </div>
-</template>
-                    </div>
+    </template>
+</div>
                 </div>
                 <!-- CALMING VISUAL TIME-AWARENESS TIMER -->
                 <div class="bg-sky-50/60 border-2 border-sky-200 rounded-3xl p-6 space-y-4 no-print">
