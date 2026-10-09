@@ -659,36 +659,42 @@
                     </div>
                 </div>
 
-                <!-- NOW / NEXT / LATER CARDS (CLEAN - NO PRESCRIPTIVE CAPTIONS) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                    <div class="relative group bg-amber-50/80 border-4 border-amber-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
-                        <span class="bg-amber-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">1. NOW</span>
-                        <button type="button" x-show="nowItem" @click.stop="clearNowNextSlot('now')" title="Clear card" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-amber-100 text-amber-700 hover:bg-red-500 hover:text-white font-black text-sm leading-none transition">&times;</button>
-                        <div class="h-32 flex flex-col items-center justify-center">
-                            <span class="text-6xl" x-text="nowItem.icon"></span>
-                            <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="nowItem.name"></h3>
-                        </div>
-                    </div>
+                <!-- DYNAMIC NOW / THEN / LATER CHAIN -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-2">
+    <template x-for="(card, index) in nowNextChain" :key="index">
+        <div class="relative group rounded-3xl p-6 text-center space-y-3 shadow-sm border-4"
+             :class="{
+                 'bg-amber-50/80 border-amber-400': index === 0,
+                 'bg-emerald-50/80 border-emerald-400': index === nowNextChain.length - 1,
+                 'bg-sky-50/80 border-sky-400': index > 0 && index < nowNextChain.length - 1
+             }">
+            
+            <!-- Step Badge -->
+            <span class="text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider"
+                  :class="{
+                      'bg-amber-400 text-slate-900': index === 0,
+                      'bg-emerald-400 text-slate-900': index === nowNextChain.length - 1,
+                      'bg-sky-400 text-slate-900': index > 0 && index < nowNextChain.length - 1
+                  }"
+                  x-text="index === 0 ? '1. NOW' : (index === nowNextChain.length - 1 ? (index + 1) + '. LATER (REWARD)' : (index + 1) + '. THEN')">
+            </span>
 
-                    <div class="relative group bg-sky-50/80 border-4 border-sky-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
-                        <span class="bg-sky-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">2. NEXT</span>
-                         <button type="button" x-show="nextItem" @click.stop="clearNowNextSlot('next')" title="Clear card" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-sky-100 text-sky-700 hover:bg-red-500 hover:text-white font-black text-sm leading-none transition">&times;</button>
-                        <div class="h-32 flex flex-col items-center justify-center">
-                            <span class="text-6xl" x-text="nextItem.icon"></span>
-                           
-                            <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="nextItem.name"></h3>
-                        </div>
-                    </div>
+            <!-- Remove Step Button -->
+            <button type="button" 
+                    @click.stop="removeChainStep(index)" 
+                    title="Remove step" 
+                    class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 text-slate-400 hover:bg-red-500 hover:text-white font-black text-sm leading-none shadow-xs transition">
+                &times;
+            </button>
 
-                    <div class="relative group bg-emerald-50/80 border-4 border-emerald-400 rounded-3xl p-6 text-center space-y-3 relative shadow-sm">
-                        <span class="bg-emerald-400 text-slate-900 text-xs font-black px-4 py-1 rounded-full uppercase tracking-wider">3. LATER (REWARD)</span>
-                        <button type="button" x-show="laterItem" @click.stop="clearLaterSlot" title="Clear card" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-full bg-emerald-100 text-emerald-700 hover:bg-red-500 hover:text-white font-black text-sm leading-none transition">&times;</button>
-                        <div class="h-32 flex flex-col items-center justify-center">
-                            <span class="text-6xl" x-text="laterItem.icon"></span>
-                            <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="laterItem.name"></h3>
-                        </div>
-                    </div>
-                </div>
+            <!-- Card Content -->
+            <div class="h-32 flex flex-col items-center justify-center">
+                <span class="text-6xl" x-text="card.icon"></span>
+                <h3 class="text-xl font-bold text-slate-900 mt-3" x-text="card.name"></h3>
+            </div>
+        </div>
+    </template>
+</div>
 
                 <!-- CALMING VISUAL TIME-AWARENESS TIMER -->
                 <div class="bg-sky-50/60 border-2 border-sky-200 rounded-3xl p-6 space-y-4 no-print">
@@ -776,11 +782,11 @@
                     </div>
 
                     <!-- Custom Card Quick-Add -->
-                    <div class="bg-white p-3 rounded-2xl border border-slate-200 flex flex-wrap sm:flex-nowrap items-center gap-2">
-                        <input type="text" x-model="customNowNextName" placeholder="Type custom activity or reward (e.g. Costa hot chocolate)..." class="flex-grow px-3 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-deepBlue outline-none">
-                        <input type="text" x-model="customNowNextIcon" placeholder="Emoji" class="w-16 px-2 py-1.5 rounded-xl border border-slate-200 text-xs text-center">
-                        <button @click="addCustomNowNextPreset()" class="bg-deepBlue hover:bg-sky-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs btn-bounce shrink-0">+ Add Card</button>
-                    </div>
+                 <div class="flex gap-1 shrink-0 items-center">
+                     <button @click="addToNowNextChain(item)" class="bg-sky-100 hover:bg-sky-200 text-sky-900 text-[10px] font-bold px-2.5 py-1 rounded-md btn-bounce">+ Add Step</button>
+                     <button @click="setNowNextReward(item)" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 text-[10px] font-bold px-2 py-1 rounded-md btn-bounce">Reward</button>
+                     <button @click="deleteNowNextPreset(item)" title="Delete preset" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-100 text-slate-400 hover:bg-red-500 hover:text-white text-xs font-bold transition ml-0.5">&times;</button>
+                 </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                         <template x-for="item in filteredNowNextPresets" :key="item.name">
@@ -2825,9 +2831,11 @@ navigator.clipboard.writeText(text).then(() => {
                 },
 
                 // NOW, NEXT & LATER STATE (CLEAN - NO PRESCRIPTIVE CAPTIONS)
-                nowItem: { icon: '👟', name: 'Shoes On' },
-                nextItem: { icon: '🚗', name: 'Get In Car' },
-                laterItem: { icon: '🛝', name: 'Park & Swings' },
+               nowNextChain: [
+            { icon: '👟', name: 'Shoes On' },
+            { icon: '🚗', name: 'Get In Car' },
+            { icon: '🛝', name: 'Park & Swings' }
+        ],
                 nowNextFilter: 'routine',
                 customNowNextName: '',
                 customNowNextIcon: '⭐',
@@ -2848,19 +2856,46 @@ nowNextPresets: window.nowNextPresetsMaster || [],
                     this.customNowNextName = '';
                     this.playRewardSound(440);
                 },
-                    deleteNowNextPreset(itemToDelete) {
-                    if (!confirm(`Delete "${itemToDelete.name}"?`)) return;
-                     this.nowNextPresets = this.nowNextPresets.filter(i => i.name !== itemToDelete.name);
+                deleteNowNextPreset(itemToDelete) {
+                   if (!confirm(`Delete "${itemToDelete.name}"?`)) return;
+                   this.nowNextPresets = this.nowNextPresets.filter(i => i.name !== itemToDelete.name);
                  },
-                setNow(item) { this.nowItem = { ...item }; },
-                setNext(item) { this.nextItem = { ...item }; },
-                setLater(item) { this.laterItem = { ...item }; },
-                resetNowNext() {
-                    this.nowItem = { icon: '👟', name: 'Shoes On' };
-                    this.nextItem = { icon: '🚗', name: 'Get In Car' };
-                    this.laterItem = { icon: '🛝', name: 'Park & Swings' };
-                    this.resetTimer();
-                },
+  addToNowNextChain(item) {
+        if (!this.nowNextChain) this.resetNowNext();
+        if (this.nowNextChain.length === 0) {
+            this.nowNextChain.push({ ...item });
+        } else {
+            // Inserts intermediate step directly before the final reward slot
+            this.nowNextChain.splice(this.nowNextChain.length - 1, 0, { ...item });
+        }
+    },
+
+    setNowNextReward(item) {
+        if (!this.nowNextChain) this.resetNowNext();
+        if (this.nowNextChain.length === 0) {
+            this.nowNextChain.push({ ...item });
+        } else {
+            this.nowNextChain[this.nowNextChain.length - 1] = { ...item };
+        }
+    },
+
+    removeChainStep(index) {
+        if (!this.nowNextChain) return;
+        if (this.nowNextChain.length <= 2) {
+            alert('Keep at least 2 steps (Now & Later).');
+            return;
+        }
+        this.nowNextChain.splice(index, 1);
+    },
+
+    resetNowNext() {
+        this.nowNextChain = [
+            { icon: '👟', name: 'Shoes On' },
+            { icon: '🚗', name: 'Get In Car' },
+            { icon: '🛝', name: 'Park & Swings' }
+        ];
+        if (typeof this.resetTimer === 'function') this.resetTimer();
+    },
 
                 // CHRONOLOGICAL DLA MASTER DATA
                 dlaStep: 'mobility',
