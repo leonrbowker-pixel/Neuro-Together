@@ -101,9 +101,7 @@
         }
     </style>
 </head>
-<body class="text-darkText min-h-screen flex flex-col justify-between" x-data="parentApp()">
-
-    <!-- STRUCTURED CLEAN NAVIGATION BAR -->
+<body class="text-darkText min-h-screen flex flex-col justify-between" x-data="parentApp()"></body>
     <header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b-2 border-slate-200 no-print">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Brand Logo (Home Button) -->
@@ -130,32 +128,73 @@
                     <span class="hidden sm:inline" x-text="soundEnabled ? 'Sound On' : 'Muted'"></span>
                 </button>
 
-                <!-- Profile Customise Button -->
-                <template x-if="currentUser">
-                    <button @click="openProfileEditor()" title="Edit Profile Details" class="p-2 rounded-xl text-slate-600 hover:text-deepBlue hover:bg-sky-50 transition-colors btn-bounce text-xs font-bold flex items-center gap-1 border border-slate-200 bg-white">
-                        <span>⚙️</span>
-                        <span class="hidden md:inline" x-text="childName ? childName : 'Profile'"></span>
-                    </button>
-                </template>
+                <!-- Single Profile & Account Dropdown -->
+<template x-if="currentUser">
+    <div class="relative" x-data="{ userMenuOpen: false }">
+        <!-- Main Button -->
+        <button 
+            @click="userMenuOpen = !userMenuOpen" 
+            @click.outside="userMenuOpen = false"
+            title="Account Menu" 
+            class="p-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 transition flex items-center gap-1.5 shadow-sm">
+            <span>👤</span>
+            <span class="hidden sm:inline" x-text="childName ? childName : 'Profile'"></span>
+            <span class="text-[10px] text-slate-400">▼</span>
+        </button>
 
-                <!-- Star Points Live Counter -->
-                <button @click="navigate('rewardGame')" class="flex items-center gap-2 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 px-3 py-1.5 rounded-full shadow-xs btn-bounce">
-                    <span class="text-base animate-bounce">✨</span>
-                    <span class="text-xs font-black text-amber-900" x-text="starPoints + ' Stars'"></span>
-                    <span class="text-[10px] bg-amber-400 text-amber-950 font-black px-1.5 py-0.5 rounded-full">Spend</span>
-                </button>
+        <!-- Dropdown Menu -->
+        <div 
+            x-show="userMenuOpen" 
+            x-cloak
+            class="absolute right-0 mt-1 w-52 bg-white rounded-xl border border-slate-200 shadow-xl py-1.5 z-50">
+            
+            <div class="px-3 py-1.5 border-b border-slate-100">
+                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Active Space</p>
+                <p class="text-xs font-bold text-slate-800 truncate" x-text="childName ? childName : 'Parent Account'"></p>
+            </div>
 
-                <!-- Supabase User Account / Sign In Button -->
-                <template x-if="currentUser">
-                    <button @click="handleSignOut()" title="Sign Out" class="p-2 rounded-xl text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors btn-bounce text-xs font-bold flex items-center gap-1">
-                        <span>🚪</span>
-                        <span class="hidden xl:inline">Exit</span>
-                    </button>
-                </template>
+            <!-- Edit Profile Details -->
+             <!-- Return Home -->
+            <button 
+                @click="userMenuOpen = false; navigate('home')" 
+                class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition">
+                <span>🏠</span>
+                <span>Home</span>
+            </button>
+            <button 
+                @click="userMenuOpen = false; openProfileEditor()" 
+                class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition">
+                <span>⚙️</span>
+                <span>Edit Profile</span>
+            </button>
+
+            <!-- Log Out -->
+            <button 
+                @click="userMenuOpen = false; handleSignOut()" 
+                class="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2 transition">
+                <span>🚪</span>
+                <span>Log Out</span>
+            </button>
+
+            <div class="my-1 border-t border-slate-100"></div>
+
+            <!-- Delete Account & Data -->
+            <button 
+                @click="userMenuOpen = false; deleteUserAccountAndData()" 
+                class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 flex items-center gap-2 transition">
+                <span>🗑️</span>
+                <span>Delete Account</span>
+            </button>
+            </div>
+    </div>
+</template>
+ 
+
+        
 
                 <!-- Desktop Categorised Navigation -->
                 <div class="hidden lg:flex items-center space-x-2 text-xs font-bold">
-                    <button @click="navigate('home')" :class="activeTab === 'home' ? 'bg-deepBlue text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'" class="px-3 py-2 rounded-xl transition-all btn-bounce">Home</button>
+                    
                     
                     <!-- Category 1: Schedules & Cards -->
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
@@ -415,30 +454,30 @@
     <!-- Main Container -->
     <main x-show="currentUser" class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full" x-cloak>
 
-        <!-- 1. HOME TAB -->
+       <!-- 1. HOME TAB -->
         <div x-show="activeTab === 'home'" class="space-y-8">
             <!-- Dynamic Personal Greeting Banner -->
-            <div class="bg-gradient-to-r from-friendlyBlue via-warmPink to-sunshine rounded-3xl p-8 md:p-12 shadow-sm border-2 border-white/60 text-slate-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-friendlyBlue via-warmPink to-sunshine rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 relative overflow-hidden">
                 <div class="max-w-2xl relative z-10 space-y-4">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="bg-white/90 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">Built With Lived Experience</span>
+                        <span class="bg-white/90 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">BUILT WITH LIVED EXPERIENCE</span>
                         <template x-if="childName">
-                            <span class="bg-deepBlue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm" x-text="userType === 'child' ? 'Tailored for ' + childName : 'Family Dashboard: ' + childName"></span>
+                            <span class="bg-deepBlue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm" x-text="'Tailored for ' + childName"></span>
                         </template>
                         <template x-if="childAge">
-                            <span class="bg-white/80 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full shadow-xs" x-text="childAge + ' Years Old'"></span>
+                            <span class="bg-white/80 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full" x-text="childAge + ' Years Old'"></span>
                         </template>
                     </div>
 
                     <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight" x-text="greetingHeader"></h2>
                     <p class="text-base md:text-lg font-medium text-slate-700 leading-relaxed" x-text="greetingSubtext"></p>
-                    
+
                     <div class="flex flex-wrap gap-3 pt-2">
-                        <button @click="navigate('nowNext')" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all text-sm flex items-center gap-2 btn-bounce">
+                        <button @click="navigate('nowNext')" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl shadow-md hover:bg-slate-800 transition flex items-center gap-2">
                             <span>Open Today's Visual Board</span>
-                            <span>&rarr;</span>
+                            <span>→</span>
                         </button>
-                        <button @click="navigate('incidentLogger')" class="bg-white/90 text-slate-900 font-bold px-6 py-3 rounded-2xl shadow-sm hover:bg-white transition-all text-sm border border-slate-200 btn-bounce flex items-center gap-1.5">
+                        <button @click="navigate('incidentLogger')" class="bg-white text-slate-800 font-bold px-5 py-3 rounded-2xl shadow-sm hover:bg-slate-50 border border-slate-200 transition flex items-center gap-2">
                             <span>📝</span>
                             <span>Quick Meltdown Log</span>
                         </button>
@@ -2813,6 +2852,42 @@ navigator.clipboard.writeText(text).then(() => {
                         console.error('Error saving cloud profile:', err);
                     }
                 },
+                async handleSignOut() {
+                        try {
+                            if (window.supabaseClient) {
+                                await supabaseClient.auth.signOut();
+                            }
+                        } catch (err) {
+                            console.warn('Sign out error:', err);
+                        } finally {
+                            localStorage.removeItem('neurotogether_cached_data');
+                            this.currentUser = null;
+                            this.incidentLogs = [];
+                            window.location.reload();
+                        }
+                    },
+
+                    async deleteUserAccountAndData() {
+                        if (!confirm("Are you sure? This will permanently delete your account and all meltdown logs. This cannot be undone.")) return;
+
+                        try {
+                            if (this.currentUser && window.supabaseClient) {
+                                const { error } = await supabaseClient
+                                    .from('profiles')
+                                    .delete()
+                                    .eq('id', this.currentUser.id);
+
+                                if (error) throw error;
+                                await supabaseClient.auth.signOut();
+                            }
+                            localStorage.removeItem('neurotogether_cached_data');
+                            alert("Your account and data have been permanently removed.");
+                            window.location.reload();
+                        } catch (err) {
+                            console.error("Deletion failed:", err);
+                            alert("Could not delete data. Please check your connection.");
+                        }
+                    },
 
                 initAllTrays() {
                     const pal = this.colorPalettes[this.activeColorTheme];
