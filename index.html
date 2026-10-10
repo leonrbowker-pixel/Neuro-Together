@@ -17,6 +17,8 @@
     <script src="cardsData.js"></script>
     <script src="traitData.js?v=4"></script>
     <script src="formsData.js"></script>
+    <script src="js/advocacyTemplates.js"></script>
+    <script src="js/ehcpGuideData.js"></script>
     <script src="supportData.js?v=6"></script>
     <script src="appAdditions.js"></script>
     
@@ -651,6 +653,23 @@
                                 <div>
                                     <strong class="text-xs text-slate-900 block font-bold">Child DLA (Q1–84)</strong>
                                     <span class="text-[10px] text-slate-500">Official criteria & traps</span>
+                                </div>
+                            </button>
+                            <button @click="navigate('ehcpHub')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
+                                <span class="text-2xl">📑</span>
+                                <div>
+                            <button @click="navigate('letterBuilder')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-slate-400 transition text-left flex items-start gap-3 shadow-sm">
+                                <span class="text-2xl">✉️</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">Advocacy Letter Builder</strong>
+                                    <span class="text-[10px] text-slate-500">Legal templates & formal requests</span>
+                                </div>
+                            </button>
+                            <button @click="exportClinicalSummary()" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-slate-400 transition text-left flex items-start gap-3 shadow-sm">
+                                <span class="text-2xl">📋</span>
+                                <div>
+                                    <strong class="text-xs text-slate-900 block font-bold">One-Click Clinical Export</strong>
+                                    <span class="text-[10px] text-slate-500">Printable summary for SENCO & doctors</span>
                                 </div>
                             </button>
                             <button @click="navigate('ehcpHub')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-deepBlue text-left flex items-center gap-3 btn-bounce shadow-xs">
@@ -1364,15 +1383,128 @@
             </div>
         </div>
 
-        <!-- 7. FULL UK EHCP MASTER HUB -->
-        <div x-show="activeTab === 'ehcpHub'" class="space-y-8">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div>
-                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">UK Special Educational Needs Law</span>
-                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">UK EHCP (Education, Health and Care Plan) Master Guide</h2>
-                        <p class="text-slate-600 text-sm mt-1">An EHCP is a legally binding document issued by your Local Authority (LA) under the <em>Children and Families Act 2014</em>. It legally mandates specified educational provision that mainstream school budgets cannot provide alone.</p>
-                    </div>
+        <!-- TABBED EHCP PARENT GUIDE -->
+<div x-show="activeTab === 'ehcpHub'" class="space-y-6">
+    <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+        <div>
+            <span class="inline-block text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 uppercase tracking-wider mb-1">UK Special Educational Needs Law</span>
+            <h2 class="text-2xl font-black text-slate-900">EHCP Plain-English Parent Guide</h2>
+            <p class="text-xs text-slate-500">Step-by-step guidance under the Children and Families Act 2014.</p>
+        </div>
+        <button @click="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">
+            ← Back Home
+        </button>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 bg-slate-100 p-1.5 rounded-2xl">
+        <template x-for="tab in ehcpGuideData.tabs" :key="tab.id">
+            <button @click="currentEhcpTab = tab.id"
+                    :class="currentEhcpTab === tab.id ? 'bg-white text-slate-900 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900 font-medium'"
+                    class="py-2.5 px-3 rounded-xl text-xs transition text-center"
+                    x-text="tab.title">
+            </button>
+        </template>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        <template x-for="tab in ehcpGuideData.tabs" :key="tab.id">
+            <div x-show="currentEhcpTab === tab.id" class="space-y-4">
+                <p class="text-sm font-semibold text-blue-700 bg-blue-50/70 p-3 rounded-xl" x-text="tab.summary"></p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <template x-for="(pt, idx) in tab.points" :key="idx">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                            <h4 class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                                <span class="text-blue-600 font-extrabold">•</span>
+                                <span x-text="pt.heading"></span>
+                            </h4>
+                            <p class="text-xs text-slate-600 leading-relaxed" x-text="pt.text"></p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <!-- Quick Call-To-Action Banner inside EHCP Guide -->
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-900 to-indigo-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+            <div>
+                <strong class="text-sm block font-bold">Ready to take action?</strong>
+                <span class="text-xs text-blue-200">Generate your formal statutory assessment request letter directly.</span>
+            </div>
+            <button @click="goToLetterBuilderWithTemplate('ehc_request')" class="bg-white text-slate-900 hover:bg-slate-100 font-bold px-4 py-2.5 rounded-xl text-xs transition shrink-0">
+                Open Letter Builder →
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ADVOCACY LETTER BUILDER TAB -->
+<div x-show="activeTab === 'letterBuilder'" class="space-y-6">
+    <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+        <div>
+            <span class="inline-block text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 uppercase tracking-wider mb-1">Official Letters</span>
+                    <h2 class="text-2xl font-black text-slate-900">School & Council Letter Builder</h2>
+                    <p class="text-xs text-slate-500">Ready-to-send formal letters for school support and EHCP requests.</p>
+        </div>
+        <button @click="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">
+            ← Back Home
+        </button>
+    </div>
+
+    <!-- Template Selector Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <template x-for="tpl in advocacyTemplates" :key="tpl.id">
+            <div @click="selectLetterTemplate(tpl.id)" 
+                 :class="selectedTemplate && selectedTemplate.id === tpl.id ? 'border-blue-600 ring-2 ring-blue-500/20 bg-blue-50/40' : 'border-slate-200 bg-white hover:border-slate-300'"
+                 class="p-5 rounded-2xl border cursor-pointer transition shadow-sm space-y-2">
+                <span class="inline-block text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700" x-text="tpl.legalBasis"></span>
+                <h3 class="font-bold text-slate-900 text-sm" x-text="tpl.title"></h3>
+                <p class="text-xs text-slate-600 leading-relaxed" x-text="tpl.description"></p>
+            </div>
+        </template>
+    </div>
+
+    <!-- Form & Output Area -->
+    <div x-show="selectedTemplate" class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+        <!-- Input Form -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+            <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Fill in Details</h3>
+            
+            <template x-for="field in selectedTemplate ? selectedTemplate.fields : []" :key="field.key">
+                <div class="space-y-1">
+                    <label class="block text-xs font-bold text-slate-700" x-text="field.label"></label>
+                    <template x-if="field.type === 'text'">
+                        <input type="text" x-model="letterFormData[field.key]" :placeholder="field.placeholder" class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500">
+                    </template>
+                    <template x-if="field.type === 'textarea'">
+                        <textarea rows="4" x-model="letterFormData[field.key]" :placeholder="field.placeholder" class="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500"></textarea>
+                    </template>
+                </div>
+            </template>
+
+            <button @click="compileLetter()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition text-xs">
+                Generate Formatted Letter
+            </button>
+        </div>
+
+        <!-- Generated Letter Preview -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 flex flex-col justify-between shadow-sm space-y-4">
+            <div>
+                <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Preview & Copy</h3>
+                    <span x-show="copySuccess" class="text-xs text-emerald-600 font-bold">Copied to clipboard!</span>
+                </div>
+                <pre class="whitespace-pre-wrap font-sans text-xs text-slate-800 leading-relaxed pt-3 h-80 overflow-y-auto" x-text="generatedLetterText || 'Select a template, fill the boxes on the left, and click Generate.'"></pre>
+            </div>
+            
+            <button @click="copyLetter()" :disabled="!generatedLetterText" class="w-full bg-blue-600 disabled:opacity-50 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition text-xs flex items-center justify-center gap-2">
+                <span>📋</span>
+                <span>Copy Letter to Clipboard</span>
+            </button>
+        </div>
+    </div>
+</div>
 
                     <!-- EXPORT & PRINT CONTROLS -->
                     <div class="flex flex-wrap gap-2 no-print shrink-0">
@@ -2202,6 +2334,38 @@
                 mobileMenuOpen: false,
                 medicalConsentAgreed: false,
                 soundEnabled: true,
+                
+                // ADVOCACY & EHCP GUIDE STATE
+            selectedTemplate: null,
+            letterFormData: {},
+            generatedLetterText: '',
+            copySuccess: false,
+            currentEhcpTab: 'basics',
+
+            selectLetterTemplate(templateId) {
+                this.selectedTemplate = advocacyTemplates.find(t => t.id === templateId);
+                this.letterFormData = {};
+                this.generatedLetterText = '';
+            },
+
+            compileLetter() {
+                if (!this.selectedTemplate) return;
+                this.generatedLetterText = this.selectedTemplate.generate(
+                    this.letterFormData,
+                    { name: this.childName || '', dob: this.childDob || '' }
+                );
+            },
+
+            copyLetter() {
+                navigator.clipboard.writeText(this.generatedLetterText);
+                this.copySuccess = true;
+                setTimeout(() => this.copySuccess = false, 2500);
+            },
+
+            goToLetterBuilderWithTemplate(templateId) {
+                this.activeTab = 'letterBuilder';
+                this.selectLetterTemplate(templateId);
+            },
 
                 // AUTHENTICATION STATE
                 currentUser: null,
@@ -2239,12 +2403,10 @@
                 // STREAKS & HABIT ENGINE
                 routineStreak: 1,
 
-                get greetingHeader() {
-                    if (!this.childName) return "Practical tools built for neurodivergent reality.";
-                    return this.userType === 'child' 
-                        ? `Welcome back! Ready for ${this.childName}'s day?`
-                        : `Welcome back, ${this.childName}! Ready for today?`;
-                },
+               get greetingHeader() {
+        if (!this.childName) return "Practical tools built for neurodivergent reality.";
+        return this.userType === 'child' ? `Welcome back! Ready for ${this.childName}'s day?` : `Welcome back, ${this.childName}! Ready for today?`;
+    },
                 get greetingSubtext() {
                     if (this.diagnosisDetails) {
                         return `Personalised support space tailored for ${this.childName} (${this.diagnosisDetails}). Featuring visual transitions, calming tools, and legal blueprints.`;
@@ -3212,5 +3374,32 @@ playAcousticPop(isPoppingIn = true) {
             }
         }
     </script>
+</body>
+<script>
+function printClinicalLogs(logs, childName) {
+    if (!logs || !logs.length) {
+        alert('No logged incidents available to export yet.');
+        return;
+    }
+    const win = window.open('', '_blank');
+    let rows = logs.map(l => 
+        '<tr><td>' + (l.date || '') + ' ' + (l.time || '') + '</td>' +
+        '<td>' + (l.trigger || l.triggers || '-') + '</td>' +
+        '<td>' + (l.notes || l.intensity || '-') + '</td>' +
+        '<td>' + (l.resolution || l.whatHelped || '-') + '</td></tr>'
+    ).join('');
+
+    win.document.open();
+    win.document.write('<html><head><title>Clinical Summary</title></head><body>');
+    win.document.write('<h2>Clinical Incident Summary: ' + (childName || 'Child') + '</h2>');
+    win.document.write('<table border="1" cellpadding="6" style="border-collapse:collapse;width:100%;">');
+    win.document.write('<tr><th>Date/Time</th><th>Triggers</th><th>Intensity/Notes</th><th>De-escalation</th></tr>');
+    win.document.write(rows);
+    win.document.write('</table></body></html>');
+    win.document.close();
+    win.focus();
+    setTimeout(() => win.print(), 300);
+}
+</script>
 </body>
 </html>
