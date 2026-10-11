@@ -1276,14 +1276,16 @@
                    <template x-for="card in filteredCards" :key="card.label">
     <div @click="tapCard(card)" class="relative group bg-white p-4 rounded-2xl border-2 border-slate-100 hover:border-sky-300 flex flex-col items-center justify-center text-center shadow-xs hover:shadow-md transition cursor-pointer">
         <template x-if="card.photoUrl">
-            <button 
-                type="button"
-                @click.stop="removeCard(card)" 
-                title="Delete card" 
-                class="absolute top-1.5 right-1.5 z-20 w-6 h-6 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center text-xs font-black shadow-sm active:scale-95 transition">
-                &times;
-            </button>
-        </template>
+    <button 
+        type="button"
+        @click.stop="removeCard(card)" 
+        @touchend.stop="removeCard(card)"
+        @pointerdown.stop
+        title="Delete card" 
+        class="absolute top-1 right-1 z-30 w-7 h-7 rounded-full bg-red-500 hover:bg-red-600 active:bg-red-700 text-white flex items-center justify-center text-sm font-black shadow-md cursor-pointer">
+        &times;
+    </button>
+</template>
         <div class="h-12 flex items-center justify-center group-hover:scale-110 transition">
             <template x-if="card.photoUrl">
                 <img :src="card.photoUrl" class="w-12 h-12 rounded-xl object-cover shadow-xs border border-slate-200">
@@ -3290,8 +3292,9 @@ setNowNextReward(item) {
                 },
 
                 get filteredCards() {
-                    if (this.cardFilter === 'all') return this.allCards;
-                    return this.allCards.filter(c => c.category === this.cardFilter);
+                    const list = this.allCards || [];
+                    if (!this.cardFilter || this.cardFilter === 'all') return list;
+                    return list.filter(c => c && c.category === this.cardFilter);
                 },
 
                 handleCardPhotoUpload(event) {
@@ -3334,11 +3337,13 @@ setNowNextReward(item) {
                             };
 
                             this.customAacCards = [newCard, ...this.customAacCards];
+                            this.allCards = [newCard, ...this.allCards];
 
                             try {
                                 localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
                             } catch (err) {
                                 this.customAacCards = this.customAacCards.filter(c => c.id !== newCard.id);
+                                this.allCards = this.allCards.filter(c => c.id !== newCard.id);
                                 alert("Mobile memory full! Please delete some cards first.");
                             }
 
@@ -3352,10 +3357,17 @@ setNowNextReward(item) {
                 },
 
                 removeCard(card) {
+                    if (!card) return;
+                    const matchId = card.id;
+                    const matchLabel = card.label || card;
+
                     this.customAacCards = this.customAacCards.filter(c => {
-                        if (card && card.id && c.id) return c.id !== card.id;
-                        return c.label !== (card?.label || card);
+                        if (matchId && c.id) return c.id !== matchId;
+                        return c.label !== matchLabel;
                     });
+
+                    const base = window.allCardsMasterData || [];
+                    this.allCards = [...this.customAacCards, ...base];
 
                     try {
                         localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
