@@ -1273,20 +1273,32 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                    <template x-for="card in filteredCards" :key="card.label">
-<button @click="tapCard(card)" class="relative group bg-white p-4 rounded-2xl border-2 border-slate-100 hover:border-sky-300 flex flex-col items-center justify-center text-center shadow-xs hover:shadow-md transition">
-                            <span @click.stop="removeCard(card.label)" title="Delete card" class="absolute top-1.5 right-1.5 hidden group-hover:flex items-center justify-center w-5 h-5 rounded-full bg-red-100 text-red-600 hover:bg-red-500 hover:text-white text-xs font-bold leading-none cursor-pointer transition">&times;</span>
-                            <div class="h-12 flex items-center justify-center group-hover:scale-110 transition">
-                                <template x-if="card.photoUrl">
-                                    <img :src="card.photoUrl" class="w-12 h-12 rounded-xl object-cover shadow-xs border border-slate-200">
-                                </template>
-                                <template x-if="!card.photoUrl && card.iconHtml">
-                                    <div x-html="card.iconHtml"></div>
-                                </template>
-                                <template x-if="!card.photoUrl && !card.iconHtml">
-                                    <span class="text-4xl" x-text="card.icon"></span>
-                                </template>
-                            </div>
+                   <template x-for="card in filteredCards" :key="card.label">
+    <div @click="tapCard(card)" class="relative group bg-white p-4 rounded-2xl border-2 border-slate-100 hover:border-sky-300 flex flex-col items-center justify-center text-center shadow-xs hover:shadow-md transition cursor-pointer">
+        <template x-if="card.photoUrl">
+            <button 
+                type="button"
+                @click.stop="removeCard(card.label)" 
+                title="Delete card" 
+                class="absolute top-1.5 right-1.5 z-20 w-6 h-6 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center text-xs font-black shadow-sm active:scale-95 transition">
+                &times;
+            </button>
+        </template>
+        <div class="h-12 flex items-center justify-center group-hover:scale-110 transition">
+            <template x-if="card.photoUrl">
+                <img :src="card.photoUrl" class="w-12 h-12 rounded-xl object-cover shadow-xs border border-slate-200">
+            </template>
+            <template x-if="!card.photoUrl && card.iconHtml">
+                <div x-html="card.iconHtml"></div>
+            </template>
+            <template x-if="!card.photoUrl && !card.iconHtml">
+                <span class="text-4xl" x-text="card.icon"></span>
+            </template>
+        </div>
+
+        <span class="font-bold text-slate-800 text-xs mt-2 truncate w-full" x-text="card.label"></span>
+    </div>
+</template>
 
                             <span class="font-bold text-slate-800 text-xs mt-2 truncate w-full" x-text="card.label"></span>
                         </button>
@@ -3259,34 +3271,91 @@ setNowNextReward(item) {
                 cardFilter: 'all',
                 sentenceStrip: [],
                 customPhotoLabel: '',
+                customAacCards: JSON.parse(localStorage.getItem('nt_custom_aac_cards') || '[]'),
+
                 handleCardPhotoUpload(event) {
                     const file = event.target.files[0];
                     if (!file) return;
+
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        const base64Data = e.target.result;
-                        const labelText = this.customPhotoLabel.trim() || 'Custom Photo';
-                        this.allCards.unshift({
-                            category: 'needs',
-                            label: labelText,
-                            photoUrl: base64Data
-                        });
-                        this.customPhotoLabel = '';
-                        event.target.value = '';
-                        this.saveLocalBackup();
-                        this.playRewardSound(523.25);
+                        const img = new Image();
+                        img.onload = () => {
+                            // Scale down to max 240px to prevent quota overflow
+                            const canvas = document.createElement('canvas');
+                            const maxDim = 240;
+                            let width = img.width;
+                            let height = img.height;
+
+                            if (width > height) {
+                                if (width > maxDim) {
+                                    height = Math.round((height * maxDim) / width);
+                                    width = maxDim;
+                                }
+                            } else {
+                                if (height > maxDim) {
+                                    width = Math.round((width * maxDim) / height);
+                                    height = maxDim;
+                                }
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            const compressedData = canvas.toDataURL('image/jpeg', 0.7);
+                            const labelText = this.customPhotoLabel.trim() || 'Custom Photo';
+                            const newCard = {
+                                id: 'aac_' + Date.now(),
+                                category: 'needs',
+                                label: labelText,
+                                photoUrl: compressedData
+                            };
+
+                            this.customAacCards.unshift(newCard);
+
+                            try {
+                                localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
+                            } catch (err) {
+                                alert("Phone storage full! Try using a smaller photo.");
+                                console.error(err);
+                            }
+
+                            this.customPhotoLabel = '';
+                            event.target.value = '';
+                            if (typeof this.saveLocalBackup === 'function') this.saveLocalBackup();
+                            if (typeof this.playRewardSound === 'function') this.playRewardSound(523.25);
+                        };
+                        img.src = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 },
-                allCards: window.allCardsMasterData || [],
+
+            removeCard(cardLabel) {
+    this.customAacCards = this.customAacCards.filter(c => c.label !== cardLabel);
+    try {
+        localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
+    } catch (e) {
+        console.error(e);
+    }
+    this.allCards = [...this.customAacCards, ...(window.allCardsMasterData || [])];
+},
+
+allCards: [
+    ...JSON.parse(localStorage.getItem('nt_custom_aac_cards') || '[]'),
+    ...(window.allCardsMasterData || [])
+],
                 get filteredCards() {
                     if (this.cardFilter === 'all') return this.allCards;
                     return this.allCards.filter(c => c.category === this.cardFilter);
                 },
+
                 tapCard(card) {
                     this.sentenceStrip.push(card);
                     this.speakText(card.label);
                 },
+
                 speakText(text) {
                     if (!text) return;
                     if ('speechSynthesis' in window) {
@@ -3297,12 +3366,13 @@ setNowNextReward(item) {
                         window.speechSynthesis.speak(utterance);
                     }
                 },
+
                 speakSentence() {
                     if (this.sentenceStrip.length === 0) return;
                     const fullText = this.sentenceStrip.map(c => c.label).join(' ');
                     this.speakText(fullText);
                 },
-
+                
                 // SCHEDULE STATE (WITH SURVIVAL MODE AUTO-FILTER)
                 schedule: window.defaultScheduleMaster || [],
 availableActivities: window.availableActivitiesMaster || [],
