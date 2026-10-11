@@ -252,14 +252,19 @@
                                     <span class="text-[10px] text-slate-400 block">De-escalation & Proprioceptive Guide</span>
                                 </div>
                             </button>
-                            <button @click="navigate('supportHub'); currentSupportTopic = 'pda'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
-                                <span>🐼</span>
-                                <div>
-                                    <span class="font-bold text-slate-800 block text-xs">Demand Avoidance (PDA)</span>
-                                    <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
-                                </div>
-                                <button @click="navigate('arfidHub'); open = false" class="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-3 transition">
-                                    <span class="text-xl">🥑</span>
+                           <button @click="navigate('supportHub'); currentSupportTopic = 'pda'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
+    <span>🐼</span>
+    <div>
+        <span class="font-bold text-slate-800 block text-xs">Demand Avoidance (PDA)</span>
+        <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
+    </div>
+</button>
+<button @click="navigate('arfidHub'); open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">    <span>🥦</span>
+    <div>
+        <span class="font-bold text-slate-800 block text-xs">ARFID Feeding Guide</span>
+        <span class="text-[10px] text-slate-400 block">Food aversions & sensory eating</span>
+    </div>
+</button>
                                     
                             <button @click="navigate('supportHub'); currentSupportTopic = 'rsd'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>⚡</span>
@@ -384,35 +389,31 @@
         </button>
 
         <!-- Section: Emotional & Behavioral Support -->
-        <div class="pt-2 border-t border-slate-100">
-            <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">🧠 Feelings & Calming</div>
-            <div class="space-y-1 mt-1 pl-2">
-                <button @click="navigate('feelingsTactics')" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <span>🎯</span>
-                    <span>Feelings & Tactics Hub</span>
-                </button>
-                <button @click="navigate('supportHub'); currentSupportTopic = 'meltdowns';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <span>🛡️</span>
-                    <span>Meltdowns & OT Guide</span>
-                </button>
-                <button @click="navigate('supportHub'); currentSupportTopic = 'pda';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <span>🐼</span>
-                    <span>Demand Avoidance (PDA)</span>
-                </button>
-                <button @click="navigate('supportHub'); currentSupportTopic = 'rsd';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <span>⚡</span>
-                    <span>Rejection Sensitivity (RSD)</span>
-                </button>
-          <button @click="navigate('supportHub'); currentSupportTopic = 'arfid';" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 transition flex items-start gap-3">
-    <span class="text-base">🥦</span>
-    <div class="flex flex-col">
-        <span class="font-bold text-slate-800 text-sm leading-tight">ARFID Feeding Guide</span>
-        <span class="text-xs text-slate-500 leading-tight">Food aversions & sensory eating</span>
+<div class="pt-2 border-t border-slate-100">
+    <div class="px-3 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">🧠 Feelings & Calming</div>
+    <div class="space-y-1 mt-1 pl-2">
+        <button @click="navigate('feelingsTactics')" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+            <span>🎯</span>
+            <span>Feelings & Tactics Hub</span>
+        </button>
+        <button @click="navigate('supportHub'); currentSupportTopic = 'meltdowns';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+            <span>🛡️</span>
+            <span>Meltdowns & OT Guide</span>
+        </button>
+        <button @click="navigate('supportHub'); currentSupportTopic = 'pda';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+            <span>🐼</span>
+            <span>Demand Avoidance (PDA)</span>
+        </button>
+        <button @click="navigate('supportHub'); currentSupportTopic = 'rsd';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+            <span>⚡</span>
+            <span>Rejection Sensitivity (RSD)</span>
+        </button>
+        <button @click="navigate('supportHub'); currentSupportTopic = 'arfid';" class="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+            <span>🥦</span>
+            <span>ARFID Feeding Guide</span>
+        </button>
     </div>
-</button>
-</button>
-            </div>
-        </div>
+</div>
 
         <!-- Section: Sensory Games -->
         <div class="pt-2 border-t border-slate-100">
