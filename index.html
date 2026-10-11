@@ -234,7 +234,7 @@
                     <!-- Category 2: Feelings, Meltdowns & Calming Guides -->
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false">
                         <button @click="open = !open" class="flex items-center gap-1 px-3 py-2 rounded-xl text-emerald-800 hover:bg-emerald-50 transition-all border border-emerald-300 bg-white font-bold text-xs btn-bounce">
-                            <span>🧠 Feelings & Calming</span>
+                            <span>🧠 Feelings, Traits & Calming Guides</span>
                             <svg class="w-3.5 h-3.5 ml-0.5 text-slate-500 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
                         <div x-show="open" x-cloak class="absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
@@ -258,6 +258,13 @@
                                     <span class="font-bold text-slate-800 block text-xs">Demand Avoidance (PDA)</span>
                                     <span class="text-[10px] text-slate-400 block">The PANDA Collaborative Framework</span>
                                 </div>
+                                <button @click="navigate('arfidHub'); open = false" class="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-3 transition">
+                                    <span class="text-xl">🥑</span>
+                                    <div>
+                                        <div class="font-bold text-slate-800 text-sm">ARFID Feeding Guide</div>
+                                        <div class="text-xs text-slate-500">Food aversions & sensory eating</div>
+                                    </div>
+                                </button>
                             </button>
                             <button @click="navigate('supportHub'); currentSupportTopic = 'rsd'; open = false" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3">
                                 <span>⚡</span>
@@ -343,13 +350,7 @@
         <span class="text-[10px] text-slate-400">EHCP requests and reasonable adjustments</span>
     </div>
 </button>
-                            <button @click="navigate('arfidHub'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
-                                <span>🥑</span>
-                                <div>
-                                    <span class="font-bold text-slate-800 block">ARFID Feeding Guide</span>
-                                    <span class="text-[10px] text-slate-400">Food aversions & sensory eating</span>
-                                </div>
-                            </button>
+                            
                             <button @click="navigate('questionnaire'); open = false" class="w-full text-left px-4 py-2.5 text-xs hover:bg-slate-50 flex items-center gap-2">
                                 <span>🩺</span>
                                 <div>
@@ -1099,15 +1100,40 @@
                         <h3 class="text-xs font-black text-amber-900 uppercase tracking-wider">Click Any Activity to Add to Your Board:</h3>
                         <span class="text-[11px] text-amber-700">14+ practical activities</span>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-2">
-                        <template x-for="item in availableActivities" :key="item.name">
-                            <button @click="addStepToSchedule(item)" class="bg-white hover:bg-amber-100/60 border border-amber-200 p-2.5 rounded-2xl flex flex-col items-center text-center transition-all group shadow-xs btn-bounce">
-                                <span class="text-2xl group-hover:scale-110 transition-transform" x-text="item.icon"></span>
-                                <span class="text-[11px] font-bold text-slate-800 mt-1.5 truncate w-full" x-text="item.name"></span>
-                                <span class="text-[10px] font-bold text-deepBlue mt-1">+ Add</span>
-                            </button>
-                        </template>
-                    </div>
+                   <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-2">
+    <!-- Built-in preset cards -->
+    <template x-for="item in availableActivities" :key="item.name">
+        <button @click="addStepToSchedule(item)" class="bg-white hover:bg-amber-100/60 border border-amber-200 p-2.5 rounded-2xl flex flex-col items-center text-center transition-all group shadow-xs btn-bounce">
+            <span class="text-2xl group-hover:scale-110 transition-transform" x-text="item.icon"></span>
+            <span class="text-[11px] font-bold text-slate-800 mt-1.5 truncate w-full" x-text="item.name"></span>
+            <span class="text-[10px] font-bold text-deepBlue mt-1">+ Add</span>
+        </button>
+    </template>
+
+    <!-- Custom created tasks -->
+    <template x-for="customItem in (customScheduleTasks || [])" :key="customItem.id">
+        <div class="relative bg-white hover:bg-amber-100/60 border border-amber-300 p-2.5 rounded-2xl flex flex-col items-center text-center transition-all group shadow-xs">
+            <button @click.stop="deleteCustomScheduleTask(customItem.id)" class="absolute top-1 right-1 text-slate-400 hover:text-red-500 text-xs p-0.5 leading-none" title="Delete Task">✕</button>
+            <div class="w-8 h-8 flex items-center justify-center">
+                <template x-if="customItem.image">
+                    <img :src="customItem.image" class="w-8 h-8 object-cover rounded-lg border border-slate-200">
+                </template>
+                <template x-if="!customItem.image">
+                    <span class="text-2xl" x-text="customItem.icon || '⭐'"></span>
+                </template>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 mt-1.5 truncate w-full" x-text="customItem.name"></span>
+            <button @click="addStepToSchedule(customItem)" class="text-[10px] font-bold text-deepBlue mt-1">+ Add</button>
+        </div>
+    </template>
+
+    <!-- Add custom photo task button -->
+    <button @click="showCustomTaskModal = true" class="border-2 border-dashed border-sky-300 hover:border-sky-500 bg-sky-50/60 hover:bg-sky-50 p-2.5 rounded-2xl flex flex-col items-center justify-center text-center transition-all group shadow-xs btn-bounce">
+        <span class="text-xl group-hover:scale-110 transition-transform">📷</span>
+        <span class="text-[11px] font-bold text-sky-800 mt-1 truncate w-full">+ Custom</span>
+        <span class="text-[10px] font-bold text-sky-600 mt-0.5">Photo</span>
+    </button>
+</div>
                 </div>
 
                 <div class="print-container border-2 border-dashed border-slate-300 rounded-3xl p-6 bg-slate-50/50 min-h-64">
@@ -1141,7 +1167,12 @@
                                 </div>
 
                                 <div class="my-3 flex flex-col items-center">
-                                    <span class="text-5xl" x-text="step.icon"></span>
+                                    <template x-if="step.image">
+                                        <img :src="step.image" class="w-14 h-14 object-cover rounded-2xl border border-slate-200 shadow-xs mb-1">
+                                    </template>
+                                    <template x-if="!step.image">
+                                        <span class="text-5xl" x-text="step.icon || '⭐'"></span>
+                                    </template>
                                     <h4 class="font-bold text-slate-900 text-sm mt-2" :class="step.done ? 'line-through text-slate-400' : ''" x-text="step.name"></h4>
                                 </div>
 
@@ -1153,6 +1184,39 @@
                         </template>
                     </div>
                 </div>
+                <!-- Custom Visual Task Creation Modal -->
+<div x-show="showCustomTaskModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div @click.away="showCustomTaskModal = false" class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b pb-2">
+            <h3 class="font-extrabold text-slate-800 text-base">New Visual Task</h3>
+            <button @click="showCustomTaskModal = false" class="text-slate-400 hover:text-slate-600 text-lg">✕</button>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Task Title</label>
+            <input type="text" x-model="newTaskTitle" placeholder="e.g. Put shoes on rack" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-sky-400 outline-none">
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Task Photo</label>
+            <div class="flex items-center gap-3">
+                <label class="cursor-pointer bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-bold py-2.5 px-3.5 rounded-xl flex items-center gap-2 border border-sky-200">
+                    📷 Take / Upload Photo
+                    <input type="file" accept="image/*" capture="environment" @change="handleSchedulePhotoUpload" class="hidden">
+                </label>
+                <template x-if="newTaskImage">
+                    <img :src="newTaskImage" class="w-12 h-12 object-cover rounded-xl border border-slate-300">
+                </template>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Takes photo via phone camera or uploads from gallery.</p>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t">
+            <button @click="showCustomTaskModal = false" class="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl">Cancel</button>
+            <button @click="saveNewCustomScheduleTask()" :disabled="!newTaskTitle.trim()" class="px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 disabled:opacity-50 rounded-xl shadow">Save Task</button>
+        </div>
+    </div>
+</div>
             </div>
         </div>
 
@@ -3249,11 +3313,46 @@ availableActivities: window.availableActivitiesMaster || [],
                     }
                     return this.schedule;
                 },
+customScheduleTasks: JSON.parse(localStorage.getItem('nt_custom_tasks') || '[]'),
+    showCustomTaskModal: false,
+    newTaskTitle: '',
+    newTaskImage: '',
 
+    handleSchedulePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.newTaskImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    },
+
+    saveNewCustomScheduleTask() {
+        if (!this.newTaskTitle.trim()) return;
+        const newTask = {
+            id: 'cust_' + Date.now(),
+            name: this.newTaskTitle.trim(),
+            image: this.newTaskImage || null,
+            icon: this.newTaskImage ? null : '⭐'
+        };
+        this.customScheduleTasks.push(newTask);
+        localStorage.setItem('nt_custom_tasks', JSON.stringify(this.customScheduleTasks));
+        
+        this.newTaskTitle = '';
+        this.newTaskImage = '';
+        this.showCustomTaskModal = false;
+    },
+
+    deleteCustomScheduleTask(id) {
+        this.customScheduleTasks = this.customScheduleTasks.filter(item => item.id !== id);
+        localStorage.setItem('nt_custom_tasks', JSON.stringify(this.customScheduleTasks));
+    },
                 addStepToSchedule(item) {
                     this.schedule.push({ 
                         id: Date.now() + Math.random(), 
-                        icon: item.icon, 
+                        icon: item.icon,
+                        image: item.image || null, 
                         name: item.name, 
                         done: false,
                         essential: item.essential ?? false 
