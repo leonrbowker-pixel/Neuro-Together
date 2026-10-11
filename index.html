@@ -403,12 +403,13 @@
                     <span>⚡</span>
                     <span>Rejection Sensitivity (RSD)</span>
                 </button>
-               <button @click="currentView = 'arfid-guide'" class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition w-full text-left"></button>
-                    <span class="text-xl">🥦</span>
-                <div>
-                <div class="font-bold text-slate-800 text-sm">ARFID Feeding Guide</div>
-        <div class="text-xs text-slate-500">Food aversions & sensory eating</div>
+          <button @click="navigate('supportHub'); currentSupportTopic = 'arfid';" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 transition flex items-start gap-3">
+    <span class="text-base">🥦</span>
+    <div class="flex flex-col">
+        <span class="font-bold text-slate-800 text-sm leading-tight">ARFID Feeding Guide</span>
+        <span class="text-xs text-slate-500 leading-tight">Food aversions & sensory eating</span>
     </div>
+</button>
 </button>
             </div>
         </div>
