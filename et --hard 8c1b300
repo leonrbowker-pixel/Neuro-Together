@@ -1,0 +1,15 @@
+[33m3b858a3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mbackup-tonight-work[m[33m)[m Fix AAC card reactive array sync and storage persistence
+[33m3690428[m Add resilient AAC storage loader and unique ID card deletion
+[33m43f2fbb[m Fix AAC card instant display and quota handling
+[33mf86a289[m Fix AAC custom card persistence and deletion reactivity
+[33m44c9cdf[m Add photo compression to prevent localStorage quota issues on mobile
+[33m8c1b300[m Add custom visual tasks with photo upload and persistence
+[33ma80d77a[m feat: add clinical incident export feature and isolate export.js module
+[33m1947fac[m Fix script parser crash, isolate print helper, update letter builder branding and dynamic DOB injection
+[33m888308f[m Fix hero banner layout and wire up quick meltdown log navigation
+[33m7e7f964[m Add incident_logs to Supabase profile sync and load pipeline
+[33md787434[m Fix duplicate line syntax error in addCustomNowNextPreset
+[33m60024c5[m Change reward filter key to rewards
+[33m42491eb[m Restore category filter buttons and wire custom adder
+[33m91703f2[m Bind custom adder inputs to root Alpine model and addCustomNowNextPreset
+[33mabb435a[m Fix custom preset adder category matching and layout

@@ -1,3 +1,4 @@
+// Version 2 - force clear cache
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });

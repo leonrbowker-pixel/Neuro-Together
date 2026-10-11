@@ -3356,25 +3356,28 @@ setNowNextReward(item) {
                     reader.readAsDataURL(file);
                 },
 
-                removeCard(card) {
-                    if (!card) return;
-                    const matchId = card.id;
-                    const matchLabel = card.label || card;
+                removeCard(target) {
+    if (!target) return;
+    const matchId = target.id;
+    const matchLabel = target.label || target;
 
-                    this.customAacCards = this.customAacCards.filter(c => {
-                        if (matchId && c.id) return c.id !== matchId;
-                        return c.label !== matchLabel;
-                    });
+    // Filter matching by ID or by label
+    this.customAacCards = this.customAacCards.filter(c => {
+        if (matchId && c.id) return c.id !== matchId;
+        return c.label !== matchLabel;
+    });
 
-                    const base = window.allCardsMasterData || [];
-                    this.allCards = [...this.customAacCards, ...base];
+    // Rebuild allCards so the UI immediately updates
+    const base = window.allCardsMasterData || [];
+    this.allCards = [...this.customAacCards, ...base];
 
-                    try {
-                        localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
-                    } catch (e) {
-                        console.error(e);
-                    }
-                },
+    // Persist changes
+    try {
+        localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
+    } catch (e) {
+        console.error("Failed saving updated AAC cards:", e);
+    }
+},
 
                 tapCard(card) {
                     this.sentenceStrip.push(card);
