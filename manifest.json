@@ -1,6 +1,6 @@
 {
-  "name": "NeuroTogether",
-  "short_name": "NeuroTogether",
+  "name": "Together-Neuro",
+  "short_name": "Together-Neuro",
   "description": "ADHD & ASD Support, DLA Master Guide & Tools",
   "start_url": "./index.html",
   "display": "standalone",
