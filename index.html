@@ -1281,17 +1281,16 @@
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
     <template x-for="card in filteredCards" :key="card.label">
         <div @click="tapCard(card)" class="relative group bg-white p-4 rounded-2xl border-2 border-slate-100 hover:border-sky-300 flex flex-col items-center justify-center text-center shadow-xs hover:shadow-md transition cursor-pointer">
-            <template x-if="card.photoUrl">
-                <button 
-                    type="button"
-                    @click.stop="removeCard(card)" 
-                    @touchend.stop="removeCard(card)"
-                    @pointerdown.stop
-                    title="Delete card" 
-                    class="absolute top-1 right-1 z-30 w-7 h-7 rounded-full bg-red-500 hover:bg-red-600 active:bg-red-700 text-white flex items-center justify-center text-sm font-black shadow-md cursor-pointer">
-                    &times;
-                </button>
-            </template>
+           
+<button 
+    x-show="card.photoUrl"
+    type="button"
+    onclick="event.stopPropagation(); const label = this.closest('.group').querySelector('span:last-child').textContent.trim(); if (!confirm('Delete ' + label + '?')) return; const app = Alpine.$data(document.querySelector('[x-data]')); app.customAacCards = app.customAacCards.filter(c => (c.label || '').toLowerCase() !== label.toLowerCase()); localStorage.setItem('nt_custom_aac_cards', JSON.stringify(app.customAacCards));"
+    title="Delete card" 
+    class="absolute top-1 right-1 z-30 w-7 h-7 rounded-full bg-red-500 hover:bg-red-600 active:bg-red-700 text-white flex items-center justify-center text-sm font-black shadow-md cursor-pointer">
+    &times;
+</button>
+
             <div class="h-12 flex items-center justify-center group-hover:scale-110 transition">
                 <template x-if="card.photoUrl">
                     <img :src="card.photoUrl" class="w-12 h-12 rounded-xl object-cover shadow-xs border border-slate-200">
@@ -3626,7 +3625,7 @@ playAcousticPop(isPoppingIn = true) {
             }
         }
     </script>
-</body>
+
 <script>
 window.runClinicalExport = function() {
     let logs = [];
@@ -3677,6 +3676,7 @@ window.runClinicalExport = function() {
     win.focus();
     setTimeout(() => win.print(), 300);
 };
+
 </script>
 </body>
 </html>
