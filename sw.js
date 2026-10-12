@@ -1,5 +1,5 @@
 // Increment this version string whenever you want all users to get fresh updates
-const CACHE_NAME = 'neurotogether-v2.4';
+const CACHE_NAME = 'neurotogether-v2.5';
 
 // Assets to cache for baseline offline support
 const ASSETS_TO_CACHE = [
