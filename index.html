@@ -3368,26 +3368,26 @@ setNowNextReward(item) {
                 },
 
                removeCard(target) {
-                    if (!target) return;
-                    const targetId = target.id;
-                    const targetLabel = (target.label || target).toString().trim().toLowerCase();
-                    const targetPhoto = target.photoUrl;
+    if (!target) return;
+    const label = target.label || 'this';
+    if (!confirm(`Delete "${label}" card?`)) return;
 
-                    this.customAacCards = this.customAacCards.filter(c => {
-                        if (targetId && c.id) return c.id !== targetId;
-                        if (targetPhoto && c.photoUrl) return c.photoUrl !== targetPhoto;
-                        return (c.label || '').toString().trim().toLowerCase() !== targetLabel;
-                    });
+    const targetId = target.id;
+    const targetPhoto = target.photoUrl;
+    const targetLabel = (target.label || '').toString().trim().toLowerCase();
 
-                    
+    this.customAacCards = (this.customAacCards || []).filter(c => {
+        if (targetId && c.id) return c.id !== targetId;
+        if (targetPhoto && c.photoUrl) return c.photoUrl !== targetPhoto;
+        return (c.label || '').toString().trim().toLowerCase() !== targetLabel;
+    });
 
-                    try {
-                        localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
-                    } catch (e) {
-                        console.error('Failed to sync AAC storage:', e);
-                    }
-                },
-
+    try {
+        localStorage.setItem('nt_custom_aac_cards', JSON.stringify(this.customAacCards));
+    } catch (e) {
+        console.error('Failed to sync AAC storage:', e);
+    }
+},
                 tapCard(card) {
                     this.sentenceStrip.push(card);
                     this.speakText(card.label);
