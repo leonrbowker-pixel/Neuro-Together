@@ -1311,18 +1311,53 @@
 </div>
         <!-- 5. MELTDOWN & INCIDENT PATTERN LOGGER -->
         <div x-show="activeTab === 'incidentLogger'" class="space-y-8">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6" x-data="{ showLoggerGuide: false }">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Clinical Evidence Logger</span>
-                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Meltdown & Dysregulation Incident Tracker</h2>
-                        <p class="text-slate-600 text-sm mt-1">Log events in 15 seconds to identify environmental patterns and export clear evidence for GP, CAMHS, and EHCP reviews.</p>
+                        <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Clinical, DLA & EHCP Evidence Logger</span>
+                        <h2 class="text-3xl font-extrabold text-slate-800 mt-2">Meltdown, DLA & EHCP Incident Tracker</h2>
+                        <p class="text-slate-600 text-sm mt-1">Log events in 15 seconds and tag them to official DWP DLA criteria and EHCP Sections B & F for renewals, reviews, and GP referrals.</p>
                     </div>
-                    <div class="flex gap-2 no-print shrink-0">
-                        <button @click="copyIncidentReport()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 btn-bounce">
-                            <span>📋</span>
-                            <span>Export Medical Summary</span>
+                    <div class="flex flex-wrap gap-2 no-print shrink-0">
+                        <button type="button" onclick="runClinicalExport()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 shadow-sm btn-bounce">
+                            <span>🖨️</span>
+                            <span>Print DLA & EHCP Pack</span>
                         </button>
+                        <button type="button" @click="copyIncidentReport()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-1.5 btn-bounce">
+                            <span>📋</span>
+                            <span>Copy Summary Text</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Collapsible Parent Guide: How DLA Auto-Tagging & EHCP Mapping Work -->
+                <div class="bg-sky-50/80 border border-sky-200 rounded-2xl overflow-hidden no-print">
+                    <button type="button" @click="showLoggerGuide = !showLoggerGuide" class="w-full p-4 flex items-center justify-between text-left hover:bg-sky-100/50 transition">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-xl">📖</span>
+                            <div>
+                                <span class="font-bold text-sky-950 text-xs sm:text-sm block">Parent Guide: How to Use This Tracker for DLA Renewals & EHCP Evidence</span>
+                                <span class="text-[11px] text-sky-700">Tap to read how your logs are saved and how each tag links to DWP & Council rules</span>
+                            </div>
+                        </div>
+                        <span class="text-xs font-bold text-deepBlue px-2.5 py-1 bg-white rounded-lg border border-sky-200" x-text="showLoggerGuide ? 'Hide Guide ▲' : 'Read Guide ▼'"></span>
+                    </button>
+
+                    <div x-show="showLoggerGuide" x-cloak class="p-5 pt-2 border-t border-sky-200/80 bg-white space-y-4 text-xs text-slate-700 leading-relaxed">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <strong class="text-slate-900 text-xs block">💷 1. DLA Auto-Tagging (Initial & Renewal Claims)</strong>
+                                <p>DLA is awarded based on <strong>extra care and supervision</strong> needed compared to a neurotypical child of the same age—not just a diagnosis. When your renewal arrives, DWP asks for exact dates, durations, and frequencies. Tagging incidents under <em>Daytime Care</em>, <em>Constant Supervision</em>, <em>Night-time Care</em> (20+ mins or 2+ times a night), or <em>Outdoor Mobility</em> automatically builds your dated DWP evidence pack.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1.5">
+                                <strong class="text-slate-900 text-xs block">📑 2. EHCP Section B & F Mapping</strong>
+                                <p>In an EHCP, <strong>Section B</strong> lists your child's Special Educational Needs, and <strong>Section F</strong> legally mandates the exact support the school must provide. Tagging post-school masking collapses, sensory overwhelm, or transition failures to Section B & F gives you undeniable evidence when requesting an assessment, checking a draft plan, or preparing for an Annual Review.</p>
+                            </div>
+                            <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200 space-y-1.5">
+                                <strong class="text-emerald-950 text-xs block">🔒 3. How Long Are My Logs Stored?</strong>
+                                <p>Your logs <strong>never expire</strong>. A phone can store over <strong>5,000+ detailed incident logs</strong> locally, and when signed into your Together-Neuro account, every entry is automatically backed up to your encrypted cloud profile—ready whenever your next 1-to-3 year DLA renewal or annual EHCP review arrives.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1330,14 +1365,17 @@
                 <div class="bg-slate-50 border border-slate-200 p-6 rounded-3xl space-y-4">
                     <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wider">Log New Incident</h3>
                     
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Type of Event:</label>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">What Happened? (Type of Event):</label>
                             <select x-model="newLog.incident_type" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white font-medium">
-                                <option value="Meltdown (Fight / Overwhelm)">Meltdown (Fight / Overwhelm)</option>
-                                <option value="Shutdown (Freeze / Mutism)">Shutdown (Freeze / Mutism)</option>
-                                <option value="Panic / Flight Spike">Panic / Sudden Flight</option>
-                                <option value="Sensory Overload Strain">Sensory Overload Strain</option>
+                                <option value="Meltdown (Crying, Shouting, Lashing Out or Throwing)">Meltdown (Crying, Shouting, Lashing Out or Throwing)</option>
+                                <option value="Shutdown (Going Silent, Freezing, Hiding or Zoning Out)">Shutdown (Going Silent, Freezing, Hiding or Zoning Out)</option>
+                                <option value="Bolting / Running Off (Sudden Panic or Road Danger)">Bolting / Running Off (Sudden Panic or Road Danger)</option>
+                                <option value="Sensory Overload (Ears Covered, Distressed by Lights/Clothes)">Sensory Overload (Ears Covered, Distressed by Lights/Clothes)</option>
+                                <option value="Night Waking / Cannot Settle (Awake 20+ Mins at Night)">Night Waking / Cannot Settle (Awake 20+ Mins at Night)</option>
+                                <option value="Personal Care Struggle (Refusing Washing, Dressing, Teeth or Toilet)">Personal Care Struggle (Refusing Washing, Dressing, Teeth or Toilet)</option>
+                                <option value="School Refusal / Morning Panic (Distress Leaving for School)">School Refusal / Morning Panic (Distress Leaving for School)</option>
                             </select>
                         </div>
 
@@ -1347,21 +1385,50 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Main Identified Trigger:</label>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">What Triggered It? (Main Cause):</label>
                             <select x-model="newLog.trigger" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white font-medium">
-                                <option value="Sensory Noise / Crowds">Sensory Noise / Crowds</option>
-                                <option value="Unexpected Transition / Demand">Unexpected Transition / Demand</option>
-                                <option value="Masking Drop Post-School">Masking Drop Post-School</option>
-                                <option value="Hunger / Interoception Drop">Hunger / Interoception Drop</option>
-                                <option value="Perceived Criticism / RSD">Perceived Criticism / RSD</option>
-                                <option value="Clothing / Tactile Texture">Clothing / Tactile Texture</option>
+                                <option value="Change of Plan or Stopping an Activity (Transitions)">Change of Plan or Stopping an Activity (Transitions)</option>
+                                <option value="Being Asked to Do an Everyday Task (Demands)">Being Asked to Do an Everyday Task (Demands)</option>
+                                <option value="Loud Noises, Bright Lights or Busy Crowds">Loud Noises, Bright Lights or Busy Crowds</option>
+                                <option value="After-School Crash (Holding It In All Day at School)">After-School Crash (Holding It In All Day at School)</option>
+                                <option value="Uncomfortable Clothes, Seams, Shoes or Washing/Brushing">Uncomfortable Clothes, Seams, Shoes or Washing/Brushing</option>
+                                <option value="Food Smells, Textures or Not Realising They Are Hungry">Food Smells, Textures or Not Realising They Are Hungry</option>
+                                <option value="Feeling Told Off, Corrected or Left Out (Sensitivity)">Feeling Told Off, Corrected or Left Out (Sensitivity)</option>
+                                <option value="Over-Tiredness, Broken Sleep or Exhaustion">Over-Tiredness, Broken Sleep or Exhaustion</option>
+                                <option value="Busy Roads, Supermarkets or Unfamiliar Places Outdoors">Busy Roads, Supermarkets or Unfamiliar Places Outdoors</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- DLA & EHCP Evidence Auto-Tagging Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block text-xs font-bold text-deepBlue mb-1">💷 DLA Criteria Tag (For Claims & Renewals):</label>
+                            <select x-model="newLog.dla_tag" class="w-full px-3 py-2 rounded-xl border border-sky-200 text-xs bg-white font-medium">
+                                <option value="Daytime Care (Q54–62: Prompting & Personal Care)">Daytime Care (Q54–62: Prompting & Personal Care)</option>
+                                <option value="Constant Supervision (Q63–72: Danger / Self-Harm)">Constant Supervision (Q63–72: Danger / Self-Harm)</option>
+                                <option value="Night-time Care (Q73–83: Waking 20m+ / Settling)">Night-time Care (Q73–83: Waking 20m+ / Settling)</option>
+                                <option value="Outdoor Mobility (Q34–53: Bolting / Refusal / Roads)">Outdoor Mobility (Q34–53: Bolting / Refusal / Roads)</option>
+                                <option value="None / General Log">None / General Log</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-indigo-800 mb-1">📑 EHCP Statutory Mapping (Sections B & F):</label>
+                            <select x-model="newLog.ehcp_tag" class="w-full px-3 py-2 rounded-xl border border-indigo-200 text-xs bg-white font-medium">
+                                <option value="Sec B: Social, Emotional & Mental Health (SEMH)">Sec B: Social, Emotional & Mental Health (SEMH)</option>
+                                <option value="Sec B: Sensory & Physical Needs">Sec B: Sensory & Physical Needs</option>
+                                <option value="Sec B: Communication & Interaction">Sec B: Communication & Interaction</option>
+                                <option value="Sec B: Cognition & Learning (Executive Function)">Sec B: Cognition & Learning (Executive Function)</option>
+                                <option value="Sec F: Proven 1:1 / Sensory Provision Required">Sec F: Proven 1:1 / Sensory Provision Required</option>
+                                <option value="None / Home Only">None / Home Only</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Brief Notes & Recovery Tactic Used:</label>
-                        <input type="text" x-model="newLog.notes" placeholder="e.g. Dark room, weighted blanket, zero verbal demands for 20 mins..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white font-medium">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Brief Notes, Care Given & Recovery Tactic (Evidence for Section F / DLA):</label>
+                        <input type="text" x-model="newLog.notes" placeholder="e.g. Required 1:1 adult supervision, dark room, deep pressure blanket, 35 mins to settle safely..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white font-medium">
                     </div>
 
                     <div class="flex justify-end pt-1">
@@ -1376,23 +1443,28 @@
                     <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider">Recent Recorded Incidents (<span x-text="incidentLogs.length"></span>)</h3>
                     <template x-if="incidentLogs.length === 0">
                         <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl text-center text-xs text-slate-400">
-                            No incidents recorded yet. Use the form above to build evidence for clinical referrals.
+                            No incidents recorded yet. Use the form above to build evidence for DLA renewals, EHCP reviews, and clinical referrals.
                         </div>
-                        
                     </template>
 
                     <div class="space-y-2">
                         <template x-for="(log, i) in incidentLogs" :key="i">
                             <div class="p-4 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs">
-                                <div>
-                                    <div class="flex items-center gap-2">
+                                <div class="space-y-1">
+                                    <div class="flex flex-wrap items-center gap-1.5">
                                         <span class="font-bold text-slate-900" x-text="log.incident_type"></span>
                                         <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-semibold" x-text="log.duration_mins + ' mins'"></span>
+                                        <template x-if="log.dla_tag && log.dla_tag !== 'None / General Log'">
+                                            <span class="text-[10px] bg-sky-50 text-deepBlue border border-sky-200 px-2 py-0.5 rounded-full font-bold" x-text="'💷 ' + log.dla_tag"></span>
+                                        </template>
+                                        <template x-if="log.ehcp_tag && log.ehcp_tag !== 'None / Home Only'">
+                                            <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2 py-0.5 rounded-full font-bold" x-text="'📑 ' + log.ehcp_tag"></span>
+                                        </template>
                                         <span class="text-[10px] text-slate-400" x-text="log.date"></span>
                                     </div>
-                                    <p class="text-slate-600 mt-1" x-text="'Trigger: ' + log.trigger + (log.notes ? ' | Notes: ' + log.notes : '')"></p>
+                                    <p class="text-slate-600" x-text="'Trigger: ' + log.trigger + (log.notes ? ' | Care/Provision: ' + log.notes : '')"></p>
                                 </div>
-                                <button @click="incidentLogs.splice(i, 1); saveLocalBackup();" class="text-slate-400 hover:text-red-500 font-bold">&times; Remove</button>
+                                <button @click="incidentLogs.splice(i, 1); saveLocalBackup(); saveCloudProfile();" class="text-slate-400 hover:text-red-500 font-bold shrink-0">&times; Remove</button>
                             </div>
                         </template>
                     </div>
@@ -1400,7 +1472,7 @@
             </div>
         </div>
 
-        <!-- 6. CHRONOLOGICAL DLA MASTER GUIDE (Q1 TO Q84) -->
+       <!-- 6. CHRONOLOGICAL DLA MASTER GUIDE (Q1 TO Q84) -->
         <div x-show="activeTab === 'dlaGuide'" class="space-y-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
@@ -1413,6 +1485,17 @@
                     <button @click="copyAllDLAStatements()" class="bg-deepBlue hover:bg-sky-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm btn-bounce flex items-center gap-2 no-print shrink-0">
                         <span>📋</span>
                         <span>Copy All ASD Model Statements</span>
+                    </button>
+                </div>
+
+                <!-- DLA Renewal & Daily Evidence Gathering Guide Banner -->
+                <div class="bg-amber-50/90 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 no-print">
+                    <div class="space-y-1 text-xs text-slate-700">
+                        <strong class="text-amber-950 font-bold block text-sm">💡 Gathering Evidence for DLA Initial Claims & Renewal Reviews</strong>
+                        <p>DWP awards and renewals rely on proving <strong>how often</strong> your child needs supervision or care and <strong>how long</strong> each episode takes (especially 20+ minute night wakings, indoor danger supervision, and outdoor bolting). Log incidents as they happen in our Tracker to print a dated DWP Evidence Sheet for Question 84.</p>
+                    </div>
+                    <button @click="navigate('incidentLogger')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2.5 rounded-xl text-xs shrink-0 btn-bounce">
+                        Open DLA Incident Logger &rarr;
                     </button>
                 </div>
 
@@ -2047,40 +2130,73 @@
         </div>
 <!-- 12. ARFID GUIDE -->
         <div x-show="activeTab === 'arfidHub'" class="space-y-8">
-            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60 space-y-6">
                 <div>
                     <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider" x-text="arfidGuide.badge"></span>
                     <h2 class="text-3xl font-extrabold text-slate-800 mt-2" x-text="arfidGuide.title"></h2>
-                    <p class="text-slate-600 text-sm mt-1" x-text="arfidGuide.description"></p>
+                    <p class="text-slate-600 text-sm mt-2 leading-relaxed" x-text="arfidGuide.description"></p>
                 </div>
 
+                <!-- 3 Core Drivers of ARFID -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <template x-for="(sub, idx) in arfidGuide.subtypes" :key="idx">
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-2">
-                            <span class="text-2xl" x-text="sub.icon"></span>
+                            <span class="text-3xl block" x-text="sub.icon"></span>
                             <h4 class="font-bold text-slate-900 text-sm" x-text="sub.title"></h4>
                             <p class="text-xs text-slate-600 leading-relaxed" x-text="sub.text"></p>
                         </div>
                     </template>
                 </div>
 
+                <!-- Why Beige & Brand-Specific Foods Happen -->
+                <template x-if="arfidGuide.whyBeigeBox">
+                    <div class="bg-amber-50/80 p-6 rounded-2xl border border-amber-200 space-y-3 text-xs">
+                        <h3 class="font-bold text-amber-950 text-sm" x-text="arfidGuide.whyBeigeBox.title"></h3>
+                        <ul class="space-y-2 text-slate-700 leading-relaxed">
+                            <template x-for="(pt, i) in arfidGuide.whyBeigeBox.points" :key="i">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-amber-600 font-bold">•</span>
+                                    <span x-text="pt"></span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+
+                <!-- Do's and Don'ts -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
                     <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 space-y-3">
-                        <h3 class="font-bold text-emerald-900 text-sm">✅ Supportive ARFID Tactics</h3>
-                        <ul class="space-y-2 text-slate-700">
+                        <h3 class="font-bold text-emerald-900 text-sm">✅ Practical Strategies That Help</h3>
+                        <ul class="space-y-2.5 text-slate-700 leading-relaxed">
                             <template x-for="(tactic, idx) in arfidGuide.supportiveTactics" :key="idx">
-                                <li><strong x-text="tactic.title + ': '"></strong><span x-text="tactic.text"></span></li>
+                                <li><strong class="text-emerald-950" x-text="tactic.title + ': '"></strong><span x-text="tactic.text"></span></li>
                             </template>
                         </ul>
                     </div>
                     <div class="bg-red-50 p-6 rounded-2xl border border-red-200 space-y-3">
-                        <h3 class="font-bold text-red-900 text-sm">❌ Harmful Approaches to Avoid</h3>
-                        <ul class="space-y-2 text-slate-700">
+                        <h3 class="font-bold text-red-900 text-sm">❌ Common Traps to Avoid</h3>
+                        <ul class="space-y-2.5 text-slate-700 leading-relaxed">
                             <template x-for="(avoid, idx) in arfidGuide.avoidTactics" :key="idx">
-                                <li><strong x-text="avoid.title + ': '"></strong><span x-text="avoid.text"></span></li>
+                                <li><strong class="text-red-950" x-text="avoid.title + ': '"></strong><span x-text="avoid.text"></span></li>
                             </template>
-                   </ul>
+                        </ul>
+                    </div>
                 </div>
+
+                <!-- GP, School & DLA Evidence Box -->
+                <template x-if="arfidGuide.advocacyTips">
+                    <div class="bg-sky-50/70 p-6 rounded-2xl border border-sky-200 space-y-3 text-xs">
+                        <h3 class="font-bold text-sky-950 text-sm">📋 GP Referrals, School Lunches & DLA Evidence</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+                            <template x-for="(tip, idx) in arfidGuide.advocacyTips" :key="idx">
+                                <div class="bg-white p-4 rounded-xl border border-sky-100 space-y-1.5 shadow-2xs">
+                                    <strong class="text-slate-900 block text-xs" x-text="tip.title"></strong>
+                                    <p class="text-slate-600 leading-relaxed" x-text="tip.text"></p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
         <!-- End of ARFID Hub Container -->
@@ -2550,11 +2666,13 @@
                     this.triggerConfetti();
                 },
 
-                // MELTDOWN & INCIDENT LOGGER STATE
+              // MELTDOWN & INCIDENT LOGGER STATE
                 newLog: {
-                    incident_type: 'Meltdown (Fight / Overwhelm)',
+                    incident_type: 'Meltdown (Crying, Shouting, Lashing Out or Throwing)',
                     duration_mins: 15,
-                    trigger: 'Unexpected Transition / Demand',
+                    trigger: 'Change of Plan or Stopping an Activity (Transitions)',
+                    dla_tag: 'Daytime Care (Q54–62: Prompting & Personal Care)',
+                    ehcp_tag: 'Sec B: Social, Emotional & Mental Health (SEMH)',
                     notes: ''
                 },
                 incidentLogs: [],
@@ -2579,12 +2697,20 @@
                         alert('No incident logs recorded yet.');
                         return;
                     }
-                    const text = "NEUROTOGETHER CLINICAL EVIDENCE: INCIDENT PATTERN REPORT\n" +
-                        "Export Date: " + new Date().toLocaleDateString('en-GB') + "\n\n" +
-                        this.incidentLogs.map(l => `[${l.date}] Type: ${l.incident_type} (${l.duration_mins} mins)\nTrigger: ${l.trigger}\nNotes/Recovery: ${l.notes || 'None'}\n`).join('\n---\n');
+                    const text = "TOGETHER-NEURO CLINICAL, DLA & EHCP EVIDENCE REPORT\n" +
+                        "Child / Individual: " + (this.childName || 'Child') + "\n" +
+                        "Export Date: " + new Date().toLocaleDateString('en-GB') + "\n" +
+                        "Total Incidents Logged: " + this.incidentLogs.length + "\n\n" +
+                        this.incidentLogs.map(l => 
+                            `[${l.date}] ${l.incident_type} (${l.duration_mins} mins)\n` +
+                            `Trigger: ${l.trigger}\n` +
+                            `DLA Criteria: ${l.dla_tag || 'General'}\n` +
+                            `EHCP Mapping: ${l.ehcp_tag || 'N/A'}\n` +
+                            `Care / Provision Notes: ${l.notes || 'None'}\n`
+                        ).join('\n---\n');
 
                     navigator.clipboard.writeText(text).then(() => {
-                        alert('Clinical Incident Summary copied to clipboard! Ready to paste into an email or document for your GP or CAMHS review.');
+                        alert('Clinical, DLA & EHCP Incident Summary copied to clipboard!');
                     });
                 },
 
@@ -2608,7 +2734,7 @@
                 // EHCP MASTER BLUEPRINT CLIPBOARD EXPORT
                 copyEHCPBlueprint() {
                     const text = 
-`NEUROTOGETHER - UK EHCP MASTER STATUTORY BLUEPRINT
+`TOGETHER-NEURO - UK EHCP MASTER STATUTORY BLUEPRINT
 Reference: Children and Families Act 2014 | SEND Code of Practice 2015
 
 ==================================================
@@ -2634,7 +2760,7 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
 • Special Needs Jungle: https://www.specialneedsjungle.com/
 • SENDIASS Network: https://councilfordisabledchildren.org.uk/`;
  
-navigator.clipboard.writeText(text).then(() => {
+                    navigator.clipboard.writeText(text).then(() => {
                         alert('EHCP Master Blueprint copied to clipboard! Ready to paste into an email or document for your meeting.');
                     });
                 },
@@ -3625,58 +3751,5 @@ playAcousticPop(isPoppingIn = true) {
             }
         }
     </script>
-
-<script>
-window.runClinicalExport = function() {
-    let logs = [];
-    let child = 'Child';
-
-    const appEl = document.querySelector('[x-data]');
-    if (appEl && window.Alpine) {
-        try {
-            const data = Alpine.$data(appEl);
-            logs = (data && data.incidentLogs) ? data.incidentLogs : [];
-            child = (data && data.childName) ? data.childName : 'Child';
-        } catch (e) {
-            console.error('Alpine extraction error:', e);
-        }
-    }
-
-    if (!logs.length) {
-        try {
-            const raw = localStorage.getItem('neurotogether_cached_data');
-            if (raw) {
-                const parsed = JSON.parse(raw);
-                logs = parsed.incidentLogs || parsed.incident_logs || [];
-                if (!child || child === 'Child') child = parsed.childName || 'Child';
-            }
-        } catch (e) {
-            console.error('Storage extraction error:', e);
-        }
-    }
-
-    if (!logs || !logs.length) {
-        alert('No logged incidents available to export yet. Please log an incident first or add test entries.');
-        return;
-    }
-
-    const win = window.open('', '_blank');
-    if (!win) {
-        alert('Pop-up blocked. Please allow pop-ups for this site.');
-        return;
-    }
-
-    const rows = logs.map(l => 
-        `<tr><td style="padding:8px;border:1px solid #cbd5e1;">${l.date || ''} ${l.time || ''}</td><td style="padding:8px;border:1px solid #cbd5e1;">${l.trigger || l.triggers || '-'}</td><td style="padding:8px;border:1px solid #cbd5e1;">${l.notes || l.intensity || '-'}</td><td style="padding:8px;border:1px solid #cbd5e1;">${l.resolution || l.whatHelped || '-'}</td></tr>`
-    ).join('');
-
-    win.document.open();
-    win.document.write(`<!DOCTYPE html><html><head><title>Clinical Summary</title><style>body{font-family:system-ui,-apple-system,sans-serif;padding:24px;color:#0f172a;}table{border-collapse:collapse;width:100%;font-size:13px;}th{background:#f1f5f9;text-align:left;padding:8px;border:1px solid #cbd5e1;}h2{margin-bottom:16px;font-size:18px;}</style></head><body><h2>Clinical Incident Summary: ${child}</h2><table><thead><tr><th>Date/Time</th><th>Triggers</th><th>Intensity/Notes</th><th>De-escalation</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);
-    win.document.close();
-    win.focus();
-    setTimeout(() => win.print(), 300);
-};
-
-</script>
 </body>
 </html>

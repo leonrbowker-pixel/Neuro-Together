@@ -59,8 +59,8 @@ const ehcpGuideData = {
         },
         {
             id: 'appeals',
-            title: '4. Free Help & Rights',
-            summary: 'Where to get free independent legal backing if the council says no.',
+            title: '4. Free Help & Evidence',
+            summary: 'Where to get free legal backing and how to use your Together-Neuro logs.',
             points: [
                 {
                     heading: 'If the Council Refuses to Assess',
@@ -69,6 +69,10 @@ const ehcpGuideData = {
                 {
                     heading: 'Free Independent Help Organisations',
                     text: 'You never have to pay a private solicitor. Contact IPSEA (free legal advice line), your local county SENDIASS officer, or Special Needs Jungle for free guidance.'
+                },
+                {
+                    heading: 'Using Your Incident Tracker as Proof',
+                    text: 'Tagging daily meltdowns and school-drop collapses to Section B & F inside the Incident Tracker builds a dated log proving why mainstream adjustments are not enough and quantifying the exact support your child requires.'
                 }
             ]
         }
