@@ -7,11 +7,12 @@
     
     <!-- PWA Settings -->
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#0369A1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-<script src="export.js"></script>
+    <script src="export.js"></script>
 
     <!-- Canvas Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -123,6 +124,15 @@
 
             <!-- Header Action Controls -->
             <div class="flex items-center gap-2">
+                <!-- Install App (PWA) Button - Automatically hides once installed -->
+                <button x-show="!isStandaloneApp" x-cloak
+                        @click="triggerAppInstall()" 
+                        title="Install Together-Neuro to your phone" 
+                        class="p-2 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-xs font-bold transition-all btn-bounce flex items-center gap-1.5 shadow-2xs">
+                    <span>📲</span>
+                    <span class="hidden sm:inline">Install App</span>
+                </button>
+
                 <!-- Sensory Sound Toggle Button -->
                 <button @click="soundEnabled = !soundEnabled; saveLocalBackup();" 
                         :title="soundEnabled ? 'Mute Sensory Sounds' : 'Unmute Sensory Sounds'" 
@@ -2508,6 +2518,40 @@
     </div>
 
     <!-- Footer with Permanent Legal Disclaimers & Privacy Link -->
+    <!-- INSTALL APP (PWA) HELPER MODAL FOR IPHONE & ANDROID -->
+    <div x-show="showInstallHelpModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-xs z-50 flex items-center justify-center p-4 no-print" x-cloak>
+        <div @click.away="showInstallHelpModal = false" class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">📲</span>
+                    <h3 class="font-extrabold text-slate-900 text-base">Install Together-Neuro App</h3>
+                </div>
+                <button @click="showInstallHelpModal = false" class="text-slate-400 hover:text-slate-700 font-bold text-xl">&times;</button>
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Add Together-Neuro directly to your phone's home screen. It opens full-screen like a normal app and works offline without an app store download:
+            </p>
+
+            <div class="space-y-3 text-xs">
+                <div class="bg-sky-50 p-4 rounded-2xl border border-sky-200 space-y-1.5">
+                    <strong class="text-sky-950 block text-sm">🍎 iPhone & iPad (Safari)</strong>
+                    <p class="text-slate-700">1. Tap the <strong>Share</strong> button <span class="inline-block px-1.5 py-0.5 bg-white rounded border border-slate-300 font-bold">↑</span> at the bottom of Safari.</p>
+                    <p class="text-slate-700">2. Scroll down and tap <strong>"Add to Home Screen"</strong>.</p>
+                </div>
+
+                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-200 space-y-1.5">
+                    <strong class="text-emerald-950 block text-sm">🤖 Android (Chrome / Samsung)</strong>
+                    <p class="text-slate-700">1. Tap the <strong>three dots menu (⋮)</strong> in the top-right corner of your browser.</p>
+                    <p class="text-slate-700">2. Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.</p>
+                </div>
+            </div>
+
+            <button @click="showInstallHelpModal = false" class="w-full bg-deepBlue hover:bg-sky-700 text-white font-bold py-2.5 rounded-xl text-xs btn-bounce">
+                Got It
+            </button>
+        </div>
+    </div>
     <footer class="bg-white/90 border-t border-slate-200/80 mt-16 py-8 no-print">
         <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
             <p class="text-slate-500 text-xs">&copy; 2026 Together-Neuro. Built with love and practical support for ADHD & ASD individuals and families everywhere.</p>
@@ -2546,6 +2590,21 @@
                 mobileMenuOpen: false,
                 medicalConsentAgreed: false,
                 soundEnabled: true,
+                deferredInstallPrompt: null,
+                isStandaloneApp: window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true,
+                showInstallHelpModal: false,
+
+                async triggerAppInstall() {
+                    if (this.deferredInstallPrompt) {
+                        this.deferredInstallPrompt.prompt();
+                        const { outcome } = await this.deferredInstallPrompt.userChoice;
+                        if (outcome === 'accepted') {
+                            this.deferredInstallPrompt = null;
+                        }
+                    } else {
+                        this.showInstallHelpModal = true;
+                    }
+                },
                 
                 // ADVOCACY & EHCP GUIDE STATE
             selectedTemplate: null,
@@ -2994,7 +3053,17 @@ Reference: Children and Families Act 2014 | SEND Code of Practice 2015
                     });
 
                     this.loadLocalBackup();
-
+if (navigator.storage && navigator.storage.persist) {
+                        navigator.storage.persist();
+                    }
+                    window.addEventListener('beforeinstallprompt', (e) => {
+                        e.preventDefault();
+                        this.deferredInstallPrompt = e;
+                    });
+                    window.addEventListener('appinstalled', () => {
+                        this.isStandaloneApp = true;
+                        this.deferredInstallPrompt = null;
+                    });
                     if (window.supabaseClient) {
                         supabaseClient.auth.getSession().then(({ data: { session } }) => {
                             if (session) {
